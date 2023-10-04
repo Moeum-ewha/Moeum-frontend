@@ -49,7 +49,7 @@ export const MiniContainer = styled(Main)`
   justify-content: center;
   overflow-x: hidden;
   overflow-y: scroll;
-  ::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     display: none;
   }
   -ms-overflow-style: none;

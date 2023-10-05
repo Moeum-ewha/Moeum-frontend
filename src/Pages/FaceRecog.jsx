@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import styled from "styled-components";
+import { useState } from 'react';
+import styled from 'styled-components';
 
-import BackgroundContainer from "../Components/BackgroundContainer";
-import { NavBar } from "../Components/NavBar";
+import BackgroundContainer from '../Components/BackgroundContainer';
+import { NavBar } from '../Components/NavBar';
 
 const ImageDisplay = ({ uploadedImage }) => {
   return (

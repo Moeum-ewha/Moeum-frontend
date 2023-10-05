@@ -1,9 +1,9 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Entrance from "./Pages/Entrance";
-import Home from "./Pages/Home";
-import { FaceReCog } from "./Pages/FaceRecog";
-import ViewPost from "./Pages/ViewPost";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Entrance from './Pages/Entrance';
+import Home from './Pages/Home';
+import { FaceReCog } from './Pages/FaceRecog';
+import ViewPost from './Pages/ViewPost';
+import './App.css';
 
 function App() {
   return (

@@ -1,14 +1,14 @@
-import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import home from "../Assets/icons/home.png";
-import map from "../Assets/icons/map.png";
-import friends from "../Assets/icons/friends.png";
-import settings from "../Assets/icons/settings.png";
-import plus from "../Assets/icons/plus.png";
-import check from "../Assets/icons/check.png";
+import { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import home from '../Assets/icons/home.png';
+import map from '../Assets/icons/map.png';
+import friends from '../Assets/icons/friends.png';
+import settings from '../Assets/icons/settings.png';
+import plus from '../Assets/icons/plus.png';
+import check from '../Assets/icons/check.png';
 
-import { ModalBack, ModalBox, ModalBtn, ExitBtn } from "./PhotoModal";
+import { ModalBack, ModalBox, ModalBtn, ExitBtn } from './PhotoModal';
 
 export const NavBar = ({ setSelectedImage, selectedImage }) => {
   const modalBackground = useRef();
@@ -35,11 +35,6 @@ export const NavBar = ({ setSelectedImage, selectedImage }) => {
   return (
     <>
       <>
-        <CenterBtn onClick={() => setModalOpen(true)}>
-        <PlusBtn>
-          <img src={plus} alt="로고" />
-        </PlusBtn>
-        </CenterBtn>
         {modalOpen && (
           <ModalBack
             ref={modalBackground}
@@ -57,7 +52,7 @@ export const NavBar = ({ setSelectedImage, selectedImage }) => {
                 ref={fileInput}
                 onChange={handleImageChange}
                 accept="image/*"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
               />
               {selectedImage && <Link to="/facerecognition" />}
             </ModalBox>
@@ -72,8 +67,9 @@ export const NavBar = ({ setSelectedImage, selectedImage }) => {
         <NavBtn>
           <img src={friends} alt="로고" />
         </NavBtn>
-        <NavBtn>
-        </NavBtn>
+        <CenterBtn onClick={() => setModalOpen(true)}>
+          <img src={plus} alt="로고" />
+        </CenterBtn>
         <NavBtn>
           <img src={map} alt="로고" />
         </NavBtn>
@@ -86,16 +82,18 @@ export const NavBar = ({ setSelectedImage, selectedImage }) => {
 };
 
 export const NavigationBar = styled.div`
+  left: 0;
+  right: 0;
   bottom: 0;
   height: 94px;
-  width: 100%;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   box-shadow: 0px -5px 20px rgba(0, 0, 0, 0.07);
   background: white;
-  postition: fixed;
+  position: fixed;
   z-index: 1;
+  padding: 0 10px;
 `;
 export const NavBtn = styled.button`
   width: 30px;
@@ -103,18 +101,13 @@ export const NavBtn = styled.button`
   background: transparent;
   display: flex;
   align-items: center;
-  aligin-content: center;
   border: none;
-  margin: 0px 0px 10px 0px;
   padding: 0px;
   position: relative;
   z-index: 1000;
 `;
 
 export const CenterBtn = styled.button`
-  position: fixed;
-  bottom: 40px;
-  margin: 0 auto;
   width: 56px;
   height: 56px;
   border: none;
@@ -124,20 +117,19 @@ export const CenterBtn = styled.button`
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.07);
 `;
 
-export const PlusBtn = styled.button`
-width: 30px;
-height: 30px;
-background: transparent;
-display: flex;
-align-items: center;
-aligin-content: center;
-border: none;
-margin: 0px 0px 0px 0px;
-padding: 0px;
-position: relative;
-z-index: 1000;
-`;
-
+// export const PlusBtn = styled.button`
+//   width: 30px;
+//   height: 30px;
+//   background: transparent;
+//   display: flex;
+//   align-items: center;
+//   align-content: center;
+//   border: none;
+//   margin: 0px 0px 0px 0px;
+//   padding: 0px;
+//   position: relative;
+//   z-index: 1000;
+// `;
 
 export const ModalBtnTop = styled(ModalBtn)`
   //왜인지 모르겠으나 적용이 안댐..

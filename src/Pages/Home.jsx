@@ -1,8 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 
 //components
-import { NavBar, NavBtn, CenterBtn } from "../Components/NavBar";
+import { NavBar, NavBtn } from "../Components/NavBar";
 import BackgroundContainer from "../Components/BackgroundContainer";
 import Main from "../Components/Main";
 import {

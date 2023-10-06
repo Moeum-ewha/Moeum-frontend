@@ -7,7 +7,7 @@ export const Entrance = () => {
   const navigate = useNavigate();
 
   const moveFunc = () => {
-    navigate("Home");
+    navigate("login");
   };
 
   return (

@@ -1,10 +1,16 @@
 import { styled } from "styled-components";
 
-export const Content = styled.div`
-    width: 393px;
-    height: 852px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-`
-;
+
+export const Title = styled.div`
+width: 132px;
+height: 50px;
+
+font-family: 'Pretendard';
+font-weight: 500;
+font-size: 23px;
+line-height: 29px;
+color: #121212;
+
+
+`;
+

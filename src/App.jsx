@@ -7,6 +7,8 @@ import './App.css';
 import FaceClassifi from "./Pages/FaceClassifi";
 import FaceClassifi2 from "./Pages/FaceClassifi2";
 import NumofPp from "./Pages/NumofPp"
+import Login from "./Pages/Login"
+import SignUp from "./Pages/SignUp"
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path="/faceclassification" element={<FaceClassifi />} />
         <Route path="/faceclassification2" element={<FaceClassifi2 />} />
         <Route path="/howmanypeople" element={<NumofPp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </Router>
   );

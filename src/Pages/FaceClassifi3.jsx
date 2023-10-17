@@ -6,7 +6,7 @@ import { Content, Question, PictureContainer, Face, FaceBox, BottomContainer, Bt
 
 import dummy2 from "../Assets/dummy2.jpeg";
 
-const FaceClassifi2 = () => {
+const FaceClassifi3 = () => {
   const navigate = useNavigate();
 
   const moveFunc = () => {
@@ -22,7 +22,7 @@ const FaceClassifi2 = () => {
      <BackgroundContainer>
         <Content>
           <Question>
-            (새로운 친구)님이 맞나요?
+            (윤선)님이 맞나요?
             </Question>
             <PictureContainer>
                 <Face>
@@ -35,7 +35,10 @@ const FaceClassifi2 = () => {
                   네, 맞아요!
                 </Btn>
                 <Btn onClick={moveFunc}>
-                  등록된 친구예요.
+                  등록된 다른 친구예요.
+                </Btn>
+                <Btn onClick={moveFunc}>
+                  새로운 친구예요.
                 </Btn>
             </BottomContainer>
         </Content>
@@ -43,4 +46,4 @@ const FaceClassifi2 = () => {
     );
 };
 
-export default FaceClassifi2;
+export default FaceClassifi3;

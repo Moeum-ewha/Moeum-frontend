@@ -16,13 +16,13 @@ const NumofPp = () => {
             <Content>
             <Question>
             <Upper>
-            네컷 속 사람이
+            사진 속에서 저장하고자 하는
             </Upper>
             <Down>
                 <Num>
-                5명
+                친구
                 </Num>
-                인가요?
+                를 선택해주세요
             </Down>
             </Question>
             <PictureContainer>
@@ -36,12 +36,7 @@ const NumofPp = () => {
                 <FaceBox style={{right: '80px', top: '180px'}}/>
             </PictureContainer>
             <BtnContainer>
-                <YesBtn onClick={moveFunc}>
-                  네
-                </YesBtn>
-                <NoBtn>
-                  아니오
-                </NoBtn>
+                
             </BtnContainer>
         </Content>
         </BackgroundContainer>

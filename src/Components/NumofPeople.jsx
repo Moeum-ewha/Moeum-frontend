@@ -23,11 +23,16 @@ line-height: 24px;
 text-align: center;
 `;
 
-export const Upper = styled.div``;
+export const Upper = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: center;
+`;
 
 export const Down = styled.div`
 display: flex;
 justify-content: center;
+font-size: 12px;
 `;
 
 export const Num = styled.div`
@@ -110,4 +115,30 @@ background: #DDDDDD;
 border-radius: 8px;
 filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1));
 border:none;
+`;
+
+export const Friend = styled.div`
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 15px;
+    margin-left: 15px;
+`;
+
+export const FriendPic = styled.div`
+`;
+
+export const Name = styled.div`
+    margin-top: 5px;
+    font-family: 'Pretendard';
+    font-size: 11px;
+`;
+
+export const Container = styled.div`
+    width: 273px;
+    height: 300px;
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
 `;

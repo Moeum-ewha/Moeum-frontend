@@ -16,7 +16,7 @@ justify-content: center;
 
 export const Question= styled.div`
 width: 393px;
-height: 20%;
+height: 80px;
 font-family: 'Pretendard';
 font-style: normal;
 font-weight: 500;
@@ -28,7 +28,7 @@ text-align: center;
 export const PictureContainer = styled.div`
 position: relative;
 width: 393px;
-height: 40%;
+height: 280px;
 z-index : 0;
 `;
 
@@ -55,7 +55,7 @@ z-index :300;
 
 export const BottomContainer = styled.div`
 width: 393px;
-height: 20%;
+height: 170px;
 display: flex;
 flex-direction: column;
 align-items: center;
@@ -103,7 +103,7 @@ flex-direction: column;
 align-items: center;
 justify-content: center;
 text-align: center;
-width: 130px;
+width: 150px;
 height: 40px;
 
 font-family: 'Pretendard';

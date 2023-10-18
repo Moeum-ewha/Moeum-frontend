@@ -32,6 +32,9 @@ const FaceClassifi = () => {
     navigate('/home');
   };
 
+  const movePage = () => {
+    navigate('/posting');
+  };
   return (
     <BackgroundContainer>
       <Content>
@@ -55,7 +58,7 @@ const FaceClassifi = () => {
           ></Name>
           <NextBtn
             style={btnColor ? styles.filledBtn : styles.normalBtn}
-            onClick={moveAdd}
+            onClick={movePage}
           >
             다음
           </NextBtn>

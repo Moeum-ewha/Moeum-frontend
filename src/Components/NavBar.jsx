@@ -135,6 +135,9 @@ export const NavBtn = styled.button`
 `;
 
 export const CenterBtn = styled.button`
+  position: fixed;
+  bottom: 60px;
+  margin: 0 auto;
   width: 56px;
   height: 56px;
   border: none;

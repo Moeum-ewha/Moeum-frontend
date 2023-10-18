@@ -57,6 +57,11 @@ const NumofPp = () => {
     navigate('/faceclassification2');
   };
 
+  //데모 끝나고 지울 부분
+  const moveToNextPage = () => {
+    navigate('/faceclassification3');
+  };
+
   useEffect(() => {
     async function loadModels() {
       await Promise.all([
@@ -122,6 +127,7 @@ const NumofPp = () => {
         });
         drawBox.draw(canvas);
       });
+      canvas.addEventListener('click', moveToNextPage);
     };
   };
 
@@ -168,12 +174,7 @@ const NumofPp = () => {
                 }}
                 ref={FaceContainer}
               />
-              <BtnContainer>
-                <YesBtn onClick={moveFunc}>네</YesBtn>
-                <NoBtn>아니오</NoBtn>
-              </BtnContainer>
             </PictureContainer>
-            <BtnContainer></BtnContainer>
           </>
         ) : (
           <div>

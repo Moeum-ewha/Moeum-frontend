@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import home from '../Assets/icons/home.png';
@@ -11,7 +11,7 @@ import check from '../Assets/icons/check.png';
 
 import { ModalBack, ModalBox, ModalBtn, ExitBtn } from './PhotoModal';
 
-export const NavBar = () => {
+export const NavBar = (props) => {
   const modalBackground = useRef();
   const fileInput = useRef();
   const navigate = useNavigate();
@@ -21,9 +21,13 @@ export const NavBar = () => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const isPostingPage = currentPath === '/posting';
-
   const writePost = () => {
-    navigate('/viewpost');
+    console.log(props);
+    const when = props.when;
+    const where = props.where;
+    const what = props.what;
+    navigate('/viewpost', { state: { when, where, what } });
+    console.log(props.when);
   };
   /*const handleImageChange = (e) => {
     const file = e.target.files[0];

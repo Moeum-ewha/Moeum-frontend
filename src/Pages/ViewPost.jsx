@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 //components
 import { NavBar, NavBtn, CenterBtn } from '../Components/NavBar';
@@ -24,6 +25,7 @@ import dummy1 from '../Assets/dumy.png';
 import insta from '../Assets/icons/Insta.png';
 
 export const ViewPost = () => {
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -51,14 +53,12 @@ export const ViewPost = () => {
               <ImgContainer>
                 <img src={dummy1} />
               </ImgContainer>
-              <SecondaryTitle>수진언니와 신촌에서</SecondaryTitle>
+              <SecondaryTitle>{location.state?.where}</SecondaryTitle>
               <ShareBtn>
                 <img src={insta} alt="로고" />
               </ShareBtn>
-              <Text>
-                오늘은 00이와 1년만에 만났다. 오랜만에 봤는데도 매일 보는 느낌~~
-              </Text>
-              <Date>2022.11.02</Date>
+              <Text>{location.state?.what}</Text>
+              <Date>{location.state?.when}</Date>
             </MiniContainer>
             <Delete>삭제하기</Delete>
           </ContentContainer>

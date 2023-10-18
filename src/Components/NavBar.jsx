@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 import home from '../Assets/icons/home.png';
@@ -15,9 +15,16 @@ export const NavBar = () => {
   const modalBackground = useRef();
   const fileInput = useRef();
   const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   const [modalOpen, setModalOpen] = useState(false);
 
+  const isPostingPage = currentPath === '/posting';
+
+  const writePost = () => {
+    navigate('/viewpost');
+  };
   /*const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -81,9 +88,15 @@ export const NavBar = () => {
         <NavBtn>
           <img src={friends} alt="로고" />
         </NavBtn>
-        <CenterBtn onClick={() => setModalOpen(true)}>
-          <img src={plus} alt="로고" />
-        </CenterBtn>
+        {isPostingPage ? (
+          <CenterBtn onClick={writePost}>
+            <img src={check} alt="작성버튼" />
+          </CenterBtn>
+        ) : (
+          <CenterBtn onClick={() => setModalOpen(true)}>
+            <img src={plus} alt="추가 버튼" />
+          </CenterBtn>
+        )}
         <NavBtn>
           <img src={map} alt="로고" />
         </NavBtn>

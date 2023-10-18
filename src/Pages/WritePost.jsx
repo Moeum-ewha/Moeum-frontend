@@ -19,10 +19,6 @@ import BackIcon from '../Assets/icons/goback.png';
 import dummy1 from '../Assets/dumy.png';
 
 export const Home = () => {
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate('/viewpost');
-  };
   return (
     <BackgroundContainer>
       <TopBar>
@@ -41,7 +37,6 @@ export const Home = () => {
         <SmallerTitle>What</SmallerTitle>
         <TextArea type="text" placeholder="내용을 입력해주세요" />
       </MiniContainer>
-      <button onClick={handleClick}>작성완료</button>
       <PaddingContainer />
       <NavBar />
     </BackgroundContainer>

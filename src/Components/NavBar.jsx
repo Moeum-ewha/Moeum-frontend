@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
 import home from '../Assets/icons/home.png';
 import map from '../Assets/icons/map.png';
 import friends from '../Assets/icons/friends.png';
@@ -10,25 +11,38 @@ import check from '../Assets/icons/check.png';
 
 import { ModalBack, ModalBox, ModalBtn, ExitBtn } from './PhotoModal';
 
-export const NavBar = ({ setSelectedImage, selectedImage }) => {
+export const NavBar = () => {
   const modalBackground = useRef();
   const fileInput = useRef();
+  const navigate = useNavigate();
 
   const [modalOpen, setModalOpen] = useState(false);
 
-  const fileUpload = () => {
-    fileInput.current.click();
-  };
-
-  const handleImageChange = (e) => {
+  /*const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (event) => {
-        const imgData = event.target.result;
+        console.log(event.target.result);
         setSelectedImage(event.target.result);
       };
       reader.readAsDataURL(file);
+    }
+  };*/
+
+  const handleImageChange = (event) => {
+    const selectedFile = event.target.files[0];
+
+    if (selectedFile) {
+      navigate('/howmanypeople', { state: { img: selectedFile } });
+      /*onImageSelect(selectedFile);*/
+    }
+  };
+
+  const fileUpload = () => {
+    // input 요소 클릭
+    if (fileInput.current) {
+      fileInput.current.click();
     }
   };
 
@@ -53,8 +67,8 @@ export const NavBar = ({ setSelectedImage, selectedImage }) => {
                 onChange={handleImageChange}
                 accept="image/*"
                 style={{ display: 'none' }}
+                id="imageUpload"
               />
-              {selectedImage && <Link to="/facerecognition" />}
             </ModalBox>
             <ExitBtn onClick={() => setModalOpen(false)}>취소</ExitBtn>
           </ModalBack>

@@ -97,6 +97,7 @@ export const NavBar = () => {
             <img src={plus} alt="추가 버튼" />
           </CenterBtn>
         )}
+        <NavBtn />
         <NavBtn>
           <img src={map} alt="로고" />
         </NavBtn>
@@ -137,7 +138,6 @@ export const NavBtn = styled.button`
 export const CenterBtn = styled.button`
   position: fixed;
   bottom: 60px;
-  margin: 0 auto;
   width: 56px;
   height: 56px;
   border: none;

@@ -34,7 +34,7 @@ export const NavBar = () => {
     const selectedFile = event.target.files[0];
 
     if (selectedFile) {
-      navigate('/howmanypeople', { state: { img: selectedFile } });
+      navigate('/facerecognition1', { state: { img: selectedFile } });
       /*onImageSelect(selectedFile);*/
     }
   };

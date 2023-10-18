@@ -18,6 +18,7 @@ import {
 } from '../Components/NumofPeople';
 import { NavBar } from '../Components/NavBar';
 import dummy1 from '../Assets/dumy.png';
+import LoadingScreen from './Loading';
 
 const NumofPp = () => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const NumofPp = () => {
   const [labeledFaceDescriptors, setLabeledFaceDescriptors] = useState([]);
   const [faceMatcher, setFaceMatcher] = useState(null);
   const [selectedFace, setSelectedFace] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleFaceClick = (selectedFace) => {
     setSelectedFace(selectedFace);
@@ -174,7 +176,9 @@ const NumofPp = () => {
             <BtnContainer></BtnContainer>
           </>
         ) : (
-          <div>Loading...</div>
+          <div>
+            <LoadingScreen keyword="네컷 처리중 ..." />
+          </div>
         )}
       </Content>
     </BackgroundContainer>

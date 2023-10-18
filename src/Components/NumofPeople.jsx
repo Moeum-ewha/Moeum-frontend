@@ -32,7 +32,6 @@ export const Upper = styled.div`
 export const Down = styled.div`
   display: flex;
   justify-content: center;
-  font-size: 12px;
 `;
 
 export const Num = styled.div`

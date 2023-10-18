@@ -31,8 +31,9 @@ function App() {
         <Route path="/choice" element={<Choice />} /> /* !사진 속 친구를
         선택해주세요. */
         <Route path="/facerecognition1" element={<NumofPp />} /> /* 사진 속에서
-        저장하고자 하는 친구를 선택해주세요*/
-        <Route path="/facerecognition2" element={<NumofPp2 />} /> /* !추가로
+        저장하고자 하는 친구를 선택해주세요*/ //기존에 할당해둔 NumofPp2는 '인식
+        개별뷰 - 등록된 다른 친구일 시' 화면이라 바꿔둠
+        <Route path="/facerecognition2" element={<Choice />} /> /* !추가로
         등록하실 친구가 있나요? */
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />

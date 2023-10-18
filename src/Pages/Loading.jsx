@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import Spinner from '../Assets/Spinner.gif';
 
-export const Loading = () => {
+export const Loading = ({ keyword }) => {
   return (
     <Background>
-        <img src={Spinner} alt="로딩중" width="5%" />
-        <LoadingText>네컷 처리중...</LoadingText>
+      <img src={Spinner} alt="로딩중" width="5%" />
+      <LoadingText>{keyword}</LoadingText>
     </Background>
   );
 };
@@ -19,7 +19,7 @@ const Background = styled.div`
   height: 100vh;
   top: 0;
   left: 0;
-  background: #FFFCF4;
+  background: #fffcf4;
   z-index: 999;
   display: flex;
   flex-direction: column;

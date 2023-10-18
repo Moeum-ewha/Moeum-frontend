@@ -1,19 +1,21 @@
-import styled from "styled-components";
+import styled from 'styled-components';
+import React, { useState } from 'react';
 
 //components
-import { NavBar, NavBtn } from "../Components/NavBar";
-import BackgroundContainer from "../Components/BackgroundContainer";
-import Main from "../Components/Main";
+import { NavBar, NavBtn } from '../Components/NavBar';
+import BackgroundContainer from '../Components/BackgroundContainer';
+import Main from '../Components/Main';
 import {
   SmallerTitle,
   TxtBox,
   TextArea,
-} from "../Components/postingComponents";
-import { TopBar, Title } from "../Components/TopBar";
+} from '../Components/postingComponents';
+import { TopBar, Title } from '../Components/TopBar';
+import FaceReCog from './FaceRecog';
 
 //assets
-import BackIcon from "../Assets/icons/goback.png";
-import dummy1 from "../Assets/dumy.png";
+import BackIcon from '../Assets/icons/goback.png';
+import dummy1 from '../Assets/dumy.png';
 
 export const Home = () => {
   return (
@@ -25,7 +27,7 @@ export const Home = () => {
         <Title>네컷 등록</Title>
       </TopBar>
       <MiniContainer>
-        <img src={dummy1}  style={{ paddingTop: '150px' }} />
+        <img src={dummy1} style={{ paddingTop: '150px' }} />
         <SmallerTitle>When</SmallerTitle>
         <TxtBox type="text" placeholder="ex) 2023. 05. 11" />
         <SmallerTitle>Where</SmallerTitle>
@@ -53,5 +55,4 @@ export const MiniContainer = styled(Main)`
   }
   -ms-overflow-style: none;
   padding-top: 30px;
-
 `;

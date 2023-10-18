@@ -19,6 +19,24 @@ import BackIcon from '../Assets/icons/goback.png';
 import dummy1 from '../Assets/dumy.png';
 
 export const Home = () => {
+  const navigate = useNavigate();
+
+  const [date, setDate] = useState('');
+  const [location, setLocation] = useState('');
+  const [text, setText] = useState('');
+
+  const dateOnChange = (e) => {
+    setDate(e.target.value);
+  };
+
+  const locationOnChange = (e) => {
+    setLocation(e.target.value);
+  };
+
+  const textOnChange = (e) => {
+    setText(e.target.value);
+  };
+
   return (
     <BackgroundContainer>
       <TopBar>
@@ -30,15 +48,27 @@ export const Home = () => {
       <MiniContainer>
         <img src={dummy1} style={{ paddingTop: '150px' }} />
         <SmallerTitle>When</SmallerTitle>
-        <TxtBox type="text" placeholder="ex) 2023. 05. 11" />
+        <TxtBox
+          onChange={dateOnChange}
+          type="text"
+          placeholder="ex) 2023. 05. 11"
+        />
         <SmallerTitle>Where</SmallerTitle>
-        <TxtBox type="text" placeholder="이화여자대학교" />
+        <TxtBox
+          onChange={locationOnChange}
+          type="text"
+          placeholder="이화여자대학교"
+        />
         <SmallerTitle>Whom</SmallerTitle>
         <SmallerTitle>What</SmallerTitle>
-        <TextArea type="text" placeholder="내용을 입력해주세요" />
+        <TextArea
+          onChange={textOnChange}
+          type="text"
+          placeholder="내용을 입력해주세요"
+        />
       </MiniContainer>
       <PaddingContainer />
-      <NavBar />
+      <NavBar when={date} where={location} what={text} />
     </BackgroundContainer>
   );
 };

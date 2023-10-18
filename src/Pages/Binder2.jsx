@@ -5,7 +5,7 @@ import { TopBar, Title, Content, Gallery, Left, Right, Album, Bind, Spine, Cover
 import { NavBar } from "../Components/NavBar";
 
 
-const Binder = () => {
+const Binder2 = () => {
     return (
         <BackgroundContainer>
             <Content>
@@ -45,6 +45,15 @@ const Binder = () => {
                             건희
                         </Name>
                     </Album>
+                    <Album>
+                        <Bind>
+                            <Spine style={{ backgroundColor: '#AFE397'}}/>
+                            <Cover style={{ backgroundColor: '#E7F5D8' }}/>
+                        </Bind>
+                        <Name>
+                            예린
+                        </Name>
+                    </Album>
                 </Right>
             </Gallery>
             </Content>
@@ -53,4 +62,4 @@ const Binder = () => {
     );
 };
 
-export default Binder;
+export default Binder2;

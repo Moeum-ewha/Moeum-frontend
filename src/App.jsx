@@ -13,6 +13,7 @@ import Choice from "./Pages/Choice";
 import Login from "./Pages/Login"
 import SignUp from "./Pages/SignUp"
 import HomeScreen from "./Pages/HomeScreen"
+import Binder from "./Pages/Binder"
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/main" element={<HomeScreen />} />
+        <Route path="/binder" element={<Binder />} />
       </Routes>
     </Router>
   );

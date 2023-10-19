@@ -21,8 +21,8 @@ import FaceReCog from './FaceRecog';
 //assets
 import BackIcon from '../Assets/icons/goback.png';
 import dummy1 from '../Assets/dummy6.jpeg';
-import dummy2 from "../Assets/yujin.jpeg";
-import dummy3 from "../Assets/hyejoon.jpeg";
+import dummy2 from "../Assets/yujin2.jpeg";
+import dummy3 from "../Assets/hyejoon2.jpeg";
 import dummy4 from "../Assets/unknown.jpeg";
 
 export const Home = () => {

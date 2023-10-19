@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 import BackgroundContainer from "../Components/BackgroundContainer";
 import {Content, Question, Upper, Num, Down, BtnContainer, Friend, FriendPic, Name, Container} from "../Components/NumofPeople";
-import dummy1 from "../Assets/yunsun.jpeg";
-import dummy2 from "../Assets/yujin.jpeg";
-import dummy3 from "../Assets/hyejoon.jpeg";
+import dummy1 from "../Assets/yeongwoo.jpeg";
+import dummy2 from "../Assets/yujin2.jpeg";
+import dummy3 from "../Assets/hyejoon2.jpeg";
 
 const NumofPp2 = () => {
     const navigate = useNavigate();
     const moveFunc = () => {
-    navigate("/faceclassification2");
+    navigate("/choice2");
   };
 
     return (
@@ -24,15 +24,15 @@ const NumofPp2 = () => {
             </Down>
             </Question>
             <Container>
-            <Friend>
+            <Friend onClick={moveFunc}>
                     <FriendPic>
                         <img src={dummy1} style={{width: "50px", height: "50px" , borderRadius: "100%" }}/>
                     </FriendPic> 
                     <Name>
-                        윤선
+                        영우
                     </Name>
                 </Friend>
-                <Friend>
+                <Friend onClick={moveFunc}>
                     <FriendPic>
                         <img src={dummy2} style={{width: "50px", height: "50px", borderRadius: "100%" }}/>
                     </FriendPic> 
@@ -40,7 +40,7 @@ const NumofPp2 = () => {
                         유진
                     </Name>
                 </Friend>
-                <Friend>
+                <Friend onClick={moveFunc}>
                     <FriendPic>
                         <img src={dummy3} style={{width: "50px", height: "50px", borderRadius: "100%" }}/>
                     </FriendPic> 

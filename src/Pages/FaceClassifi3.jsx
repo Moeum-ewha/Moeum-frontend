@@ -12,7 +12,7 @@ import {
   Btn,
 } from '../Components/ClassifiContainer';
 
-import dummy2 from '../Assets/yujin.jpeg';
+import dummy2 from '../Assets/hyejoon.jpeg';
 
 const FaceClassifi3 = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const FaceClassifi3 = () => {
   };
 
   const moveAdd = () => {
-    navigate('/facerecognition2');
+    navigate('/choice');
   };
 
   return (

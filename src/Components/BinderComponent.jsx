@@ -85,3 +85,9 @@ export const Name = styled.div`
     color: #333333;
 `;
 
+export const Pic = styled.div`
+    position: absolute;
+    z-index:50;
+    left: 40px;
+    top: 13px;
+`;

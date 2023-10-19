@@ -13,7 +13,7 @@ import {
   NextBtn,
 } from '../Components/ClassifiContainer';
 
-import dummy2 from '../Assets/dummy2.jpeg';
+import dummy2 from '../Assets/unknown.jpeg';
 
 const FaceClassifi = () => {
   const [text, setText] = useState('');
@@ -45,9 +45,8 @@ const FaceClassifi = () => {
         </Question>
         <PictureContainer>
           <Face>
-            <img src={dummy2} style={{ width: '90%' }} />
+            <img src={dummy2} style={{ width: '150%' }} />
           </Face>
-          <FaceBox></FaceBox>
         </PictureContainer>
         <BottomContainer>
           <Name

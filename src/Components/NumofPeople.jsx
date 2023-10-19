@@ -123,6 +123,7 @@ export const Friend = styled.div`
   align-items: center;
   margin-right: 15px;
   margin-left: 15px;
+  margin-top:150px;
 `;
 
 export const FriendPic = styled.div``;

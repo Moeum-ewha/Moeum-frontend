@@ -16,7 +16,7 @@ import {
   NoBtn,
 } from '../Components/NumofPeople';
 import { Btn } from '../Components/ClassifiContainer';
-import dummy1 from '../Assets/dumy.png';
+import dummy1 from '../Assets/dummy7.png';
 
 const Choice = () => {
   const navigate = useNavigate();
@@ -40,11 +40,6 @@ const Choice = () => {
           <Pic onClick={movePage}>
             <img src={dummy1} style={{ width: '350px' }} />
           </Pic>
-          <FaceBox style={{ left: '120px', top: '45px' }} />
-          <FaceBox style={{ right: '75px', top: '90px' }} />
-          <FaceBox style={{ left: '130px', bottom: '25px' }} />
-          <FaceBox style={{ left: '35px', bottom: '45px' }} />
-          <FaceBox style={{ right: '80px', top: '180px' }} />
         </PictureContainer>
         <BtnContainer>
           <Btn onClick={moveFunc}>모두 등록했어요~</Btn>

@@ -33,7 +33,7 @@ const FaceClassifi = () => {
   };
 
   const movePage = () => {
-    navigate('/posting');
+    navigate('/choice2');
   };
   return (
     <BackgroundContainer>

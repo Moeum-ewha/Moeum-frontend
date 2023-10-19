@@ -18,14 +18,14 @@ import {
 import { Btn } from '../Components/ClassifiContainer';
 import dummy1 from '../Assets/dummy7.png';
 
-const Choice = () => {
+const Choice2 = () => {
   const navigate = useNavigate();
   const moveFunc = () => {
     navigate('/posting');
   };
   //데모 끝나고 지울 부분
   const movePage = () => {
-    navigate('/faceclassification4');
+    navigate('/faceclassification2');
   };
   return (
     <BackgroundContainer>
@@ -49,4 +49,4 @@ const Choice = () => {
   );
 };
 
-export default Choice;
+export default Choice2;

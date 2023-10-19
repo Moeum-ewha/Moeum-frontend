@@ -51,3 +51,26 @@ export const TextArea = styled.textarea`
   height: 100px;
   padding-bottom: 100px;
 `;
+
+export const Friend = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 15px;
+  margin-left: 15px;
+  margin-top:20px;
+`;
+
+export const FriendPic = styled.div``;
+
+export const Name = styled.div`
+  margin-top: 5px;
+  font-family: 'Pretendard';
+  font-size: 11px;
+`;
+
+export const FContainer = styled.div`
+display: flex;
+flex-direction: row;
+justify-content: center;
+`;

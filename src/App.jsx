@@ -12,6 +12,7 @@ import Choice from './Pages/Choice';
 import Login from './Pages/Login';
 import SignUp from './Pages/SignUp';
 import HomeScreen from './Pages/HomeScreen';
+import HomeScreen2 from './Pages/HomeScreen2';
 import Binder from './Pages/Binder';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomeScreen />} />
+        <Route path="/home" element={<HomeScreen2 />} />
         <Route path="/posting" element={<WritePost />} />
         <Route path="/facerecognition" element={<FaceReCog />} />
         <Route path="/viewpost" element={<ViewPost />} />

@@ -25,7 +25,7 @@ const Login = () => {
     navigate("/signup");
   }
   const moveLogin = () => {
-    navigate("/home");
+    navigate("/");
   };
 
     return (

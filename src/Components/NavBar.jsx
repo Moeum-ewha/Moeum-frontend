@@ -34,7 +34,7 @@ export const NavBar = (props) => {
     navigate("/home");
   }
   const moveBinder = () => {
-    navigate("/binder");
+    navigate("/binder2");
   };
 
   /*const handleImageChange = (e) => {

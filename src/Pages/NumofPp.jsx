@@ -77,7 +77,7 @@ const NumofPp = () => {
       setLabeledFaceDescriptors(labeledFaceDescriptors);
 
       // FaceMatcher 초기화
-      const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
+      const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.4);
       setFaceMatcher(faceMatcher);
 
       setLoaded(true);
@@ -132,11 +132,11 @@ const NumofPp = () => {
   };
 
   async function loadLabeledImage() {
-    const labels = ['mina', 'momo', 'sana', 'jinyoung', 'yunsun', 'geonhee'];
+    const labels = ['혜준', '유진', '윤선', 'unknown'];
     return Promise.all(
       labels.map(async (label) => {
         const description = [];
-        const img = await faceapi.fetchImage(`known/${label}.jpeg`);
+        const img = await faceapi.fetchImage(`known/${label}.jpg`);
         const detections = await faceapi
           .detectSingleFace(img)
           .withFaceLandmarks()

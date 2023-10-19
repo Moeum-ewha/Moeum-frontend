@@ -21,7 +21,7 @@ import {
 
 //assets
 import BackIcon from '../Assets/icons/goback.png';
-import dummy1 from '../Assets/dumy.png';
+import dummy1 from '../Assets/dummy6.jpeg';
 import insta from '../Assets/icons/Insta.png';
 
 export const ViewPost = () => {
@@ -51,7 +51,7 @@ export const ViewPost = () => {
           <ContentContainer>
             <MiniContainer>
               <ImgContainer>
-                <img src={dummy1} />
+                <img src={dummy1} width="100%"/>
               </ImgContainer>
               <SecondaryTitle>{location.state?.where}</SecondaryTitle>
               <ShareBtn>

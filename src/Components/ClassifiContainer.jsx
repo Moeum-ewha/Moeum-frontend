@@ -30,6 +30,9 @@ position: relative;
 width: 393px;
 height: 280px;
 z-index : 0;
+display:flex;
+flex-direction: row;
+justify-content: center;
 `;
 
 export const Face = styled.div`
@@ -39,6 +42,7 @@ z-index : 1;
 display:flex;
 flex-direction: row;
 justify-content: center;
+padding-top:50px;
 `;
 
 export const FaceBox = styled.div`

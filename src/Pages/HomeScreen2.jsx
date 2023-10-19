@@ -49,7 +49,7 @@ const HomeScreen2 = () => {
                   <img src={balloon} alt="말풍선" />
                 </Balloon>
                 <Text>
-                  영우님과 네컷을 찍은 지 5일 째에요!
+                  혜준님과 네컷을 찍은 지 0일 째에요!
                 </Text>
                 <LogoC>
                   <img src={Logo} alt="로고" width="50px" height="50px" />

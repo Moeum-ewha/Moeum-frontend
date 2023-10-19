@@ -16,7 +16,7 @@ import FaceReCog from './FaceRecog';
 
 //assets
 import BackIcon from '../Assets/icons/goback.png';
-import dummy1 from '../Assets/dumy.png';
+import dummy1 from '../Assets/dummy6.jpeg';
 
 export const Home = () => {
   const navigate = useNavigate();

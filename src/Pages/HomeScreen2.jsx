@@ -8,6 +8,7 @@ import {
   Title,
   Alert,
   Balloon,
+  Text,
   LogoC,
   Content,
   Gallery,
@@ -47,6 +48,9 @@ const HomeScreen2 = () => {
                 <Balloon>
                   <img src={balloon} alt="말풍선" />
                 </Balloon>
+                <Text>
+                  영우님과 네컷을 찍은 지 5일 째에요!
+                </Text>
                 <LogoC>
                   <img src={Logo} alt="로고" width="50px" height="50px" />
                 </LogoC>

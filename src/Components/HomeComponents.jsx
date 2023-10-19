@@ -26,7 +26,20 @@ export const Alert = styled.div`
     flex-direction: row;
     justify-content: center;
     margin-top: 20px;
+    position:relative;
 `;
+
+export const Text = styled.div`
+    width:250px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    font-size: 12px;
+    position:absolute;
+    right:95px;
+    bottom:27px;
+`;
+
 
 export const LogoC = styled.div`
     display: flex;

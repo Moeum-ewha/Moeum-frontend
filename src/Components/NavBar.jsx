@@ -29,6 +29,14 @@ export const NavBar = (props) => {
     navigate('/viewpost', { state: { when, where, what } });
     console.log(props.when);
   };
+
+  const moveHome = () => {
+    navigate("/home");
+  }
+  const moveBinder = () => {
+    navigate("/binder");
+  };
+
   /*const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -87,10 +95,10 @@ export const NavBar = (props) => {
       </>
       <NavigationBar>
         <NavBtn>
-          <img src={home} alt="로고" />
+          <img src={home} alt="로고" onClick={moveHome}/>
         </NavBtn>
         <NavBtn>
-          <img src={friends} alt="로고" />
+          <img src={friends} alt="로고" onClick={moveBinder} />
         </NavBtn>
         {isPostingPage ? (
           <CenterBtn onClick={writePost}>

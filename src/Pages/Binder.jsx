@@ -31,7 +31,7 @@ const Binder = () => {
                             <Cover style={{ backgroundColor: '#FFEADA' }}/>
                         </Bind>
                         <Name>
-                            진영
+                            유진
                         </Name>
                     </Album>
                 </Left>
@@ -42,7 +42,7 @@ const Binder = () => {
                             <Cover style={{ backgroundColor: '#FFF3CC' }}/>
                         </Bind>
                         <Name>
-                            건희
+                            혜준
                         </Name>
                     </Album>
                 </Right>

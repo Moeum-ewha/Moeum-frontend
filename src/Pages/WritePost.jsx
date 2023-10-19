@@ -10,13 +10,20 @@ import {
   SmallerTitle,
   TxtBox,
   TextArea,
+  FContainer,
+  Friend, 
+  FriendPic, 
+  Name,
 } from '../Components/postingComponents';
 import { TopBar, Title } from '../Components/TopBar';
 import FaceReCog from './FaceRecog';
 
 //assets
 import BackIcon from '../Assets/icons/goback.png';
-import dummy1 from '../Assets/dumy.png';
+import dummy1 from '../Assets/dummy6.jpeg';
+import dummy2 from "../Assets/yujin.jpeg";
+import dummy3 from "../Assets/hyejoon.jpeg";
+import dummy4 from "../Assets/unknown.jpeg";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -46,7 +53,7 @@ export const Home = () => {
         <Title>네컷 등록</Title>
       </TopBar>
       <MiniContainer>
-        <img src={dummy1} style={{ paddingTop: '150px' }} />
+        <img src={dummy1} width="90%" style={{ paddingTop: '300px', borderRadius: '10px' }} />
         <SmallerTitle>When</SmallerTitle>
         <TxtBox
           onChange={dateOnChange}
@@ -60,6 +67,32 @@ export const Home = () => {
           placeholder="이화여자대학교"
         />
         <SmallerTitle>Whom</SmallerTitle>
+        <FContainer>
+        <Friend>
+                    <FriendPic>
+                        <img src={dummy2} style={{width: "50px", height: "50px" , borderRadius: "100%" }}/>
+                    </FriendPic> 
+                    <Name>
+                        유진
+                    </Name>
+                </Friend>
+                <Friend>
+                    <FriendPic>
+                        <img src={dummy3} style={{width: "50px", height: "50px", borderRadius: "100%" }}/>
+                    </FriendPic> 
+                    <Name>
+                        혜준
+                    </Name>
+                </Friend>
+                <Friend>
+                    <FriendPic>
+                        <img src={dummy4} style={{width: "50px", height: "50px", borderRadius: "100%" }}/>
+                    </FriendPic> 
+                    <Name>
+                        태준
+                    </Name>
+                </Friend>
+                </FContainer>
         <SmallerTitle>What</SmallerTitle>
         <TextArea
           onChange={textOnChange}

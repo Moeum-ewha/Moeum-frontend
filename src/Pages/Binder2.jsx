@@ -51,7 +51,7 @@ const Binder2 = () => {
                             <Cover style={{ backgroundColor: '#E7F5D8' }}/>
                         </Bind>
                         <Name>
-                            예린
+                            남준
                         </Name>
                     </Album>
                 </Right>

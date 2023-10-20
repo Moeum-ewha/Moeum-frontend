@@ -89,7 +89,7 @@ export const Home = () => {
                         <img src={dummy4} style={{width: "50px", height: "50px", borderRadius: "100%" }}/>
                     </FriendPic> 
                     <Name>
-                        태준
+                        남준
                     </Name>
                 </Friend>
                 </FContainer>

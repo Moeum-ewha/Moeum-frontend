@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import { useNavigate, } from 'react-router-dom';
 import BackgroundContainer from '../Components/BackgroundContainer';
 import balloon from '../Assets/balloon.png';
 import Logo from '../Assets/logo.png';
@@ -20,14 +20,17 @@ import { NavBar } from '../Components/NavBar';
 import { Entrance } from './Entrance';
 
 import dummy1 from '../Assets/dummy5.jpeg';
-import dummy2 from '../Assets/dummy4.jpeg';
-import dummy3 from '../Assets/dummy3.jpeg';
+import dummy2 from '../Assets/dummy8.jpeg';
+import dummy3 from '../Assets/dummy9.jpeg';
 import dummy4 from '../Assets/dummy6.jpeg';
 
 
 const HomeScreen2 = () => {
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
+  const movePost = () => {
+    navigate("/viewpost");
+  }
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
@@ -59,7 +62,7 @@ const HomeScreen2 = () => {
             <Gallery>
               <Left>
               <Photo>
-                <img src={dummy4} width="160px" style={{ borderRadius: '15px' }} />
+                <img src={dummy4} width="160px" style={{ borderRadius: '15px' }} onClick={movePost}/>
                 </Photo>
                 <Photo>
                 <img src={dummy3} width="160px"  style={{ borderRadius: '15px' }} /> 

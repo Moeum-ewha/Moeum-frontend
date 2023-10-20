@@ -20,8 +20,8 @@ import { NavBar } from '../Components/NavBar';
 import { Entrance } from './Entrance';
 
 import dummy1 from '../Assets/dummy5.jpeg';
-import dummy2 from '../Assets/dummy4.jpeg';
-import dummy3 from '../Assets/dummy3.jpeg';
+import dummy2 from '../Assets/dummy8.jpeg';
+import dummy3 from '../Assets/dummy9.jpeg';
 
 const HomeScreen = () => {
   const [loading, setLoading] = useState(true);

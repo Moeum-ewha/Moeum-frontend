@@ -32,9 +32,17 @@ export const NavBar = (props) => {
 
   const moveHome = () => {
     navigate("/home");
-  }
+  };
   const moveBinder = () => {
     navigate("/binder2");
+  };
+
+  const moveMypage = () => {
+    navigate("/settings");
+  };
+
+  const moveMap = () => {
+    navigate("/map");
   };
 
   /*const handleImageChange = (e) => {
@@ -111,10 +119,10 @@ export const NavBar = (props) => {
         )}
         <NavBtn />
         <NavBtn>
-          <img src={map} alt="로고" />
+          <img src={map} alt="로고" onClick={moveMap} />
         </NavBtn>
         <NavBtn>
-          <img src={settings} alt="로고" />
+          <img src={settings} alt="로고" onClick={moveMypage} />
         </NavBtn>
       </NavigationBar>
     </>

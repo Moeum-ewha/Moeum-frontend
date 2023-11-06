@@ -51,14 +51,28 @@ export const InfoDiv = styled.div`
 `
 ;
 
+export const NickEdit = styled.input`
+    width: 98px;
+    height: 35px;
+    border-radius: 15px;
+    border:none;
+    background: #FFE8A6;
+    padding-left: 13px;
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 350;
+    font-size: 14px;
+    color: #333333;
+`
+;
+
 export const Nickname = styled.div`
     width: 98px;
-    height: 24px;
-    
+    height: 22px;
     font-family: 'Arial';
     font-style: normal;
     font-weight: 450;
-    font-size: 20px;
+    font-size: 19px;
 
     color: #333333;
 `
@@ -67,12 +81,12 @@ export const Nickname = styled.div`
 export const ID = styled.div`
     width: 98px;
     height: 24px;
+    padding-top:5px;
 
     font-family: 'Arial';
     font-style: normal;
     font-weight: 200;
-    font-size: 15px;
-    letter-spacing: 0.07em;
+    font-size: 11px;
     color: #333333;
 `
 ;
@@ -81,6 +95,26 @@ export const EditBtn = styled.button`
     width: 53px;
     height: 28px;
     background: #DDDDDD;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+
+    font-family: 'Arial';
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 14px;
+    display: row;
+    align-items: center;
+    text-align: center;
+    color: #333333;
+
+    border: none;
+`
+;
+
+export const ComBtn = styled.button`
+    width: 53px;
+    height: 28px;
+    background: #FFC329;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 

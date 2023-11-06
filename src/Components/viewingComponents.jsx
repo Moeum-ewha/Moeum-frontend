@@ -2,7 +2,15 @@ import React from "react";
 import { styled } from "styled-components";
 
 export const ContentContainer = styled.div`
+    margin-top:30px;
+`;
 
+export const Content = styled.div`
+width: 393px;
+height: 852px;
+display: flex;
+flex-direction: column;
+align-items: center; 
 `;
 
 export const MiniContainer = styled. div`
@@ -99,10 +107,10 @@ height: 22px;
 left: 303px;
 top: 712px;
 margin-left: 80%;
+margin-top:4%;
 
 font-family: 'Arial';
-font-style: italic;
-font-weight: 700;
+font-weight: 600;
 font-size: 12px;
 line-height: 15px;
 background: transparent;

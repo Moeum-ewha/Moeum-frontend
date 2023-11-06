@@ -79,7 +79,7 @@ line-height: 22px;
 display: flex;
 align-items: center;
 letter-spacing: -0.1px;
-color: #BDBDBD;
+color: #333333;
 `
 ;
 
@@ -138,4 +138,17 @@ export const styles = {
       backgroundColor: '#DDDDDD',
     },
   };
+
+  export const ValidDiv = styled.div`
+  font-size: 14px;
+  width:200px;
+  height: 36px;
+  color: red;
+  `;
+
+  export const SemiDiv = styled.div`
+  display: flex;
+  `;
+
+
 

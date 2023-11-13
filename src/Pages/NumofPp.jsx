@@ -17,13 +17,16 @@ import {
   NoBtn,
 } from '../Components/NumofPeople';
 import { NavBar } from '../Components/NavBar';
-import dummy1 from '../Assets/dumy.png';
 import LoadingScreen from './Loading';
 
+//이름 받아서 if label != unknown **님이 맞나요? 페이지로 else면 새로운 친구 등록 페이지로
 const NumofPp = () => {
   const location = useLocation();
   const [selectedImage, setSelectedImage] = useState(null);
   const FaceContainer = useRef(null);
+  const rectanglesRef = useRef([]);
+  const resizedDetectionsRef = useRef([]);
+  const selectedImageObjRef = useRef(null);
 
   const [loaded, setLoaded] = useState(false);
   const [labeledFaceDescriptors, setLabeledFaceDescriptors] = useState([]);
@@ -31,35 +34,74 @@ const NumofPp = () => {
   const [selectedFace, setSelectedFace] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleFaceClick = (selectedFace) => {
-    setSelectedFace(selectedFace);
+  const navigate = useNavigate();
 
-    // 선택한 얼굴 부분을 잘라내기
+  const handleFaceClick = async (selectedFace) => {
+    setSelectedFace(selectedFace);
     const { x, y, width, height } = selectedFace.detection.box;
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = width;
-    canvas.height = height;
-    ctx.drawImage(image, x, y, width, height, 0, 0, width, height);
+    // 이미지를 로드하는 Promise를 생성
+    const loadImage = (src) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.src = src;
+      });
+    };
+
+    // 이미지를 로드하여 기다림
+    const img = await loadImage(
+      URL.createObjectURL(selectedImageObjRef.current),
+    );
+
+    // 기준이 되는 displaySize
+    const displaySize = {
+      width: 350,
+      height: 350 / (img.width / img.height),
+    };
+
+    // 이미지의 크기에 비례하여 x, y, width, height 값을 조정
+    const adjustedX = (x / displaySize.width) * img.width;
+    const adjustedY = (y / displaySize.height) * img.height;
+    const adjustedWidth = (width / displaySize.width) * img.width;
+    const adjustedHeight = (height / displaySize.height) * img.height;
+
+    const croppedFaceCanvas = document.createElement('canvas');
+    croppedFaceCanvas.width = adjustedWidth;
+    croppedFaceCanvas.height = adjustedHeight;
+    const croppedFaceCtx = croppedFaceCanvas.getContext('2d');
+
+    // 이미지를 클릭한 부분을 기준으로 잘라내기
+    croppedFaceCtx.drawImage(
+      img,
+      adjustedX,
+      adjustedY,
+      adjustedWidth,
+      adjustedHeight,
+      0,
+      0,
+      adjustedWidth,
+      adjustedHeight,
+    );
 
     // 잘라낸 이미지의 데이터 URL 생성
-    const croppedFaceDataURL = canvas.toDataURL('image/jpeg');
+    const croppedFaceDataURL = croppedFaceCanvas.toDataURL('image/jpeg');
 
-    // /faceclassification2 페이지로 이동하면서 데이터 전달
-    navigate('/faceclassification2', { state: { croppedFaceDataURL } });
+    if (!selectedFace.label.includes('unknown')) {
+      const parts = selectedFace.label.split(' '); // 공백을 기준으로 문자열을 나눔
+      const label = parts[0]; // 나눠진 첫 번째 부분이 레이블
+      navigate('/faceclassification3', {
+        state: { img: croppedFaceDataURL, name: label },
+      });
+    } else {
+      navigate('/faceclassification2', { state: { croppedFaceDataURL } });
+    }
   };
 
   const handleImageSelect = (image) => {
     setSelectedImage(image);
   };
-  const navigate = useNavigate();
   const moveFunc = () => {
     navigate('/faceclassification2');
-  };
-
-  //데모 끝나고 지울 부분
-  const moveToNextPage = () => {
-    navigate('/faceclassification3');
   };
 
   useEffect(() => {
@@ -89,6 +131,7 @@ const NumofPp = () => {
 
       setLoaded(true);
     }
+
     loadModelsAndStart();
   }, []);
 
@@ -99,36 +142,89 @@ const NumofPp = () => {
   }, [loaded, location.state.img]);
 
   const handleImageChange = async (event) => {
+    let results;
     const image = new Image(); // 새로운 이미지 객체 생성
-    image.src = URL.createObjectURL(event.target.files[0]); // 이미지 파일 로드
+    selectedImageObjRef.current = event.target.files[0];
+    image.src = URL.createObjectURL(selectedImageObjRef.current); // 이미지 파일 로드
 
     // 이미지 로드가 완료될 때까지
     image.onload = async () => {
       const canvas = faceapi.createCanvasFromMedia(image);
       FaceContainer.current.appendChild(canvas);
 
+      const ctx = canvas.getContext('2d');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      ctx.drawImage(image, 0, 0, image.width, image.height);
+
       const displaySize = {
         width: 350,
         height: 350 / (image.width / image.height),
       };
+
       faceapi.matchDimensions(canvas, displaySize);
+
       const detections = await faceapi
         .detectAllFaces(image)
         .withFaceLandmarks()
         .withFaceDescriptors();
-      const resizedDetections = faceapi.resizeResults(detections, displaySize);
-      const results = resizedDetections.map((d) =>
-        faceMatcher.findBestMatch(d.descriptor),
+
+      results = await Promise.all(
+        detections.map((d) => faceMatcher.findBestMatch(d.descriptor)),
       );
+
+      // 좌표값 저장
+      const resizedDetections = faceapi
+        .resizeResults(detections, displaySize)
+        .map((detection, i) => {
+          detection.label = results[i].toString(); // label 추가
+          return detection;
+        });
+
+      const rectangle = resizedDetections.map((d) => d.detection.box);
+      rectanglesRef.current = rectangle;
+      resizedDetectionsRef.current = resizedDetections;
+
       results.forEach((result, i) => {
         const box = resizedDetections[i].detection.box;
         const drawBox = new faceapi.draw.DrawBox(box, {
           label: result.toString(),
         });
+        ctx.strokeStyle = 'white';
+        ctx.setLineDash([5, 5]);
         drawBox.draw(canvas);
       });
-      canvas.addEventListener('click', moveToNextPage);
+      canvas.addEventListener('click', handleCanvasClick);
     };
+  };
+
+  const handleCanvasClick = (event) => {
+    const canvas = FaceContainer.current;
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    // 클릭한 좌표와 사각형의 좌표 비교
+    for (const rectangle of rectanglesRef.current) {
+      if (
+        x >= rectangle.x &&
+        x <= rectangle.x + rectangle.width &&
+        y >= rectangle.y &&
+        y <= rectangle.y + rectangle.height
+      ) {
+        // 선택한 얼굴 정보 전달
+        const selected = resizedDetectionsRef.current.find(
+          (d) =>
+            d.detection.box.x === rectangle.x &&
+            d.detection.box.y === rectangle.y &&
+            d.detection.box.width === rectangle.width &&
+            d.detection.box.height === rectangle.height,
+        );
+        if (selected) {
+          handleFaceClick(selected);
+        }
+        break;
+      }
+    }
   };
 
   async function loadLabeledImage() {

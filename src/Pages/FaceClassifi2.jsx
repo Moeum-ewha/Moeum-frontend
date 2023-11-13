@@ -18,7 +18,7 @@ const FaceClassifi2 = () => {
   const location = useLocation();
 
   // 데이터 URL을 받아옴
-  //const croppedFaceDataURL = location.state.croppedFaceDataURL;
+  const croppedFaceDataURL = location.state.croppedFaceDataURL;
 
   const navigate = useNavigate();
 
@@ -36,7 +36,10 @@ const FaceClassifi2 = () => {
         <Question>(새로운 친구)님이 맞나요?</Question>
         <PictureContainer>
           <Face>
-            <img src={dummy2} style={{ width: '90%' }} />
+            <img
+              src={croppedFaceDataURL}
+              style={{ width: '90%', transform: 'scale(2)' }}
+            />
           </Face>
         </PictureContainer>
         <BottomContainer>

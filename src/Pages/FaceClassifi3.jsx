@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import BackgroundContainer from '../Components/BackgroundContainer';
 import {
@@ -12,9 +12,12 @@ import {
   Btn,
 } from '../Components/ClassifiContainer';
 
-import dummy2 from '../Assets/hyejoon.jpeg';
-
 const FaceClassifi3 = () => {
+  const location = useLocation();
+
+  // 데이터 URL을 받아옴
+  const croppedFaceDataURL = location.state.img;
+  const name = location.state.name;
   const navigate = useNavigate();
 
   const moveFunc = () => {
@@ -28,10 +31,13 @@ const FaceClassifi3 = () => {
   return (
     <BackgroundContainer>
       <Content>
-        <Question>(혜준)님이 맞나요?</Question>
+        <Question>{name}님이 맞나요?</Question>
         <PictureContainer>
           <Face>
-            <img src={dummy2} style={{ width: '90%' }} />
+            <img
+              src={croppedFaceDataURL}
+              style={{ width: '90%', transform: 'scale(2)' }}
+            />
           </Face>
         </PictureContainer>
         <BottomContainer>

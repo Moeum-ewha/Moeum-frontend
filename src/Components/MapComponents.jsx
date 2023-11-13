@@ -108,4 +108,3 @@ export const Dday = styled.div`
     color: #333333;
     text-align: right;
 `;
-

@@ -31,10 +31,10 @@ export const NavBar = (props) => {
   };
 
   const moveHome = () => {
-    navigate("/home");
+    navigate("/");
   };
   const moveBinder = () => {
-    navigate("/binder2");
+    navigate("/binder");
   };
 
   const moveMypage = () => {

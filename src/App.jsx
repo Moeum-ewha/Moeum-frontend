@@ -14,9 +14,7 @@ import Choice2 from './Pages/Choice2';
 import Login from './Pages/Login';
 import SignUp from './Pages/SignUp';
 import HomeScreen from './Pages/HomeScreen';
-import HomeScreen2 from './Pages/HomeScreen2';
 import Binder from './Pages/Binder';
-import Binder2 from './Pages/Binder2';
 import Settings from './Pages/Settings';
 import Map from './Pages/Map';
 
@@ -25,7 +23,6 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomeScreen />} />
-        <Route path="/home" element={<HomeScreen2 />} />
         <Route path="/posting" element={<WritePost />} />
         <Route path="/facerecognition" element={<FaceReCog />} />
         <Route path="/viewpost" element={<ViewPost />} />
@@ -44,7 +41,6 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/binder" element={<Binder />} />
-        <Route path="/binder2" element={<Binder2 />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/map" element={<Map />} />
       </Routes>

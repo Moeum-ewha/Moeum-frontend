@@ -12,29 +12,33 @@ import {
   Btn,
 } from '../Components/ClassifiContainer';
 
-const FaceClassifi3 = () => {
+const IsNewFriend = () => {
   const location = useLocation();
 
-  // 데이터 URL을 받아옴
   const croppedFaceDataURL = location.state.img;
-  const name = location.state.name;
-  const originalImg = location.state.wholeImg;
+  const imgURL = location.state.wholeImg;
+
   const navigate = useNavigate();
 
-  const moveFunc = () => {
-    navigate('/faceclassification');
+  const moveAdd = async () => {
+    navigate('/addname', {
+      state: {
+        img: croppedFaceDataURL,
+        wholeImg: imgURL,
+        selectedFace: location.state.selectedFace,
+        canvasData: location.state.canvasData,
+      },
+    });
   };
 
-  const moveAdd = () => {
-    navigate('/choice', {
-      state: { name: name, wholeImg: originalImg },
-    });
+  const moveFunc = () => {
+    navigate('/add');
   };
 
   return (
     <BackgroundContainer>
       <Content>
-        <Question>{name}님이 맞나요?</Question>
+        <Question>(새로운 친구)님이 맞나요?</Question>
         <PictureContainer>
           <Face>
             <img
@@ -45,12 +49,11 @@ const FaceClassifi3 = () => {
         </PictureContainer>
         <BottomContainer>
           <Btn onClick={moveAdd}>네, 맞아요!</Btn>
-          <Btn onClick={moveFunc}>등록된 다른 친구예요.</Btn>
-          <Btn onClick={moveFunc}>새로운 친구예요.</Btn>
+          <Btn>등록된 친구예요.</Btn>
         </BottomContainer>
       </Content>
     </BackgroundContainer>
   );
 };
 
-export default FaceClassifi3;
+export default IsNewFriend;

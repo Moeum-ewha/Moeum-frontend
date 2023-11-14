@@ -19,14 +19,14 @@ import {
 import { NavBar } from '../Components/NavBar';
 import LoadingScreen from './Loading';
 
-//이름 받아서 if label != unknown **님이 맞나요? 페이지로 else면 새로운 친구 등록 페이지로
-const NumofPp = () => {
+const FaceRecogniton = () => {
   const location = useLocation();
   const [selectedImage, setSelectedImage] = useState(null);
   const FaceContainer = useRef(null);
   const rectanglesRef = useRef([]);
   const resizedDetectionsRef = useRef([]);
   const selectedImageObjRef = useRef(null);
+  const checkCanvasRef = useRef(null);
 
   const [loaded, setLoaded] = useState(false);
   const [labeledFaceDescriptors, setLabeledFaceDescriptors] = useState([]);
@@ -85,25 +85,34 @@ const NumofPp = () => {
     // 잘라낸 이미지의 데이터 URL 생성
     const croppedFaceDataURL = croppedFaceCanvas.toDataURL('image/jpeg');
     const imgURL = URL.createObjectURL(selectedImageObjRef.current);
+    console.log('img : ' + selectedImageObjRef.current);
 
     if (!selectedFace.label.includes('unknown')) {
       const parts = selectedFace.label.split(' '); // 공백을 기준으로 문자열을 나눔
       const label = parts[0]; // 나눠진 첫 번째 부분이 레이블
-      navigate('/faceclassification3', {
-        state: { img: croppedFaceDataURL, name: label, wholeImg: imgURL },
+      navigate('/issavedfriend', {
+        state: {
+          img: croppedFaceDataURL,
+          name: label,
+          wholeImg: imgURL,
+          selectedFace: selectedFace,
+          canvasData: checkCanvasRef.current.toDataURL('image/jpeg'),
+        },
       });
     } else {
-      navigate('/faceclassification2', {
-        state: { img: croppedFaceDataURL, wholeImg: imgURL },
+      navigate('/isnewfriend', {
+        state: {
+          img: croppedFaceDataURL,
+          wholeImg: imgURL,
+          selectedFace: selectedFace,
+          canvasData: checkCanvasRef.current.toDataURL('image/jpeg'),
+        },
       });
     }
   };
 
   const handleImageSelect = (image) => {
     setSelectedImage(image);
-  };
-  const moveFunc = () => {
-    navigate('/faceclassification2');
   };
 
   useEffect(() => {
@@ -197,6 +206,7 @@ const NumofPp = () => {
         drawBox.draw(canvas);
       });
       canvas.addEventListener('click', handleCanvasClick);
+      checkCanvasRef.current = canvas;
     };
   };
 
@@ -284,4 +294,4 @@ const NumofPp = () => {
   );
 };
 
-export default NumofPp;
+export default FaceRecogniton;

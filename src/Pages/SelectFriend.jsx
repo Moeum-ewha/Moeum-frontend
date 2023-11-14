@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import BackgroundContainer from '../Components/BackgroundContainer';
 import {
@@ -20,8 +20,25 @@ import dummy3 from '../Assets/hyejoon2.jpeg';
 
 const SelectFriend = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const croppedFaceDataURL = location.state.img;
+  const originalImg = location.state.wholeImg;
+
+  //임시로 넣어둔 데이터 - 이후 선택된 인물의 값을 적용할 수 있도록 코드 변경해두어야함
   const moveFunc = () => {
-    navigate('/isanyonemore');
+    navigate('/isanyonemore', {
+      state: {
+        wholeImg: originalImg,
+        canvasData: location.state.canvasData,
+        selectedFace: location.state.selectedFace,
+        savedFriendData: {
+          name: '건희',
+          //친구목록 파일의 사진으로 추후 수정
+          faceImg: croppedFaceDataURL,
+        },
+      },
+    });
   };
 
   return (

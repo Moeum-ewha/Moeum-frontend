@@ -37,9 +37,13 @@ const AddName = () => {
     if (text !== '') {
       navigate('/isanyonemore', {
         state: {
-          img: croppedFaceDataURL,
           wholeImg: imgURL,
-          name: text,
+          canvasData: location.state.canvasData,
+          selectedFace: location.state.selectedFace,
+          newFriendData: {
+            name: text,
+            faceImg: croppedFaceDataURL,
+          },
         },
       });
     }

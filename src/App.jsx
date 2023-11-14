@@ -16,6 +16,7 @@ import Map from './Pages/Map';
 import Entrance from './Pages/Entrance';
 import ShareView from './Pages/ShareView';
 import SelectFriend from './Pages/SelectFriend';
+import HomeScreen from './Pages/HomeScreen';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/" element={<Entrance />} />
         <Route path="/posting" element={<WritePost />} />
         <Route path="/viewpost" element={<ViewPost />} />
+        <Route path="/home" element={<HomeScreen />} />
         <Route path="/addname" element={<AddName />} /> /* 친구의 이름이
         무엇인가요 */
         <Route path="/isnewfriend" element={<IsNewFriend />} /> /* (새로운

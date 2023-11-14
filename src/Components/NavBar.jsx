@@ -31,18 +31,18 @@ export const NavBar = (props) => {
   };
 
   const moveHome = () => {
-    navigate("/home");
+    navigate('/home');
   };
   const moveBinder = () => {
-    navigate("/binder");
+    navigate('/binder');
   };
 
   const moveMypage = () => {
-    navigate("/settings");
+    navigate('/settings');
   };
 
   const moveMap = () => {
-    navigate("/map");
+    navigate('/map');
   };
 
   /*const handleImageChange = (e) => {
@@ -61,7 +61,7 @@ export const NavBar = (props) => {
     const selectedFile = event.target.files[0];
 
     if (selectedFile) {
-      navigate('/facerecognition1', { state: { img: selectedFile } });
+      navigate('/facerecognition', { state: { img: selectedFile } });
       /*onImageSelect(selectedFile);*/
     }
   };
@@ -103,7 +103,7 @@ export const NavBar = (props) => {
       </>
       <NavigationBar>
         <NavBtn>
-          <img src={home} alt="로고" onClick={moveHome}/>
+          <img src={home} alt="로고" onClick={moveHome} />
         </NavBtn>
         <NavBtn>
           <img src={friends} alt="로고" onClick={moveBinder} />

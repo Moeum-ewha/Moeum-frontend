@@ -20,17 +20,42 @@ import { Btn } from '../Components/ClassifiContainer';
 const IsAnyoneMore = () => {
   const location = useLocation();
   const FaceContainer = useRef(null);
+  const newFriendData = []; //이름과 얼굴사진이 쌍으로 존재
+  const savedFriendData = [];
 
-  // 데이터 URL을 받아옴
-  const croppedFaceDataURL = location.state.img;
+  //받아오는 인자값
+  //새로운 친구 등록 화면의 경우  newFriendData: {name: text, faceImg: croppedFaceDataURL}
+  //기존 친구 등록 화면의 경우 name: name
+
   const imgURL = location.state.wholeImg;
   const selectedFace = location.state.selectedFace;
   const canvasData = location.state.canvasData;
 
+  if (location.state.newFriendData) {
+    newFriendData.push({
+      name: location.state.newFriendData.name,
+      faceImg: location.state.newFriendData.faceImg,
+    });
+  } else if (location.state.savedFriendData) {
+    //배열로 할지 obj로 할지 고민
+    savedFriendData.push({
+      name: location.state.savedFriendData.name,
+      //친구목록 파일의 사진으로 추후 수정
+      faceImg: location.state.savedFriendData.faceImg,
+    });
+  } else {
+    console.log('props error');
+  }
+
   const navigate = useNavigate();
+
   const moveFunc = () => {
     navigate('/posting', {
-      state: { wholeImg: imgURL },
+      state: {
+        wholeImg: imgURL,
+        newFriendData: newFriendData,
+        savedFriendData: savedFriendData,
+      },
     });
   };
 

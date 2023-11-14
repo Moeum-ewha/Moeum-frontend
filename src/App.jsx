@@ -22,28 +22,6 @@ import Map from './Pages/Map';
 import Entrance from './Pages/Entrance';
 
 function App() {
- /* const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    // 비동기 작업 또는 데이터 로딩이 완료된 후에 setLoading(false)를 호출하여 로딩 상태 변경
-    fetchData()
-      .then(() => setLoading(false))
-      .catch(error => {
-        console.error("Error fetching data:", error);
-        setLoading(false); // 에러 발생 시에도 로딩 상태를 변경하여 로딩 스피너를 숨김
-      });
-  }, []);
-
-  const fetchData = async () => {
-    // 여기서 실제 데이터를 가져오는 비동기 작업을 수행
-    return new Promise(resolve => {
-      setTimeout(() => {
-        // 예시: 3초 후에 데이터 로딩이 완료됐다고 가정
-        resolve();
-      }, 3000);
-    });
-  };
-
-*/
   return (
     <Router>
       <Routes>

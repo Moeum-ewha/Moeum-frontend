@@ -18,6 +18,7 @@ const FaceClassifi3 = () => {
   // 데이터 URL을 받아옴
   const croppedFaceDataURL = location.state.img;
   const name = location.state.name;
+  const originalImg = location.state.wholeImg;
   const navigate = useNavigate();
 
   const moveFunc = () => {
@@ -25,7 +26,9 @@ const FaceClassifi3 = () => {
   };
 
   const moveAdd = () => {
-    navigate('/choice');
+    navigate('/choice', {
+      state: { name: name, wholeImg: originalImg },
+    });
   };
 
   return (

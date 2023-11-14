@@ -12,13 +12,12 @@ import {
   Btn,
 } from '../Components/ClassifiContainer';
 
-import dummy2 from '../Assets/unknown.jpeg';
-
 const FaceClassifi2 = () => {
   const location = useLocation();
 
   // 데이터 URL을 받아옴
-  const croppedFaceDataURL = location.state.croppedFaceDataURL;
+  const croppedFaceDataURL = location.state.img;
+  const originalImg = location.state.wholeImg;
 
   const navigate = useNavigate();
 
@@ -27,7 +26,9 @@ const FaceClassifi2 = () => {
   };
 
   const moveAdd = () => {
-    navigate('/faceclassification');
+    navigate('/faceclassification', {
+      state: { img: croppedFaceDataURL, wholeImg: originalImg },
+    });
   };
 
   return (

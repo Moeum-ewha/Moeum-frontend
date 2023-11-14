@@ -23,7 +23,6 @@ import { TopBar, Title } from '../Components/TopBar';
 
 //assets
 import BackIcon from '../Assets/icons/goback.png';
-import dummy1 from '../Assets/dummy10.png';
 import dummy2 from '../Assets/yujin2.jpeg';
 import dummy3 from '../Assets/hyejoon2.jpeg';
 import dummy4 from '../Assets/unknown.jpeg';
@@ -52,13 +51,34 @@ export const WritePost = () => {
   const location = useLocation();
 
   //wholeImg, newFriendData(name, faceImg), savedFriendData(name, faceImg)를 인자값으로 받음
-  //newFriendData와 savedFriendData를 화면에 map하면서 돌려서 출력
+  //newFriendData와 savedFriendData를 화면에 map하면서 돌려서 출력 -> 완료
   //원본사진, 새로운친구의 faceImg를 blob 파일,
   //게시글 작성과 동시에 원본사진, newFriendData{name: name, faceImg: faceImgtoBlob}, savedFreindData{name: name}을 서버로 전송
   //newFriendData의 값을 친구 목록 리스트에 저장 -> 각 인물 게시글 db에 원본사진 추가
   //savedFriendData 값에 존재하는 친구들의 각 인물 게시글 db에 원본사진 추가
 
   const imgURL = location.state.wholeImg;
+  const savedFriendData = location.state.savedFriendData;
+  const newFriendData = location.state.newFriendData;
+
+  const orginalImgBlob = dataURItoBlob(imgURL);
+
+  const formData = new FormData();
+  formData.append('originalImg', orginalImgBlob);
+
+  newFriendData.forEach((friend, index) => {
+    const blob = dataURItoBlob(friend.faceImg);
+    formData.append(`newFriend_${index + 1}_name`, friend.name);
+    formData.append(`newFriend_${index + 1}_faceImg`, blob);
+  });
+
+  savedFriendData.forEach((friend, index) => {
+    formData.append(`savedFriend_${index + 1}_name`, friend.name);
+  });
+
+  const entries = formData.values();
+  let entry = entries.next();
+  console.log(entry);
 
   const [date, setDate] = useState('');
   const [text, setText] = useState('');
@@ -182,24 +202,37 @@ export const WritePost = () => {
             </FriendPic>
             <Name>유진</Name>
           </Friend>
-          <Friend>
-            <FriendPic>
-              <img
-                src={dummy3}
-                style={{ width: '50px', height: '50px', borderRadius: '100%' }}
-              />
-            </FriendPic>
-            <Name>혜준</Name>
-          </Friend>
-          <Friend>
-            <FriendPic>
-              <img
-                src={dummy4}
-                style={{ width: '50px', height: '50px', borderRadius: '100%' }}
-              />
-            </FriendPic>
-            <Name>남준</Name>
-          </Friend>
+          //저장된 친구들 우선 출력
+          {savedFriendData.map((friend, index) => (
+            <Friend key={index}>
+              <FriendPic>
+                <img
+                  src={friend.faceImg}
+                  style={{
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '100%',
+                  }}
+                />
+              </FriendPic>
+              <Name>{friend.name}</Name>
+            </Friend>
+          ))}
+          {newFriendData.map((friend, index) => (
+            <Friend key={index}>
+              <FriendPic>
+                <img
+                  src={friend.faceImg}
+                  style={{
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '100%',
+                  }}
+                />
+              </FriendPic>
+              <Name>{friend.name}</Name>
+            </Friend>
+          ))}
         </FContainer>
         <SmallerTitle>What</SmallerTitle>
         <TextArea

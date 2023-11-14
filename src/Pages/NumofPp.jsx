@@ -52,7 +52,6 @@ const NumofPp = () => {
     const img = await loadImage(
       URL.createObjectURL(selectedImageObjRef.current),
     );
-
     // 기준이 되는 displaySize
     const displaySize = {
       width: 350,
@@ -85,15 +84,18 @@ const NumofPp = () => {
 
     // 잘라낸 이미지의 데이터 URL 생성
     const croppedFaceDataURL = croppedFaceCanvas.toDataURL('image/jpeg');
+    const imgURL = URL.createObjectURL(selectedImageObjRef.current);
 
     if (!selectedFace.label.includes('unknown')) {
       const parts = selectedFace.label.split(' '); // 공백을 기준으로 문자열을 나눔
       const label = parts[0]; // 나눠진 첫 번째 부분이 레이블
       navigate('/faceclassification3', {
-        state: { img: croppedFaceDataURL, name: label },
+        state: { img: croppedFaceDataURL, name: label, wholeImg: imgURL },
       });
     } else {
-      navigate('/faceclassification2', { state: { croppedFaceDataURL } });
+      navigate('/faceclassification2', {
+        state: { img: croppedFaceDataURL, wholeImg: imgURL },
+      });
     }
   };
 

@@ -31,7 +31,7 @@ export const NavBar = (props) => {
   };
 
   const moveHome = () => {
-    navigate("/");
+    navigate("/home");
   };
   const moveBinder = () => {
     navigate("/binder");

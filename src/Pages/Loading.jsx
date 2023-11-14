@@ -5,7 +5,7 @@ import Spinner from '../Assets/Spinner.gif';
 export const Loading = ({ keyword }) => {
   return (
     <Background>
-      <img src={Spinner} alt="로딩중" width="5%" />
+      <img src={Spinner} alt="로딩중" width="35%" />
       <LoadingText>{keyword}</LoadingText>
     </Background>
   );

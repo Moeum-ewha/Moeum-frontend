@@ -13,9 +13,13 @@ import {
   NextBtn,
 } from '../Components/ClassifiContainer';
 
-import dummy2 from '../Assets/unknown.jpeg';
-
 const FaceClassifi = () => {
+  const location = useLocation();
+
+  // 데이터 URL을 받아옴
+  const croppedFaceDataURL = location.state.img;
+  const imgURL = location.state.wholeImg;
+
   const [text, setText] = useState('');
   const [btnColor, setBtnColor] = useState(false);
 
@@ -33,8 +37,11 @@ const FaceClassifi = () => {
   };
 
   const movePage = () => {
-    navigate('/choice2');
-  };
+    navigate('/choice2', {
+        state: { img: croppedFaceDataURL, wholeImg: imgURL },
+      });
+    };
+
   return (
     <BackgroundContainer>
       <Content>
@@ -45,7 +52,10 @@ const FaceClassifi = () => {
         </Question>
         <PictureContainer>
           <Face>
-            <img src={dummy2} style={{ width: '150%' }} />
+          <img
+              src={croppedFaceDataURL}
+              style={{ width: '90%', transform: 'scale(2)' }}
+            />
           </Face>
         </PictureContainer>
         <BottomContainer>

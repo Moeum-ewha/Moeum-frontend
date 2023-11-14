@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import BackgroundContainer from '../Components/BackgroundContainer';
 import {
@@ -19,9 +19,17 @@ import { Btn } from '../Components/ClassifiContainer';
 import dummy1 from '../Assets/dummy7.png';
 
 const Choice2 = () => {
+  const location = useLocation();
+
+  // 데이터 URL을 받아옴
+  const croppedFaceDataURL = location.state.img;
+  const imgURL = location.state.wholeImg;
+
   const navigate = useNavigate();
   const moveFunc = () => {
-    navigate('/posting');
+    navigate('/posting', {
+      state: { img: croppedFaceDataURL, wholeImg: imgURL },
+    });
   };
   //데모 끝나고 지울 부분
   const movePage = () => {
@@ -38,7 +46,11 @@ const Choice2 = () => {
         </Question>
         <PictureContainer>
           <Pic onClick={movePage}>
-            <img src={dummy1} style={{ width: '350px' }} />
+            <img
+                src={imgURL}
+                style={{ position: 'relative', width: 350 }}
+                alt="선택한 이미지"
+              />
           </Pic>
         </PictureContainer>
         <BtnContainer>

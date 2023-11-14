@@ -17,18 +17,17 @@ const FaceClassifi2 = () => {
 
   // 데이터 URL을 받아옴
   const croppedFaceDataURL = location.state.img;
-  const originalImg = location.state.wholeImg;
+  const imgURL = location.state.wholeImg;
 
   const navigate = useNavigate();
 
-  const moveFunc = () => {
-    navigate('/faceclassification');
-  };
-
   const moveAdd = () => {
     navigate('/faceclassification', {
-      state: { img: croppedFaceDataURL, wholeImg: originalImg },
+      state: { img: croppedFaceDataURL, wholeImg: imgURL },
     });
+  };
+  const moveFunc = () => {
+    navigate('/faceclassification');
   };
 
   return (

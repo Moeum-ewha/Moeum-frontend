@@ -27,11 +27,11 @@ const Map = () => {
             var positions = [
                 {
                     title: '10. 10', 
-                    latlng: new kakao.maps.LatLng(37.562237, 126.947731)
+                    latlng: new kakao.maps.LatLng(37.562544, 126.947650)
                 },
                 {
                     title: '09. 22', 
-                    latlng: new kakao.maps.LatLng(37.556677, 126.936576)
+                    latlng: new kakao.maps.LatLng(37.556737, 126.936661)
                 },
             ];
             
@@ -87,7 +87,7 @@ const Map = () => {
                             2023. 10. 10
                         </Date>
                         <Place>
-                            이화여대길 52
+                            이화여자대학교
                         </Place>
                         <Friends>
                             건희, 진영
@@ -110,7 +110,7 @@ const Map = () => {
                             2023. 09. 22
                         </Date>
                         <Place>
-                            연세로 13
+                            신촌 유플렉스
                         </Place>
                         <Friends>
                             건희, 진영
@@ -133,7 +133,7 @@ const Map = () => {
                             2023. 09. 22
                         </Date>
                         <Place>
-                            연세로 13
+                            신촌역
                         </Place>
                         <Friends>
                             건희, 진영

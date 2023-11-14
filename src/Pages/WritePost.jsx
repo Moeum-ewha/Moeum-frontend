@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { useEffect, useState, forwardRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import { ko } from 'date-fns/esm/locale';
 import "react-datepicker/dist/react-datepicker.css";
@@ -24,13 +24,17 @@ import FaceReCog from './FaceRecog';
 
 //assets
 import BackIcon from '../Assets/icons/goback.png';
-import dummy1 from '../Assets/dummy6.jpeg';
+import dummy1 from '../Assets/dummy10.png';
 import dummy2 from "../Assets/yujin2.jpeg";
 import dummy3 from "../Assets/hyejoon2.jpeg";
 import dummy4 from "../Assets/unknown.jpeg";
 
 export const WritePost = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+ // const croppedFaceDataURL = location.state.img;
+  const imgURL = location.state.wholeImg;
 
   const [date, setDate] = useState('');
   const [text, setText] = useState('');
@@ -106,14 +110,8 @@ export const WritePost = () => {
         <Title>네컷 등록</Title>
       </TopBar>
       <MiniContainer>
-        <img src={dummy1} width="90%" style={{ paddingTop: '300px', borderRadius: '10px' }} />
+      <img src={imgURL} style={{ position: 'relative', width: 250, paddingTop: '300px', borderRadius: '10px'}} alt="선택한 이미지" />
         <SmallerTitle>When</SmallerTitle>
-        <TxtBox
-onChange={dateOnChange}
-          type="text"
-          placeholder="ex) 2023. 05. 11"
-        >
-        </TxtBox> 
         <DatePicker
             locale={ko}
             dateFormat="yyyy. MM. dd"

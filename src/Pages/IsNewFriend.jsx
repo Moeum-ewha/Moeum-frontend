@@ -31,8 +31,15 @@ const IsNewFriend = () => {
     });
   };
 
-  const moveFunc = () => {
-    navigate('/add');
+  const moveToSelect = () => {
+    navigate('/selectfriend', {
+      state: {
+        img: croppedFaceDataURL,
+        wholeImg: imgURL,
+        selectedFace: location.state.selectedFace,
+        canvasData: location.state.canvasData,
+      },
+    });
   };
 
   return (
@@ -49,7 +56,7 @@ const IsNewFriend = () => {
         </PictureContainer>
         <BottomContainer>
           <Btn onClick={moveAdd}>네, 맞아요!</Btn>
-          <Btn>등록된 친구예요.</Btn>
+          <Btn onClick={moveToSelect}>등록된 친구예요.</Btn>
         </BottomContainer>
       </Content>
     </BackgroundContainer>

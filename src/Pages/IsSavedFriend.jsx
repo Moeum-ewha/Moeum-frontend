@@ -19,21 +19,41 @@ const IsSavedFriend = () => {
   const croppedFaceDataURL = location.state.img;
   const name = location.state.name;
   const originalImg = location.state.wholeImg;
-  console.log('croppedFaceData: ' + croppedFaceDataURL);
-  console.log('originalImg: ' + originalImg);
   const navigate = useNavigate();
 
   const moveFunc = () => {
-    navigate('/addname');
+    navigate('/selectfriend', {
+      state: {
+        faceImg: croppedFaceDataURL,
+        wholeImg: originalImg,
+        canvasData: location.state.canvasData,
+        selectedFace: location.state.selectedFace,
+      },
+    });
+  };
+
+  const moveNewFriend = () => {
+    navigate('/addname', {
+      state: {
+        faceImg: croppedFaceDataURL,
+        wholeImg: originalImg,
+        canvasData: location.state.canvasData,
+        selectedFace: location.state.selectedFace,
+      },
+    });
   };
 
   const moveAdd = () => {
     navigate('/isanyonemore', {
       state: {
-        name: name,
         wholeImg: originalImg,
-        selectedFace: location.state.selectedFace,
         canvasData: location.state.canvasData,
+        selectedFace: location.state.selectedFace,
+        savedFriendData: {
+          name: name,
+          //친구목록 파일의 사진으로 추후 수정
+          faceImg: croppedFaceDataURL,
+        },
       },
     });
   };
@@ -53,7 +73,7 @@ const IsSavedFriend = () => {
         <BottomContainer>
           <Btn onClick={moveAdd}>네, 맞아요!</Btn>
           <Btn onClick={moveFunc}>등록된 다른 친구예요.</Btn>
-          <Btn onClick={moveFunc}>새로운 친구예요.</Btn>
+          <Btn onClick={moveNewFriend}>새로운 친구예요.</Btn>
         </BottomContainer>
       </Content>
     </BackgroundContainer>

@@ -17,7 +17,6 @@ import {
   Right,
 } from '../Components/HomeComponents';
 import { NavBar } from '../Components/NavBar';
-import { useData } from '../Components/DataProvider'
 
 import dummy1 from '../Assets/dummy5.jpeg';
 import dummy2 from '../Assets/dummy8.jpeg';

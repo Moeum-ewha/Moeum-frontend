@@ -13,7 +13,7 @@ import {
   NextBtn,
 } from '../Components/ClassifiContainer';
 
-const FaceClassifi = () => {
+const AddName = () => {
   const location = useLocation();
 
   // 데이터 URL을 받아옴
@@ -32,15 +32,18 @@ const FaceClassifi = () => {
   }, [text]);
 
   const navigate = useNavigate();
-  const moveAdd = () => {
-    navigate('/home');
-  };
 
   const movePage = () => {
-    navigate('/choice2', {
-        state: { img: croppedFaceDataURL, wholeImg: imgURL },
+    if (text !== '') {
+      navigate('/isanyonemore', {
+        state: {
+          img: croppedFaceDataURL,
+          wholeImg: imgURL,
+          name: text,
+        },
       });
-    };
+    }
+  };
 
   return (
     <BackgroundContainer>
@@ -52,7 +55,7 @@ const FaceClassifi = () => {
         </Question>
         <PictureContainer>
           <Face>
-          <img
+            <img
               src={croppedFaceDataURL}
               style={{ width: '90%', transform: 'scale(2)' }}
             />
@@ -86,4 +89,4 @@ const styles = {
   },
 };
 
-export default FaceClassifi;
+export default AddName;

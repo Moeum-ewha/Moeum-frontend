@@ -17,7 +17,7 @@ import {
   Right,
 } from '../Components/HomeComponents';
 import { NavBar } from '../Components/NavBar';
-import { Entrance } from './Entrance';
+import { useData } from '../Components/DataProvider'
 
 import dummy1 from '../Assets/dummy5.jpeg';
 import dummy2 from '../Assets/dummy8.jpeg';
@@ -25,25 +25,14 @@ import dummy3 from '../Assets/dummy9.jpeg';
 import dummy4 from '../Assets/dummy6.jpeg';
 
 
-const HomeScreen2 = () => {
+const HomeScreen = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const movePost = () => {
     navigate("/viewpost");
   }
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1700);
 
-    return () => clearTimeout(timer);
-  }, []);
-  return (
-    <>
-      {loading ? (
-        <Entrance />
-      ) : (
-        <BackgroundContainer>
+  return(     <BackgroundContainer>
           <Content>
             <TopBar>
               <Title style={{ marginLeft: '10px' }} >Moeum</Title>
@@ -80,9 +69,7 @@ const HomeScreen2 = () => {
           </Content>
           <NavBar />
         </BackgroundContainer>
-      )}
-    </>
-  );
+   )
 };
 
-export default HomeScreen2;
+export default HomeScreen;

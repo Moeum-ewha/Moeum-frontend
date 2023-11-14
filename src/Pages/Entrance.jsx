@@ -13,7 +13,7 @@ export const Entrance = () => {
   return (
     <Background>
       <div onClick={moveFunc}>
-        <img src={Logo} alt="로고" width="50vw" />
+        <img src={Logo} alt="로고" width="75vw" />
         <LogoText>MOEUM</LogoText>
       </div>
     </Background>
@@ -29,5 +29,5 @@ export const LogoText = styled.div`
   padding-top: 0.4vw;
   font: 1rem "Pretendard";
   text-align: center;
-  font-size: 1vw;
+  font-size: 5vw;
 `;

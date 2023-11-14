@@ -20,6 +20,7 @@ import Binder from './Pages/Binder';
 import Settings from './Pages/Settings';
 import Map from './Pages/Map';
 import Entrance from './Pages/Entrance';
+import ShareView from './Pages/ShareView';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
         <Route path="/binder" element={<Binder />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/map" element={<Map />} />
+        <Route path="/share" element={<ShareView />} />
       </Routes>
     </Router>
   );

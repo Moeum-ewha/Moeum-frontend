@@ -71,6 +71,7 @@ export const Photo = styled.div`
   border-radius: 8px;
   margin-left: 2%;
   margin-right: 2%;
+  height: 280px;
   margin-top: 1.5%;
 `;
 

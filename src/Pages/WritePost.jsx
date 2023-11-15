@@ -53,6 +53,7 @@ const ArraytoString = (friendData) => {
 export const WritePost = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const faces = [];
 
   //wholeImg, newFriendData(name, faceImg), savedFriendData(name)을 인자값으로 받음
   //newFriendData와 savedFriendData를 화면에 map하면서 돌려서 출력 -> 완료
@@ -72,16 +73,23 @@ export const WritePost = () => {
   const savedFriendData = location.state.savedFriendData;
   const newFriendData = location.state.newFriendData;
 
+  //원본사진을 blob파일로 바꾸기
   const orginalImgBlob = dataURItoBlob(imgURL);
+
+  //새로운 친구들의 얼굴 사진만을 담은 faces 배열
+  newFriendData.forEach((friend) => {
+    const blob = dataURItoBlob(friend.faceImg);
+    faces.push(blob);
+  });
+
+  const oldFriendNames = ArraytoString(savedFriendData);
+  const newFriendNames = ArraytoString(newFriendData);
 
   const formData = new FormData();
   formData.append('originalImg', orginalImgBlob);
-
-  newFriendData.forEach((friend, index) => {
-    const blob = dataURItoBlob(friend.faceImg);
-    formData.append(`newFriend_${index + 1}_name`, friend.name);
-    formData.append(`newFriend_${index + 1}_faceImg`, blob);
-  });
+  formData.append('faces', faces);
+  formData.append('newFriendNames', newFriendNames);
+  formData.append('originalImg', oldFriendNames);
 
   savedFriendData.forEach((friend, index) => {
     formData.append(`savedFriend_${index + 1}_name`, friend.name);

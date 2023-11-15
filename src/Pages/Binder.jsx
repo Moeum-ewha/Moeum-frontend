@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import BackgroundContainer from '../Components/BackgroundContainer';
 import {
   TopBar,
@@ -20,7 +20,9 @@ import { NavBar } from '../Components/NavBar';
 import demo from '../../public/dummy/dummy.json';
 
 const Binder = () => {
+  const navigate = useNavigate();
   const friendsList = demo.userList.map((user) => user.friendsList).flat();
+  const postList = demo.userList.map((user) => user.postList).flat();
 
   const colorChart = [
     { spine: '#F5AEAE', cover: '#FCE5DF' },
@@ -30,6 +32,17 @@ const Binder = () => {
     { spine: '#F5AEAE', cover: '#FCE5DF' },
     { spine: '#FFC19E', cover: '#FFEADA' },
   ];
+
+  const albumOnClick = (id, name) => {
+    const friendPostList = postList.filter((post) =>
+      post.friendId.includes(id),
+    );
+    console.log(name);
+    navigate(`/friendpostlist/${id}`, {
+      state: { friendPostList: friendPostList, name: name },
+    });
+  };
+
   return (
     <BackgroundContainer>
       <Content>
@@ -38,7 +51,10 @@ const Binder = () => {
         </TopBar>
         <Gallery>
           {friendsList.map((friend, index) => (
-            <Album key={friend.id}>
+            <Album
+              onClick={() => albumOnClick(friend.id, friend.name)}
+              key={friend.id}
+            >
               <Bind>
                 <Spine style={{ backgroundColor: colorChart[index].spine }} />
                 <Cover style={{ backgroundColor: colorChart[index].cover }} />

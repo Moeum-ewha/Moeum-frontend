@@ -46,16 +46,27 @@ function dataURItoBlob(dataURI) {
   return new Blob([ia], { type: mimeString });
 }
 
+const ArraytoString = (friendData) => {
+  return friendData.map((friend) => friend.name).join(',');
+};
+
 export const WritePost = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   //wholeImg, newFriendData(name, faceImg), savedFriendData(name)을 인자값으로 받음
   //newFriendData와 savedFriendData를 화면에 map하면서 돌려서 출력 -> 완료
-  //원본사진, 새로운친구의 faceImg를 blob 파일,
-  //게시글 작성과 동시에 원본사진, newFriendData{name: name, faceImg: faceImgtoBlob}, savedFreindData{name: name}을 서버로 전송
+  //원본사진, 새로운친구의 faceImg를 blob 파일로 바꾸기
+  //게시글 작성과 동시에 original: file1, faces: [file2, file3], newFriendNames: "yunsun,youngwoo", oldFriendNames: "건희,진영"를 서버로 전송
+  //이름의 경우 배열이 아닌 string으로, ','간에 공백 있으면 안됨
+
   //newFriendData의 값을 친구 목록 리스트에 저장 -> 각 인물 게시글 db에 원본사진 추가
   //savedFriendData 값에 존재하는 친구들의 각 인물 게시글 db에 원본사진 추가
+
+  //배열 입력 시 - 하나의 필드값만 추출하여 배열 생성 - 해당 배열의 모든 값을 comma 기준 string으로 생성하여 주는 함수 생성
+  //savedFriendData에서 이름만 추출하여 oldFriendNames string 생성
+  //newFriendData에서 이름만 추출하여 newFriendNames string 생성
+  //newFriendData에서 이미지만 추출하여 faces 배열 생성
 
   const imgURL = location.state.wholeImg;
   const savedFriendData = location.state.savedFriendData;
@@ -63,12 +74,6 @@ export const WritePost = () => {
 
   const orginalImgBlob = dataURItoBlob(imgURL);
 
-  //const formdata = {
-  //  original: [file1],
-  //  faces: [file2, file3],
-  //  newFriendNames: ["yunsun", "youngwoo"],
-  //  oldFriendNames: ["건희"]
-  //}
   const formData = new FormData();
   formData.append('originalImg', orginalImgBlob);
 
@@ -205,7 +210,6 @@ export const WritePost = () => {
             </FriendPic>
             <Name>유진</Name>
           </Friend>
-          //저장된 친구들 우선 출력
           {savedFriendData.map((friend, index) => (
             <Friend key={index}>
               <FriendPic>

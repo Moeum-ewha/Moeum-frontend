@@ -1,12 +1,64 @@
 import { useEffect, useState, useRef, React } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios, { AxiosError } from "axios";
 
 import BackgroundContainer from "../Components/BackgroundContainer";
 import {Title,} from "../Components/SignUpComponents";
 import {Content, Upper, Center, Container, SemiTitle, Input, Lower, Button, ValidDiv, SemiDiv } from "../Components/LoginContainer";
 import { ModalBack, ModalBox, ModalButton, ModalContent, Alert } from "../Components/PopupModal";
+import Loading from "./Loading";
 
 const SignUp = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const sendApi = async () => {
+    // Send 버튼 더블클릭 방지
+    if (isLoading) return;
+
+    setIsLoading(true);
+
+    const body = {
+      email: info.email,
+      username: info.username,
+      password: info.password,
+    }
+
+    try {
+      // Send API request
+      const response = await axios({
+        method: "POST",
+        url: 'http://localhost:5000/account',
+        data: body,
+      });
+
+      // 2XX status code
+      console.log(response.status);
+      console.log(response.data);
+
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          // Non-2XX status code
+          console.error(error.response.status);
+          console.error(error.response.data);
+        } else if (error.request) {
+          // Request made, no response
+          console.error(error.request);
+        }
+      } else {
+        // Other unexpected error
+        console.error(error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await sendApi();
+  };
+
   const modalBackground = useRef();
   const navigate = useNavigate();
 
@@ -14,6 +66,7 @@ const SignUp = () => {
     navigate("/login");
   };
 
+  
 const [modalOpen, setModalOpen] = useState(false);
 
 const openModal = () => {
@@ -26,8 +79,8 @@ const openModal = () => {
 
 const [isButtonActive, setIsButtonActive] = useState(false);
 
-const [form, setForm] = useState({
-    nickname: '',
+const [info, setInfo] = useState({
+    username: '',
     email: '',
     password: '',
     ConfirmPassword: '',
@@ -36,7 +89,7 @@ const [form, setForm] = useState({
 function useValid(changeValue) {
   const [validText, setValidText] = useState('');
   const [isValid, setIsValid] = useState({
-      isNickname: false,
+      isUsername: false,
       isEmail: false,
       isPassword: false,
       isConfirmPassword: false,
@@ -44,16 +97,16 @@ function useValid(changeValue) {
 
   useEffect(() => {
       const exp = /^.{1,8}$/;
-      if (!exp.test(changeValue.nickname)) {
+      if (!exp.test(changeValue.username)) {
           setValidText((prevText) => ({
             ...prevText,
-            isNickname: '닉네임은 최대 8자 입니다.', }) );
-          setIsValid({ ...isValid, isNickname: false });
+            isUsername: '닉네임은 최대 8자 입니다.', }) );
+          setIsValid({ ...isValid, isUsername: false });
       } else {
           setValidText('');
-          setIsValid({ ...isValid, isNickname: true });
+          setIsValid({ ...isValid, isUsername: true });
       }
-  }, [changeValue.nickname]);
+  }, [changeValue.username]);
 
   useEffect(() => {
       const exp = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
@@ -109,17 +162,17 @@ function useValid(changeValue) {
   return { validText, isValid };
 }
 
-const { validText, isValid } = useValid(form);
+const { validText, isValid } = useValid(info);
 
 
 useEffect(() => {
     // 회원가입 조건을 검사하여 버튼 활성화 여부를 설정합니다.
-    const isFormValid = validateInputs();
-    setIsButtonActive(isFormValid);
-}, [form, isValid]);
+    const isInfoValid = validateInputs();
+    setIsButtonActive(isInfoValid);
+}, [info, isValid]);
 
 const validateInputs = () => {
-    if (isValid.isNickname && isValid.isEmail && isValid.isPassword && isValid.isConfirmPassword ) {
+    if (isValid.isUsername && isValid.isEmail && isValid.isPassword && isValid.isConfirmPassword ) {
         return true; // 조건을 모두 만족하면 true를 반환
     }
     return false; // 조건을 만족하지 않으면 false를 반환
@@ -137,19 +190,20 @@ const validateInputs = () => {
             회원가입
           </Title>
         </Upper>
+        <form onSubmit={handleSubmit}>
         <Center>
           <Container>
           <SemiDiv>
           <SemiTitle>
               닉네임
           </SemiTitle>
-          <ValidDiv>{validText.isNickname}</ValidDiv>
+          <ValidDiv>{validText.isUsername}</ValidDiv>
           </SemiDiv>
             <Input
               type="text"
-              value={form.nickname}
-              onChange={(e) => setForm({ ...form, nickname: e.target.value})}
-              valid={!isValid.isNickname} 
+              value={info.username}
+              onChange={(e) => setInfo((prevInfo) => ({ ...prevInfo, username: e.target.value }))}
+              valid={!isValid.isUsername} 
             />
           </Container>
           <Container>
@@ -161,8 +215,8 @@ const validateInputs = () => {
             </SemiDiv>
             <Input
               type="email"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value})}
+              value={info.email}
+              onChange={(e) => setInfo((prevInfo) => ({ ...prevInfo, email: e.target.value }))}
               valid={!isValid.isEmail} 
               />
           </Container>
@@ -175,8 +229,8 @@ const validateInputs = () => {
           </SemiDiv>
             <Input
               type="password"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value})}
+              value={info.password}
+              onChange={(e) => setInfo((prevInfo) => ({ ...prevInfo, password: e.target.value }))}
               valid={!isValid.isPassword} 
               />
           </Container>
@@ -189,19 +243,20 @@ const validateInputs = () => {
             </SemiDiv>
             <Input
               type="password"
-              value={form.ConfirmPassword}
-              onChange={(e) => setForm({ ...form, ConfirmPassword: e.target.value})}
-              valid={!isValid.isConfirmPassword} 
+              value={info.ConfirmPassword}
+              onChange={(e) => setInfo((prevInfo) => ({ ...prevInfo, ConfirmPassword: e.target.value }))}
               />
           </Container>
         </Center>
         <Lower>
-          <Button style={{ margin: '25px', ...buttonStyle }}
+          <Button type="submit" style={{ margin: '25px', ...buttonStyle }}
             onClick={openModal}
-            disabled={!isButtonActive}>
+            disabled={!isButtonActive || isLoading}>
+            {isLoading && <Loading />}
             가입하기
           </Button>
         </Lower>
+        </form>
       </Content>
       {modalOpen && (
         <ModalBack

@@ -90,13 +90,11 @@ const IsAnyoneMore = () => {
 
   const moveFunc = () => {
     //게시글 작성화면에는 인생네컷 사진, 새로운친구목록과 각각의 사진, 저장된친구목록의 이름만을 필요로 함
-    //savedFriendData에서 이름 field만을 추출하여 배열로 생성(이미 등록된 친구의 경우 썸네일이미지를 더이상 필요로 하지 않기에)
+    //하지만 게시글 속 친구목록 출력 위하여 저장된 친구목록의 사진 역시 필요
     navigate('/posting', {
       state: {
         wholeImg: imgURL,
-        savedFriendData: location.state.savedFriendData.map(
-          (friend) => friend.name,
-        ),
+        savedFriendData: location.state.savedFriendData,
         newFriendData: location.state.newFriendData,
       },
     });

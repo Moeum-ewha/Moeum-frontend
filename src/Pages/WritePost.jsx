@@ -50,7 +50,7 @@ export const WritePost = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  //wholeImg, newFriendData(name, faceImg), savedFriendData(name, faceImg)를 인자값으로 받음
+  //wholeImg, newFriendData(name, faceImg), savedFriendData(name)을 인자값으로 받음
   //newFriendData와 savedFriendData를 화면에 map하면서 돌려서 출력 -> 완료
   //원본사진, 새로운친구의 faceImg를 blob 파일,
   //게시글 작성과 동시에 원본사진, newFriendData{name: name, faceImg: faceImgtoBlob}, savedFreindData{name: name}을 서버로 전송

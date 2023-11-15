@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { styled } from 'styled-components';
 
 import BackgroundContainer from '../Components/BackgroundContainer';
 import {
@@ -39,8 +40,6 @@ function dataURItoBlob(dataURI) {
 const IsAnyoneMore = () => {
   const location = useLocation();
   const FaceContainer = useRef(null);
-  const newFriendData = []; //이름과 얼굴사진이 쌍으로 존재
-  const savedFriendData = [];
   const [loaded, setLoaded] = useState(true);
 
   const imgURL = location.state.wholeImg;
@@ -48,6 +47,33 @@ const IsAnyoneMore = () => {
   const canvasData = location.state.canvasData;
 
   const navigate = useNavigate();
+
+  const upperClick = () => {
+    navigate('/isnewfriend', {
+      state: {
+        img: '',
+        wholeImg: imgURL,
+        selectedFace: selectedFace,
+        canvasData: canvasData,
+        savedFriendData: location.state.savedFriendData,
+        newFriendData: location.state.newFriendData,
+      },
+    });
+  };
+
+  const lowerClick = () => {
+    navigate('/issavedfriend', {
+      state: {
+        img: '',
+        name: '건희',
+        wholeImg: imgURL,
+        selectedFace: selectedFace,
+        canvasData: canvasData,
+        savedFriendData: location.state.savedFriendData,
+        newFriendData: location.state.newFriendData,
+      },
+    });
+  };
 
   const handleCanvasClick = (event) => {
     //const canvas = FaceContainer.current; // 캔버스에 대한 참조 사용
@@ -217,8 +243,10 @@ const IsAnyoneMore = () => {
               objectFit: 'cover',
             }}
             ref={FaceContainer}
-            onClick={handleCanvasClick}
+            //onClick={handleCanvasClick}
           />
+          <DemoBtn style={{ top: 0 }} onClick={upperClick} />
+          <DemoBtn style={{ bottom: 0 }} onClick={lowerClick} />
         </PictureContainer>
         <BtnContainer>
           <Btn onClick={moveFunc}>모두 등록했어요~</Btn>
@@ -229,3 +257,11 @@ const IsAnyoneMore = () => {
 };
 
 export default IsAnyoneMore;
+
+const DemoBtn = styled.button`
+  width: 350px;
+  position: absolute;
+  height: 250px;
+  border: none;
+  background: transparent;
+`;

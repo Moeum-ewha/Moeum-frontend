@@ -22,8 +22,35 @@ const SelectFriend = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  function dataURItoBlob(dataURI) {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    let byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+      byteString = atob(dataURI.split(',')[1]);
+    else byteString = decodeURIComponent(dataURI.split(',')[1]);
+  
+    // separate out the mime component
+    let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+  
+    // write the bytes of the string to a typed array
+    let ia = new Uint8Array(byteString.length);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], { type: mimeString });
+  }
+
   const croppedFaceDataURL = location.state.img;
   const originalImg = location.state.wholeImg;
+  const imgURL = location.state.wholeImg;
+  const savedFriendData = location.state.savedFriendData;
+
+  const orginalImgBlob = dataURItoBlob(imgURL);
+
+  savedFriendData.forEach((friend, index) => {
+    formData.append(`savedFriend_${index + 1}_name`, friend.name);
+  });
 
   //임시로 넣어둔 데이터 - 이후 선택된 인물의 값을 적용할 수 있도록 코드 변경해두어야함
   const moveFunc = () => {
@@ -55,33 +82,22 @@ const SelectFriend = () => {
           <Down></Down>
         </Question>
         <Container>
-          <Friend onClick={moveFunc}>
-            <FriendPic>
-              <img
-                src={dummy1}
-                style={{ width: '50px', height: '50px', borderRadius: '100%' }}
-              />
-            </FriendPic>
-            <Name>영우</Name>
-          </Friend>
-          <Friend onClick={moveFunc}>
-            <FriendPic>
-              <img
-                src={dummy2}
-                style={{ width: '50px', height: '50px', borderRadius: '100%' }}
-              />
-            </FriendPic>
-            <Name>유진</Name>
-          </Friend>
-          <Friend onClick={moveFunc}>
-            <FriendPic>
-              <img
-                src={dummy3}
-                style={{ width: '50px', height: '50px', borderRadius: '100%' }}
-              />
-            </FriendPic>
-            <Name>혜준</Name>
-          </Friend>
+          {savedFriendData.map((friend, index) => (
+            <Friend onClick={moveFunc} key={index}>
+              <FriendPic>
+                <img
+                  src={friend.faceImg}
+                  style={{
+                    width: '50px',
+                    height: '50px',
+                    borderRadius: '100%',
+                  }}
+                />
+              </FriendPic>
+              <Name>{friend.name}</Name>
+            </Friend>
+          ))}
+           
         </Container>
         <BtnContainer></BtnContainer>
       </Content>

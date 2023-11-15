@@ -28,12 +28,15 @@ import {
 
 //assets
 import BackIcon from '../Assets/icons/goback.png';
-import dummy1 from '../Assets/dummy6.jpeg';
 import insta from '../Assets/icons/Insta.png';
 
 export const ViewPost = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
+
+  const imgURL = location.state.wholeImg;
+
+
   const modalBackground = useRef();
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -62,7 +65,7 @@ export const ViewPost = () => {
         <ContentContainer>
           <MiniContainer>
             <ImgContainer>
-              <img src={dummy1} width="100%" />
+              <img src={location.state?.wholeImg} width="100%" />
             </ImgContainer>
             <SecondaryTitle>{location.state?.where}</SecondaryTitle>
             <ShareBtn>

@@ -26,7 +26,8 @@ export const NavBar = (props) => {
     const when = props.when;
     const where = props.where;
     const what = props.what;
-    navigate('/viewpost', { state: { when, where, what } });
+    const wholeImg = props.wholeImg;
+    navigate('/viewpost', { state: { when, where, what, wholeImg } });
     console.log(props.when);
   };
 

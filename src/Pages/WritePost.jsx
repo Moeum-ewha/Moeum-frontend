@@ -91,10 +91,6 @@ export const WritePost = () => {
   formData.append('newFriendNames', newFriendNames);
   formData.append('originalImg', oldFriendNames);
 
-  savedFriendData.forEach((friend, index) => {
-    formData.append(`savedFriend_${index + 1}_name`, friend.name);
-  });
-
   const entries = formData.values();
   let entry = entries.next();
   console.log(entry);

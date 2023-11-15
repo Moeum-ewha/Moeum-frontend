@@ -36,6 +36,14 @@ export const ViewPost = () => {
 
   const imgURL = location.state.wholeImg;
 
+  let nowUrl = window.location.href;
+
+  const copyUrl= () => { 
+  //nowUrl 변수에 담긴 주소를
+  	navigator.clipboard.writeText(nowUrl).then(res=>{
+	  alert("주소가 복사되었습니다!");
+	})
+  }
 
   const modalBackground = useRef();
 
@@ -44,14 +52,6 @@ export const ViewPost = () => {
   const openModal = () => {
     setModalOpen(true);
   };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1700);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   return (
     <BackgroundContainer>
@@ -69,10 +69,10 @@ export const ViewPost = () => {
             </ImgContainer>
             <SecondaryTitle>{location.state?.where}</SecondaryTitle>
             <ShareBtn>
-              <img src={insta} alt="로고" />
+              <img src={insta} alt="로고"  onClick={copyUrl}/>
             </ShareBtn>
             <Text>{location.state?.what}</Text>
-            <Date>{location.state?.when}</Date>
+            <Date>{location.state?.wnphen}</Date>
           </MiniContainer>
           <Delete onClick={openModal}>삭제하기</Delete>
         </ContentContainer>

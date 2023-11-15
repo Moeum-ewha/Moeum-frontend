@@ -32,11 +32,15 @@ const SelectFriend = () => {
         wholeImg: originalImg,
         canvasData: location.state.canvasData,
         selectedFace: location.state.selectedFace,
-        savedFriendData: {
-          name: '건희',
-          //친구목록 파일의 사진으로 추후 수정
-          faceImg: croppedFaceDataURL,
-        },
+        savedFriendData: [
+          ...location.state.savedFriendData,
+          {
+            name: '건희',
+            //친구목록 파일의 사진으로 추후 수정
+            faceImg: croppedFaceDataURL,
+          },
+        ],
+        newFriendData: location.state.newFriendData,
       },
     });
   };

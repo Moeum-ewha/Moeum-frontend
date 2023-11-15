@@ -17,44 +17,87 @@ import {
 } from '../Components/NumofPeople';
 import { Btn } from '../Components/ClassifiContainer';
 
+function dataURItoBlob(dataURI) {
+  // convert base64/URLEncoded data component to raw binary data held in a string
+  let byteString;
+  if (dataURI.split(',')[0].indexOf('base64') >= 0)
+    byteString = atob(dataURI.split(',')[1]);
+  else byteString = decodeURIComponent(dataURI.split(',')[1]);
+
+  // separate out the mime component
+  let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+  // write the bytes of the string to a typed array
+  let ia = new Uint8Array(byteString.length);
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+
+  return new Blob([ia], { type: mimeString });
+}
+
 const IsAnyoneMore = () => {
   const location = useLocation();
   const FaceContainer = useRef(null);
   const newFriendData = []; //이름과 얼굴사진이 쌍으로 존재
   const savedFriendData = [];
-
-  //받아오는 인자값
-  //새로운 친구 등록 화면의 경우  newFriendData: {name: text, faceImg: croppedFaceDataURL}
-  //기존 친구 등록 화면의 경우 name: name
+  const [loaded, setLoaded] = useState(true);
 
   const imgURL = location.state.wholeImg;
   const selectedFace = location.state.selectedFace;
   const canvasData = location.state.canvasData;
 
-  if (location.state.newFriendData) {
-    newFriendData.push({
-      name: location.state.newFriendData.name,
-      faceImg: location.state.newFriendData.faceImg,
-    });
-  } else if (location.state.savedFriendData) {
-    //배열로 할지 obj로 할지 고민
-    savedFriendData.push({
-      name: location.state.savedFriendData.name,
-      //친구목록 파일의 사진으로 추후 수정
-      faceImg: location.state.savedFriendData.faceImg,
-    });
-  } else {
-    console.log('props error');
-  }
-
   const navigate = useNavigate();
 
+  const handleCanvasClick = (event) => {
+    //const canvas = FaceContainer.current; // 캔버스에 대한 참조 사용
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    // 클릭한 좌표와 얼굴 크기를 이용하여 이미지 추출
+    const faceSize = 100; // 예시로 지정한 얼굴 크기
+    const extractedFace = extractFaceFromCanvas(canvas, x, y, faceSize);
+
+    // 추출한 얼굴 이미지와 관련 데이터를 다음 페이지로 전달
+    console.log('extractedFace: ' + extractedFace);
+
+    navigate('/isnewfriend', {
+      state: {
+        img: extractedFace,
+        wholeImg: imgURL,
+        selectedFace: selectedFace,
+        canvasData: URL.createObjectURL(canvasData),
+        savedFriendData: location.state.savedFriendData,
+        newFriendData: location.state.newFriendData,
+      },
+    });
+
+    navigate('/issavedfriend', {
+      state: {
+        img: extractedFace,
+        //name: label, 이름 값을 받아오는 코드 추가적으로 필요
+        wholeImg: imgURL,
+        selectedFace: selectedFace,
+        canvasData: URL.createObjectURL(canvasData),
+        savedFriendData: location.state.savedFriendData,
+        newFriendData: location.state.newFriendData,
+      },
+    });
+  };
+
   const moveFunc = () => {
+    //게시글 작성화면에는 인생네컷 사진, 새로운친구목록과 각각의 사진, 저장된친구목록의 이름만을 필요로 함
+    //savedFriendData에서 이름 field만을 추출하여 배열로 생성(이미 등록된 친구의 경우 썸네일이미지를 더이상 필요로 하지 않기에)
     navigate('/posting', {
       state: {
         wholeImg: imgURL,
-        newFriendData: newFriendData,
-        savedFriendData: savedFriendData,
+        savedFriendData: location.state.savedFriendData.map(
+          (friend) => friend.name,
+        ),
+        newFriendData: location.state.newFriendData,
       },
     });
   };
@@ -88,7 +131,7 @@ const IsAnyoneMore = () => {
 
         // 이전 페이지에서 전달받은 얼굴 정보 활용
         const box = selectedFace.detection.box;
-        const drawBox = new faceapi.draw.DrawBox(selectedFace.detection.box, {
+        const drawBox = new faceapi.draw.DrawBox(box, {
           label: selectedFace.label,
         });
         ctx.strokeStyle = 'white';
@@ -109,6 +152,45 @@ const IsAnyoneMore = () => {
     };
   }, [location.state]);
 
+  const extractFaceFromCanvas = async (canvas, x, y, faceSize) => {
+    const faceCanvas = document.createElement('canvas');
+    const faceCtx = faceCanvas.getContext('2d');
+
+    // 클릭한 부분의 얼굴 크기만큼 이미지 추출
+    faceCanvas.width = faceSize;
+    faceCanvas.height = faceSize;
+
+    const loadImage = (src) => {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.src = src;
+      });
+    };
+
+    // 이미지를 로드하여 기다림
+    const img = await loadImage(URL.createObjectURL(dataURItoBlob(imgURL)));
+
+    console.log('원래사진 : ' + img);
+
+    faceCtx.drawImage(
+      img,
+      x - faceSize / 2, // 클릭한 부분을 중심으로 얼굴 크기만큼 잘라냄
+      y - faceSize / 2,
+      faceSize,
+      faceSize,
+      0,
+      0,
+      faceSize,
+      faceSize,
+    );
+
+    console.log('faceCanvas: ' + faceCanvas.toDataURL('image/jpeg'));
+
+    // 추출한 얼굴 이미지를 데이터 URL로 변환하여 반환
+    return faceCanvas.toDataURL('image/jpeg');
+  };
+
   return (
     <BackgroundContainer>
       <Content>
@@ -118,21 +200,27 @@ const IsAnyoneMore = () => {
           </Upper>
           <Down>추가하고 싶은 친구를 눌러주세요</Down>
         </Question>
-        <PictureContainer>
-          <Pic>
-            <img
-              src={imgURL}
-              style={{ position: 'relative', width: 350 }}
-              alt="선택한 이미지"
-            />
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-              }}
-              ref={FaceContainer}
-            />
-          </Pic>
+        <PictureContainer style={{ height: 525 }}>
+          <img
+            src={imgURL}
+            style={{ position: 'absolute', width: 350, objectFit: 'cover' }}
+            alt="선택한 이미지"
+          />
+          <img
+            src={canvasData}
+            style={{ position: 'absolute', width: 350, objectFit: 'cover' }}
+            alt="Canvas Image"
+          />
+          <div
+            style={{
+              position: 'absolute',
+              width: 350,
+              height: '100%',
+              objectFit: 'cover',
+            }}
+            ref={FaceContainer}
+            onClick={handleCanvasClick}
+          />
         </PictureContainer>
         <BtnContainer>
           <Btn onClick={moveFunc}>모두 등록했어요~</Btn>

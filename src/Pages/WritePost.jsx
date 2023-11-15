@@ -63,6 +63,12 @@ export const WritePost = () => {
 
   const orginalImgBlob = dataURItoBlob(imgURL);
 
+  //const formdata = {
+  //  original: [file1],
+  //  faces: [file2, file3],
+  //  newFriendNames: ["yunsun", "youngwoo"],
+  //  oldFriendNames: ["건희"]
+  //}
   const formData = new FormData();
   formData.append('originalImg', orginalImgBlob);
 
@@ -79,6 +85,8 @@ export const WritePost = () => {
   const entries = formData.values();
   let entry = entries.next();
   console.log(entry);
+
+  //formData에 넣어서 navbar에 props로 넣어주기
 
   const [date, setDate] = useState('');
   const [text, setText] = useState('');

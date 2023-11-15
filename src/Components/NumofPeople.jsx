@@ -39,7 +39,6 @@ export const Num = styled.div`
 `;
 
 export const PictureContainer = styled.div`
-  position: relative;
   width: 393px;
   z-index: 0;
   display: flex;
@@ -47,6 +46,7 @@ export const PictureContainer = styled.div`
   justify-content: center;
   align-items: center;
   align-content: center;
+  position: relative;
 `;
 
 export const Pic = styled.div`
@@ -55,6 +55,7 @@ export const Pic = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  position: relative;
 `;
 
 export const FaceBox = styled.div`
@@ -123,7 +124,7 @@ export const Friend = styled.div`
   align-items: center;
   margin-right: 15px;
   margin-left: 15px;
-  margin-top:150px;
+  margin-top: 150px;
 `;
 
 export const FriendPic = styled.div``;

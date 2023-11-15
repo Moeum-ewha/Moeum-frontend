@@ -36,6 +36,8 @@ const FaceRecogniton = () => {
 
   const navigate = useNavigate();
 
+  let canvasDataURL;
+
   const handleFaceClick = async (selectedFace) => {
     setSelectedFace(selectedFace);
     const { x, y, width, height } = selectedFace.detection.box;
@@ -87,16 +89,22 @@ const FaceRecogniton = () => {
     const imgURL = URL.createObjectURL(selectedImageObjRef.current);
     console.log('img : ' + selectedImageObjRef.current);
 
+    //isanyonemore에서 배열이 존재하는 state를 보낼 수 있으니, 미리 savedFriendData, newFriendData을 생성하여 빈 배열로 전송
+    //등록된 인물이어도 값이 잘못될 수 있으니 배열에 추가하지 않고 배열 밖에 넣어서 전송
+    //확실히 인물의 값이 정해질 때에만 배열에 접근
     if (!selectedFace.label.includes('unknown')) {
       const parts = selectedFace.label.split(' '); // 공백을 기준으로 문자열을 나눔
       const label = parts[0]; // 나눠진 첫 번째 부분이 레이블
+
       navigate('/issavedfriend', {
         state: {
           img: croppedFaceDataURL,
           name: label,
           wholeImg: imgURL,
           selectedFace: selectedFace,
-          canvasData: checkCanvasRef.current.toDataURL('image/jpeg'),
+          canvasData: canvasDataURL,
+          savedFriendData: [],
+          newFriendData: [],
         },
       });
     } else {
@@ -105,7 +113,10 @@ const FaceRecogniton = () => {
           img: croppedFaceDataURL,
           wholeImg: imgURL,
           selectedFace: selectedFace,
-          canvasData: checkCanvasRef.current.toDataURL('image/jpeg'),
+          //checkCanvasRef.current.toDataURL('image/jpeg')
+          canvasData: canvasDataURL,
+          savedFriendData: [],
+          newFriendData: [],
         },
       });
     }
@@ -201,10 +212,19 @@ const FaceRecogniton = () => {
         const drawBox = new faceapi.draw.DrawBox(box, {
           label: result.toString(),
         });
-        ctx.strokeStyle = 'white';
+        ctx.strokeStyle = 'red';
         ctx.setLineDash([5, 5]);
         drawBox.draw(canvas);
       });
+
+      canvasDataURL = await new Promise((resolve) => {
+        canvas.toBlob((blob) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.readAsDataURL(blob);
+        }, 'image/png');
+      });
+
       canvas.addEventListener('click', handleCanvasClick);
       checkCanvasRef.current = canvas;
     };

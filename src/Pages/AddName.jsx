@@ -40,10 +40,14 @@ const AddName = () => {
           wholeImg: imgURL,
           canvasData: location.state.canvasData,
           selectedFace: location.state.selectedFace,
-          newFriendData: {
-            name: text,
-            faceImg: croppedFaceDataURL,
-          },
+          savedFriendData: location.state.savedFriendData,
+          newFriendData: [
+            ...location.state.newFriendData,
+            {
+              name: text,
+              faceImg: croppedFaceDataURL,
+            },
+          ],
         },
       });
     }

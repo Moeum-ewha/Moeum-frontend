@@ -28,6 +28,8 @@ const IsSavedFriend = () => {
         wholeImg: originalImg,
         canvasData: location.state.canvasData,
         selectedFace: location.state.selectedFace,
+        savedFriendData: location.state.savedFriendData,
+        newFriendData: location.state.newFriendData,
       },
     });
   };
@@ -39,21 +41,27 @@ const IsSavedFriend = () => {
         wholeImg: originalImg,
         canvasData: location.state.canvasData,
         selectedFace: location.state.selectedFace,
+        savedFriendData: location.state.savedFriendData,
+        newFriendData: location.state.newFriendData,
       },
     });
   };
 
   const moveAdd = () => {
+    //기존의 배열 뒤에 새로운 인물의 값 추가
     navigate('/isanyonemore', {
       state: {
         wholeImg: originalImg,
         canvasData: location.state.canvasData,
         selectedFace: location.state.selectedFace,
-        savedFriendData: {
-          name: name,
-          //친구목록 파일의 사진으로 추후 수정
-          faceImg: croppedFaceDataURL,
-        },
+        savedFriendData: [
+          ...location.state.savedFriendData,
+          {
+            name: name,
+            faceImg: croppedFaceDataURL, //친구목록 파일의 사진으로 추후 수정
+          },
+        ],
+        newFriendData: location.state.newFriendData,
       },
     });
   };

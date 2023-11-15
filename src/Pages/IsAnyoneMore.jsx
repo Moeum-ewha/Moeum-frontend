@@ -51,7 +51,7 @@ const IsAnyoneMore = () => {
   const upperClick = () => {
     navigate('/isnewfriend', {
       state: {
-        img: '',
+        img: '../../public/dummy/faceImg/2.jpg',
         wholeImg: imgURL,
         selectedFace: selectedFace,
         canvasData: canvasData,
@@ -64,7 +64,7 @@ const IsAnyoneMore = () => {
   const lowerClick = () => {
     navigate('/issavedfriend', {
       state: {
-        img: '',
+        img: '../../public/dummy/faceImg/1.JPG',
         name: '건희',
         wholeImg: imgURL,
         selectedFace: selectedFace,

@@ -63,6 +63,12 @@ export const WritePost = () => {
 
   const orginalImgBlob = dataURItoBlob(imgURL);
 
+  //const formdata = {
+  //  original: [file1],
+  //  faces: [file2, file3],
+  //  newFriendNames: ["yunsun", "youngwoo"],
+  //  oldFriendNames: ["건희"]
+  //}
   const formData = new FormData();
   formData.append('originalImg', orginalImgBlob);
 
@@ -80,7 +86,7 @@ export const WritePost = () => {
   let entry = entries.next();
   console.log(entry);
 
-//날짜
+  //날짜
   const [startDate, setStartDate] = useState(new Date());
 
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
@@ -89,7 +95,7 @@ export const WritePost = () => {
     </button>
   ));
 
-//위치
+  //위치
   const [keyword, setKeyword] = useState('');
   const [coordinates, setCoordinates] = useState(null);
 
@@ -127,7 +133,7 @@ export const WritePost = () => {
         setCoordinates({
           x: firstPlace.x,
           y: firstPlace.y,
-        })
+        });
       } else {
         // 검색 결과가 없을 경우 좌표값을 null로 설정
         setCoordinates(null);
@@ -240,7 +246,12 @@ export const WritePost = () => {
         />
       </MiniContainer>
       <PaddingContainer />
-      <NavBar when={startDate.toLocaleDateString()} where={keyword} what={text} wholeImg={imgURL} />
+      <NavBar
+        when={startDate.toLocaleDateString()}
+        where={keyword}
+        what={text}
+        wholeImg={imgURL}
+      />
     </BackgroundContainer>
   );
 };

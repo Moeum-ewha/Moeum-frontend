@@ -27,6 +27,8 @@ const IsNewFriend = () => {
         wholeImg: imgURL,
         selectedFace: location.state.selectedFace,
         canvasData: location.state.canvasData,
+        savedFriendData: location.state.savedFriendData,
+        newFriendData: location.state.newFriendData,
       },
     });
   };
@@ -38,6 +40,8 @@ const IsNewFriend = () => {
         wholeImg: imgURL,
         selectedFace: location.state.selectedFace,
         canvasData: location.state.canvasData,
+        savedFriendData: location.state.savedFriendData,
+        newFriendData: location.state.newFriendData,
       },
     });
   };

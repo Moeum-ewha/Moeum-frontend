@@ -14,13 +14,14 @@ import {
   Name,
   Container,
 } from '../Components/NumofPeople';
-import dummy1 from '../Assets/yeongwoo.jpeg';
-import dummy2 from '../Assets/yujin2.jpeg';
-import dummy3 from '../Assets/hyejoon2.jpeg';
+
+import demo from '../../public/dummy/dummy.json';
 
 const SelectFriend = () => {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const friendsList = demo.userList.map((user) => user.friendsList).flat();
 
   function dataURItoBlob(dataURI) {
     // convert base64/URLEncoded data component to raw binary data held in a string
@@ -75,18 +76,17 @@ const SelectFriend = () => {
   return (
     <BackgroundContainer>
       <Content>
-        <Question>
-          <Upper>
-            <Num>사진 속 친구 </Num>를 선택해주세요.
-          </Upper>
-          <Down></Down>
-        </Question>
+        <Upper>
+          <Num>사진 속 친구</Num>를 선택해주세요.
+        </Upper>
         <Container>
-          {savedFriendData.map((friend, index) => (
-            <Friend onClick={moveFunc} key={index}>
+          {friendsList.map((friend, index) => (
+            <Friend //onClick={moveFunc}
+              key={index}
+            >
               <FriendPic>
                 <img
-                  src={friend.faceImg}
+                  src={`../../dummy/${friend.faceImg}`}
                   style={{
                     width: '50px',
                     height: '50px',

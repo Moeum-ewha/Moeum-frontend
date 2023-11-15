@@ -17,9 +17,6 @@ import {
 } from '../Components/BinderComponent';
 import { NavBar } from '../Components/NavBar';
 
-import dummy1 from '../Assets/dummy5.jpeg';
-import dummy2 from '../Assets/dummy6.jpeg';
-
 import demo from '../../public/dummy/dummy.json';
 
 const Binder = () => {

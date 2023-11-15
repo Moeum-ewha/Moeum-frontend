@@ -27,6 +27,7 @@ export const Upper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-bottom: 30px;
 `;
 
 export const Down = styled.div`
@@ -124,7 +125,7 @@ export const Friend = styled.div`
   align-items: center;
   margin-right: 15px;
   margin-left: 15px;
-  margin-top: 150px;
+  margin-top: 30px;
 `;
 
 export const FriendPic = styled.div``;

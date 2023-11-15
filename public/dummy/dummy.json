@@ -1,0 +1,52 @@
+{
+  "userList": [
+    {
+      "id": 1,
+      "username": "건희",
+      "email": "sleep@test.com",
+      "friendsList": [
+        { "id": 1, "name": "수빈", "faceImg": "blob" },
+        { "id": 2, "name": "민서", "faceImg": "blob" },
+        { "id": 3, "name": "윤아", "faceImg": "blob" },
+        { "id": 4, "name": "승연", "faceImg": "blob" }
+      ],
+      "postList": [
+        {
+          "id": 1,
+          "date": "2023-04-21",
+          "latitude": "숫자값 너가 넣어",
+          "longitude": "숫자값",
+          "original": "1.jpg",
+          "friendId": "1,2,3",
+          "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
+          "commentList": [
+            { "id": 1, "name": "잠자는 너구리", "content": "귀엽넹ㅋ" },
+            { "id": 2, "name": "배고픈 토끼", "content": "왜 나 빼고 놈?" }
+          ]
+        },
+        {
+          "id": 2,
+          "date": "2023-10-08",
+          "latitude": "숫자값 너가 넣어",
+          "longitude": "숫자값",
+          "original": "2.jpg",
+          "friendId": "1",
+          "content": "와 시험공부 진짜 하기시름",
+          "commentList": [
+            {
+              "id": 1,
+              "name": "놀고있는 거북이",
+              "content": "헐 짱이쁘게 나왔다"
+            },
+            { "id": 2, "name": "기타치는 고슴도치", "content": "ㄱㅇㅇ" },
+            {
+              "id": 3,
+              "name": "코딩하는 강아지",
+              "content": "옷 예뿌다 ㅈㅂㅈㅇ"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

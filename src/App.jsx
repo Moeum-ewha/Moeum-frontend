@@ -24,7 +24,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Entrance />} />
         <Route path="/posting" element={<WritePost />} />
-        <Route path="/viewpost" element={<ViewPost />} />
+        <Route path="/viewpost/:id" element={<ViewPost />} />
         <Route path="/home" element={<HomeScreen />} />
         <Route path="/addname" element={<AddName />} /> /* 친구의 이름이
         무엇인가요 */

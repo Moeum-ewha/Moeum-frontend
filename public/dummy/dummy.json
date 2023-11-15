@@ -18,7 +18,7 @@
           "latitude": "126.94765009467245",
           "longitude": "37.562544705628845",
           "original": "/original/1.JPG",
-          "friendId": "1,2",
+          "friendId": [1, 2],
           "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
           "commentList": [
             { "id": 1, "name": "잠자는 너구리", "content": "귀엽넹ㅋ" },
@@ -32,7 +32,7 @@
           "latitude": "126.93661730245256",
           "longitude": "37.55673777941326",
           "original": "/original/2.JPG",
-          "friendId": "1,2",
+          "friendId": [1, 2],
           "content": "와 시험공부 진짜 하기시름",
           "commentList": [
             {
@@ -55,7 +55,7 @@
           "latitude": "126.94642954546576",
           "longitude": "37.556814718869",
           "original": "/original/3.JPG",
-          "friendId": "2",
+          "friendId": [2],
           "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
           "commentList": [
             { "id": 1, "name": "잠자는 너구리", "content": "귀엽넹ㅋ" },
@@ -69,7 +69,7 @@
           "latitude": "126.94330347722",
           "longitude": "37.5630049094868",
           "original": "/original/4.JPG",
-          "friendId": "3,4",
+          "friendId": [3, 4],
           "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
           "commentList": [
             { "id": 1, "name": "잠자는 너구리", "content": "귀엽넹ㅋ" },

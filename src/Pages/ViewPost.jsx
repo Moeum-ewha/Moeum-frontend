@@ -34,16 +34,18 @@ export const ViewPost = () => {
   const location = useLocation();
   const [loading, setLoading] = useState(true);
 
-  const imgURL = location.state.wholeImg;
+  const postData = location.state.postData;
+
+  //const imgURL = location.state.wholeImg;
 
   let nowUrl = window.location.href;
 
-  const copyUrl= () => { 
-  //nowUrl 변수에 담긴 주소를
-  	navigator.clipboard.writeText(nowUrl).then(res=>{
-	  alert("주소가 복사되었습니다!");
-	})
-  }
+  const copyUrl = () => {
+    //nowUrl 변수에 담긴 주소를
+    navigator.clipboard.writeText(nowUrl).then((res) => {
+      alert('주소가 복사되었습니다!');
+    });
+  };
 
   const modalBackground = useRef();
 
@@ -65,14 +67,14 @@ export const ViewPost = () => {
         <ContentContainer>
           <MiniContainer>
             <ImgContainer>
-              <img src={location.state?.wholeImg} width="100%" />
+              <img src={`../../dummy/${postData.original}`} width="100%" />
             </ImgContainer>
-            <SecondaryTitle>{location.state?.where}</SecondaryTitle>
+            <SecondaryTitle>{postData.location}</SecondaryTitle>
             <ShareBtn>
-              <img src={insta} alt="로고"  onClick={copyUrl}/>
+              <img src={insta} alt="로고" onClick={copyUrl} />
             </ShareBtn>
-            <Text>{location.state?.what}</Text>
-            <Date>{location.state?.wnphen}</Date>
+            <Text>{postData.content}</Text>
+            <Date>{postData.date}</Date>
           </MiniContainer>
           <Delete onClick={openModal}>삭제하기</Delete>
         </ContentContainer>

@@ -80,23 +80,16 @@ export const WritePost = () => {
   let entry = entries.next();
   console.log(entry);
 
-  const [date, setDate] = useState('');
-  const [text, setText] = useState('');
-
-  const dateOnChange = (e) => {
-    setDate(e.target.value);
-  };
-  const textOnChange = (e) => {
-    setText(e.target.value);
-  };
-
+//날짜
   const [startDate, setStartDate] = useState(new Date());
+
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <button className="example-custom-input" onClick={onClick} ref={ref}>
       {value}
     </button>
   ));
 
+//위치
   const [keyword, setKeyword] = useState('');
   const [coordinates, setCoordinates] = useState(null);
 
@@ -128,14 +121,13 @@ export const WritePost = () => {
           },
         },
       );
-
       // 검색 결과에서 첫 번째 장소의 좌표를 가져옴
       if (response.data.documents.length > 0) {
         const firstPlace = response.data.documents[0];
         setCoordinates({
           x: firstPlace.x,
           y: firstPlace.y,
-        });
+        })
       } else {
         // 검색 결과가 없을 경우 좌표값을 null로 설정
         setCoordinates(null);
@@ -144,6 +136,8 @@ export const WritePost = () => {
       console.error('장소 검색 중 오류 발생:', error);
     }
   };
+
+  const [text, setText] = useState('');
 
   return (
     <BackgroundContainer>
@@ -170,10 +164,13 @@ export const WritePost = () => {
         />
         <SmallerTitle>When</SmallerTitle>
         <DatePicker
+          shouldCloseOnSelect
           locale={ko}
           dateFormat="yyyy. MM. dd"
           selected={startDate}
-          onChange={(date) => setStartDate(date)}
+          onChange={(date) => {
+            setStartDate(date);
+          }}
           customInput={<ExampleCustomInput />}
         />
         <SmallerTitle>Where</SmallerTitle>
@@ -236,13 +233,14 @@ export const WritePost = () => {
         </FContainer>
         <SmallerTitle>What</SmallerTitle>
         <TextArea
-          onChange={textOnChange}
+          value={text}
+          onChange={(e) => setText(e.target.value)}
           type="text"
           placeholder="내용을 입력해주세요"
         />
       </MiniContainer>
       <PaddingContainer />
-      <NavBar when={date} where={location} what={text} />
+      <NavBar when={startDate.toLocaleDateString()} where={keyword} what={text} wholeImg={imgURL} />
     </BackgroundContainer>
   );
 };

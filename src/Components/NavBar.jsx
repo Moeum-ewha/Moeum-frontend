@@ -21,14 +21,41 @@ export const NavBar = (props) => {
   const [modalOpen, setModalOpen] = useState(false);
 
   const isPostingPage = currentPath === '/posting';
+
+  /*"id": 1,
+          "date": "2023-04-21",
+          "location": "이화여자대학교",
+          "latitude": 126.94765009467245,
+          "longitude": 37.562544705628845,
+          "original": "/original/1.JPG",
+          "friendId": [1, 2],
+          "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
+          "commentList": [
+            { "id": 1, "name": [6], "content": "귀엽넹ㅋ" },
+            { "id": 2, "name": [14], "content": "왜 나 빼고 놈?" }
+          ]*/
   const writePost = () => {
-    console.log(props);
-    const when = props.when;
-    const where = props.where;
-    const what = props.what;
-    const wholeImg = props.wholeImg;
-    navigate('/viewpost', { state: { when, where, what, wholeImg } });
-    console.log(props.when);
+    const date = props.date;
+    const location = props.location;
+    const latitude = props.latitude;
+    const longitude = props.longitude;
+    const original = props.original;
+    const content = props.content;
+    const savedFriendData = props.savedFriendData;
+    const newFriendData = props.newFriendData;
+
+    navigate('/viewpost/5', {
+      state: {
+        date: date,
+        location: location,
+        latitude: latitude,
+        longitude: longitude,
+        original: original,
+        content: content,
+        savedFriendData: savedFriendData,
+        newFriendData: newFriendData,
+      },
+    });
   };
 
   const moveHome = () => {

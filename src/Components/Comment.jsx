@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const CommentSection = styled.div`
 margin-top: 25px;
 border-top: 0.7px solid #808080;
-width: 350px;
+width: 100vw;
 background: #fffcf4;
 
 display: flex;

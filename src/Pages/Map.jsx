@@ -5,12 +5,8 @@ import { TopBar, Title, Content, MapDiv, MoeumDiv, Moeum, Photo, Info, Date, Pla
 import { NavBar } from "../Components/NavBar";
 import demo from '../../public/dummy/dummy.json';
 
-import dummy1 from '../Assets/dummy10.png';
-import dummy2 from '../Assets/dummy11.png';
-
 const Map = () => {
     const postList = demo.userList.map((user) => user.postList).flat();
-
 
     useEffect(() => {
         const kakaoMapScript = document.createElement('script')
@@ -68,29 +64,6 @@ const Map = () => {
             overflowY: 'auto', // Y축 스크롤이 필요한 경우만 스크롤을 표시합니다.
             maxHeight: '50vh', // MoeumDiv의 최대 높이를 조절합니다.
           }}>
-                <Moeum>
-                    <Photo>
-                        <img src={dummy2} style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        borderRadius: '10px'}}/>
-                    </Photo>
-                    <Info>
-                        <Date>
-                            2023. 09. 22
-                        </Date>
-                        <Place>
-                            신촌역
-                        </Place>
-                        <Friends>
-                            건희, 진영
-                        </Friends>
-                        <Dday>
-                            만난 지 40일 +
-                        </Dday>
-                    </Info>
-                </Moeum>
                 {postList.map((post, index) => (
                     <Moeum key={post.id}>
                         <Photo>

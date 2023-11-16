@@ -78,8 +78,8 @@ const SignUp = () => {
   const modalBackground = useRef();
   const navigate = useNavigate();
 
-  const moveLogin = () => {
-    navigate('/login');
+  const moveHome = () => {
+    navigate('/home');
   };
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -305,7 +305,7 @@ const SignUp = () => {
             <ModalContent>
               <Alert>회원가입이</Alert>
               <Alert>완료되었습니다!</Alert>
-              <ModalButton onClick={moveLogin}>로그인</ModalButton>
+              <ModalButton onClick={moveHome}>로그인</ModalButton>
             </ModalContent>
           </ModalBox>
         </ModalBack>

@@ -74,15 +74,15 @@ export const WritePost = () => {
   const newFriendData = location.state.newFriendData;
 
   //원본사진을 blob파일로 바꾸기
-  const orginalImgBlob = dataURItoBlob(imgURL);
+  //const orginalImgBlob = dataURItoBlob(imgURL);
 
   //새로운 친구들의 얼굴 사진만을 담은 faces 배열
-  newFriendData.forEach((friend) => {
-    const blob = dataURItoBlob(friend.faceImg);
-    faces.push(blob);
-  });
+  //newFriendData.forEach((friend) => {
+  //  const blob = dataURItoBlob(friend.faceImg);
+  //  faces.push(blob);
+  //});
 
-  const oldFriendNames = ArraytoString(savedFriendData);
+  /* const oldFriendNames = ArraytoString(savedFriendData);
   const newFriendNames = ArraytoString(newFriendData);
 
   const formData = new FormData();
@@ -93,7 +93,7 @@ export const WritePost = () => {
 
   const entries = formData.values();
   let entry = entries.next();
-  console.log(entry);
+  console.log(entry);*/
 
   //날짜
   const [startDate, setStartDate] = useState(new Date());
@@ -106,7 +106,7 @@ export const WritePost = () => {
 
   //위치
   const [keyword, setKeyword] = useState('');
-  const [coordinates, setCoordinates] = useState(null);
+  const [coordinates, setCoordinates] = useState(0, 0);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -205,15 +205,6 @@ export const WritePost = () => {
         )}
         <SmallerTitle>Whom</SmallerTitle>
         <FContainer>
-          <Friend>
-            <FriendPic>
-              <img
-                src={dummy2}
-                style={{ width: '50px', height: '50px', borderRadius: '100%' }}
-              />
-            </FriendPic>
-            <Name>유진</Name>
-          </Friend>
           {savedFriendData.map((friend, index) => (
             <Friend key={index}>
               <FriendPic>
@@ -255,10 +246,14 @@ export const WritePost = () => {
       </MiniContainer>
       <PaddingContainer />
       <NavBar
-        when={startDate.toLocaleDateString()}
+        date={startDate.toLocaleDateString()}
         where={keyword}
-        what={text}
-        wholeImg={imgURL}
+        latitude={coordinates.x}
+        longitude={coordinates.y}
+        content={text}
+        original={imgURL}
+        savedFriendData={savedFriendData}
+        newFriendData={newFriendData}
       />
     </BackgroundContainer>
   );

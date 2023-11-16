@@ -11,6 +11,7 @@ import dummy2 from '../Assets/dummy11.png';
 const Map = () => {
     const postList = demo.userList.map((user) => user.postList).flat();
 
+
     useEffect(() => {
         const kakaoMapScript = document.createElement('script')
         kakaoMapScript.async = false
@@ -47,23 +48,6 @@ const Map = () => {
                     image: markerImage
                 });
             });
-                
-            /*for (var i = 0; i < positions.length; i ++) {
-                
-                // 마커 이미지의 이미지 크기 입니다
-                var imageSize = new kakao.maps.Size(24, 35); 
-                
-                // 마커 이미지를 생성합니다    
-                var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-
-                var marker = new kakao.maps.Marker({
-                        map: map,
-                        position: positions[i].latlng,
-                        title: positions[i].title,
-                        image: markerImage
-                });                
-            }*/
-        // 
           })
         }
       
@@ -127,7 +111,11 @@ const Map = () => {
                                 {post.location}
                             </Place>
                             <Friends>
-                                
+                            {post.friendId.map(friendId => {
+                                const friend = demo.userList.flatMap(user => user.friendsList)
+                                    .find(friend => friend.id === friendId);
+                                return friend ? friend.name : '';
+                            }).join(', ')}
                             </Friends>
                             <Dday>
                             </Dday>

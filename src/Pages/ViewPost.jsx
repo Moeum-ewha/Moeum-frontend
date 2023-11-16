@@ -249,7 +249,18 @@ export const ViewPost = () => {
           </ModalBox>
         </ModalBack>
       )}
-      <NavBar />
+      {postId === '5' ? (
+        <NavBar
+          date={date}
+          where={picLocation}
+          content={content}
+          original={original}
+          savedFriendData={savedFriendData}
+          newFriendData={newFriendData}
+        />
+      ) : (
+        <NavBar />
+      )}
     </BackgroundContainer>
   );
 };

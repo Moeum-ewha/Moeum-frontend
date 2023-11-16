@@ -42,16 +42,15 @@ const SelectFriend = () => {
     return new Blob([ia], { type: mimeString });
   }
 
-  const croppedFaceDataURL = location.state.img;
+  const croppedFaceDataURL = location.state.faceImg;
   const originalImg = location.state.wholeImg;
   const imgURL = location.state.wholeImg;
   const savedFriendData = location.state.savedFriendData;
-
   const orginalImgBlob = dataURItoBlob(imgURL);
 
-  savedFriendData.forEach((friend, index) => {
+  /*savedFriendData.forEach((friend, index) => {
     formData.append(`savedFriend_${index + 1}_name`, friend.name);
-  });
+  });*/
 
   //임시로 넣어둔 데이터 - 이후 선택된 인물의 값을 적용할 수 있도록 코드 변경해두어야함
   const moveFunc = () => {
@@ -81,9 +80,7 @@ const SelectFriend = () => {
         </Upper>
         <Container>
           {friendsList.map((friend, index) => (
-            <Friend //onClick={moveFunc}
-              key={index}
-            >
+            <Friend onClick={moveFunc} key={index}>
               <FriendPic>
                 <img
                   src={`../../dummy/${friend.faceImg}`}

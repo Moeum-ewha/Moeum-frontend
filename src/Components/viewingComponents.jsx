@@ -11,6 +11,7 @@ height: 852px;
 display: flex;
 flex-direction: column;
 align-items: center; 
+background: #fffcf4;
 `;
 
 export const MiniContainer = styled. div`

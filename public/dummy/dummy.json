@@ -21,8 +21,8 @@
           "friendId": [1, 2],
           "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
           "commentList": [
-            { "id": 1, "name": "잠자는 너구리", "content": "귀엽넹ㅋ" },
-            { "id": 2, "name": "배고픈 토끼", "content": "왜 나 빼고 놈?" }
+            { "id": 1, "name": [6], "content": "귀엽넹ㅋ" },
+            { "id": 2, "name": [14], "content": "왜 나 빼고 놈?" }
           ]
         },
         {
@@ -40,7 +40,7 @@
               "name": "놀고있는 거북이",
               "content": "헐 짱이쁘게 나왔다"
             },
-            { "id": 2, "name": "기타치는 고슴도치", "content": "ㄱㅇㅇ" },
+            { "id": 2, "name": [18], "content": "ㄱㅇㅇ" },
             {
               "id": 3,
               "name": "코딩하는 강아지",
@@ -58,8 +58,8 @@
           "friendId": [2],
           "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
           "commentList": [
-            { "id": 1, "name": "잠자는 너구리", "content": "귀엽넹ㅋ" },
-            { "id": 2, "name": "배고픈 토끼", "content": "왜 나 빼고 놈?" }
+            { "id": 1, "name": [3], "content": "귀엽넹ㅋ" },
+            { "id": 2, "name": [13], "content": "왜 나 빼고 놈?" }
           ]
         },
         {
@@ -72,8 +72,8 @@
           "friendId": [3, 4],
           "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
           "commentList": [
-            { "id": 1, "name": "잠자는 너구리", "content": "귀엽넹ㅋ" },
-            { "id": 2, "name": "배고픈 토끼", "content": "왜 나 빼고 놈?" }
+            { "id": 1, "name": [22], "content": "귀엽넹ㅋ" },
+            { "id": 2, "name": [2], "content": "왜 나 빼고 놈?" }
           ]
         }
       ]

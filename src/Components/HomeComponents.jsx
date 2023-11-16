@@ -21,6 +21,17 @@ export const Title = styled.div`
   margin-top: 50px;
 `;
 
+export const FriendTitle = styled.div`
+font-family: 'Arial';
+font-style: normal;
+font-weight: 120;
+font-size: 20px;
+margin-top: 50px;
+display: flex;
+flex-direction: column;
+align-items:center;
+`
+
 export const Alert = styled.div`
   display: flex;
   flex-direction: row;

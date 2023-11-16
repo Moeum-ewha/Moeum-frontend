@@ -57,9 +57,9 @@ const Binder = () => {
             >
               <Bind>
                 <Spine style={{ backgroundColor: colorChart[index].spine }} />
-                <Cover style={{ backgroundColor: colorChart[index].cover }} />
+                  <Cover style={{ backgroundColor: colorChart[index].cover }} />
                 <Pic>
-                  <img src={`../../dummy/${friend.faceImg}`} width="80px" />
+                  <img src={`../../dummy/${friend.faceImg}`} width="80px"style={{borderRadius:"10px"}}/>
                 </Pic>
               </Bind>
               <Name>{friend.name}</Name>

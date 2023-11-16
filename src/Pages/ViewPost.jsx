@@ -73,9 +73,7 @@ export const ViewPost = () => {
     <BackgroundContainer>
       <Content>
         <TopBar>
-          <Back>
-            <img src={BackIcon} alt="뒤로가기" />
-          </Back>
+          <Back/>
           <Title>네컷 일기</Title>
         </TopBar>
         <ContentContainer>

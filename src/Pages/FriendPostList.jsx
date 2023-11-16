@@ -5,7 +5,7 @@ import balloon from '../Assets/balloon.png';
 import Logo from '../Assets/logo.png';
 import {
   TopBar,
-  Title,
+  FriendTitle,
   Alert,
   Balloon,
   Text,
@@ -15,6 +15,7 @@ import {
   Photo,
 } from '../Components/HomeComponents';
 import { NavBar } from '../Components/NavBar';
+import { Back2 } from '../Components/TopBar';
 
 const HomeScreen = () => {
   const navigate = useNavigate();
@@ -36,7 +37,8 @@ const HomeScreen = () => {
     <BackgroundContainer>
       <Content>
         <TopBar>
-          <Title style={{ marginLeft: '10px' }}>Moeum</Title>
+          <Back2/>
+          <FriendTitle>{friendName}</FriendTitle>
           <Alert>
             <Balloon>
               <img src={balloon} alt="말풍선" />

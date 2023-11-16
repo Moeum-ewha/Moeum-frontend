@@ -106,6 +106,10 @@ width: 40px;
 height: 37px;
 border-radius: 45px;
 border:none;
+
+display: flex;
+justify-content: center;
+align-items: center; 
 `;
 
 

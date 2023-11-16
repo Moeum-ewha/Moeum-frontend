@@ -75,11 +75,11 @@ const Settings = () => {
                         />
                     ) : (
                         <Nickname>
-                            {newNickname}
+                            {test}
                         </Nickname>
                     )}
                     <ID>    
-                        ohjinya@moeum.com
+                    test@test.com
                     </ID>
                 </InfoDiv>
                 {isEditing ? (

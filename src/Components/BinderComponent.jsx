@@ -25,7 +25,7 @@ export const Gallery = styled.div`
   height: 650px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   flex-wrap: wrap;
 `;
 

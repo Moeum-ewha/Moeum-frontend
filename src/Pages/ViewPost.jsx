@@ -64,6 +64,8 @@ export const ViewPost = () => {
   let savedFriendData;
   let newFriendData;
 
+  let namesArray;
+
   if (location.state.postData != undefined) {
     postData = location.state.postData;
   } else {
@@ -73,12 +75,11 @@ export const ViewPost = () => {
     content = location.state.content;
     savedFriendData = location.state.savedFriendData;
     newFriendData = location.state.newFriendData;
+
+    namesArray = [...savedFriendData, ...newFriendData].map(
+      (item) => item.name,
+    );
   }
-
-  const namesArray = [...savedFriendData, ...newFriendData].map(
-    (item) => item.name,
-  );
-
   //const imgURL = location.state.wholeImg;
 
   let nowUrl = window.location.href;
@@ -160,7 +161,7 @@ export const ViewPost = () => {
     <BackgroundContainer>
       <Content>
         <TopBar>
-          <Back/>
+          <Back />
           <Title>네컷 일기</Title>
         </TopBar>
         <ContentContainer>
@@ -249,7 +250,7 @@ export const ViewPost = () => {
           </ModalBox>
         </ModalBack>
       )}
-      {postId === '5' ? (
+      {postId === '10' ? (
         <NavBar
           date={date}
           where={picLocation}

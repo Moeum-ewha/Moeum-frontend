@@ -73,7 +73,7 @@ export const NavBar = (props) => {
 
     navigate('/home', {
       state: {
-        id: 5,
+        id: 10,
         date: date,
         location: location,
         latitude: latitude,

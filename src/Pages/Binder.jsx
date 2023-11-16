@@ -17,7 +17,7 @@ import {
 } from '../Components/BinderComponent';
 import { NavBar } from '../Components/NavBar';
 
-import demo from '../../public/dummy/dummy.json';
+import demo from '../../public/dummy/newdummy.json';
 
 const Binder = () => {
   const navigate = useNavigate();
@@ -57,9 +57,13 @@ const Binder = () => {
             >
               <Bind>
                 <Spine style={{ backgroundColor: colorChart[index].spine }} />
-                  <Cover style={{ backgroundColor: colorChart[index].cover }} />
+                <Cover style={{ backgroundColor: colorChart[index].cover }} />
                 <Pic>
-                  <img src={`../../dummy/${friend.faceImg}`} width="80px"style={{borderRadius:"10px"}}/>
+                  <img
+                    src={`../../dummy/${friend.faceImg}`}
+                    width="80px"
+                    style={{ borderRadius: '10px' }}
+                  />
                 </Pic>
               </Bind>
               <Name>{friend.name}</Name>

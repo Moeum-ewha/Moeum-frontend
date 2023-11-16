@@ -1,22 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import BackgroundContainer from "../Components/BackgroundContainer";
 import { TopBar, Title, Profile, PhotoDiv, InfoDiv, Nickname, ID, EditBtn, Content, Menus, Menu, Line, ExitBtn, BtnDiv, ComBtn, NickEdit} from "../Components/SettingsComponents";
 import { NavBar } from "../Components/NavBar";
 import { ModalBack, ModalBox,YesButton, NoButton, ModalContent, Alert, BtnContainer } from "../Components/PopupModal";
 
 import dummy from '../Assets/dummy2.jpeg';
+import logo from "../Assets/logo.png";
 
 const Settings = () => {
-    const modalBackground = useRef();
-    const [modalOpen, setModalOpen] = useState(false);
-
-    const openModal = () => {
-    setModalOpen(true);
-  };
-
   const [isEditing, setIsEditing] = useState(false);
   const [newNickname, setNewNickname] = useState('우냐냐'); // 초기 닉네임 설정
   const [editedNickname, setEditedNickname] = useState('');
+
+  const navigate = useNavigate();
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -28,6 +25,30 @@ const Settings = () => {
       setIsEditing(false);
     }
   };
+    
+    const [withdrawn, setWithdrawn] = useState(false); // 탈퇴 여부 상태 추가
+  
+    //모달
+    const modalBackground = useRef();
+    const [modalOpen, setModalOpen] = useState(false);
+    const openModal = () => {
+        setModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+
+    const handleWithdrawal = () => {
+        setWithdrawn(true);
+        setModalOpen(false);// 모달 닫기
+    };
+
+    const handleCancelWithdrawal = () => {
+        setWithdrawn(false);
+        navigate('/login');
+      };
+      
 
     return (
         <BackgroundContainer>
@@ -39,11 +60,10 @@ const Settings = () => {
             </TopBar>
             <Profile>
                 <PhotoDiv>
-                    <img src={dummy} style={{
+                    <img src={logo} style={{
                         width: '100%',
                         height: '100%',
                         objectFit: 'cover',
-                        borderRadius: '50px'
                     }} />
                 </PhotoDiv>
                 <InfoDiv>
@@ -109,13 +129,32 @@ const Settings = () => {
             <ModalContent>
               <Alert>정말로 탈퇴하시겠어요?</Alert>
               <BtnContainer>
-              <YesButton>네</YesButton>
-              <NoButton>아니오</NoButton>
+              <YesButton onClick={handleWithdrawal}>네</YesButton>
+              <NoButton onClick={closeModal}>아니오</NoButton>
               </BtnContainer>
             </ModalContent>
           </ModalBox>
         </ModalBack>
       )}
+      {withdrawn && (
+        <ModalBack
+            ref={modalBackground}
+            onClick={(e) => {
+            if (e.target === modalBackground.current) {
+                handleCancelWithdrawal(); // 초기화
+                }
+            }}
+        >
+            <ModalBox>
+                <ModalContent>
+                    <Alert>나중에 또 만나요!</Alert>
+                <BtnContainer>
+                <NoButton onClick={handleCancelWithdrawal}>닫기</NoButton>
+                </BtnContainer>
+                </ModalContent>
+            </ModalBox>
+        </ModalBack>
+    )}
             <NavBar />
       </BackgroundContainer>
     );

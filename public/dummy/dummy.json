@@ -5,10 +5,11 @@
       "username": "건희",
       "email": "sleep@test.com",
       "friendsList": [
-        { "id": 1, "name": "건희", "faceImg": "/faceImg/1.JPG" },
-        { "id": 2, "name": "진영", "faceImg": "/faceImg/2.jpg" },
-        { "id": 3, "name": "윤선", "faceImg": "/faceImg/3.JPG" },
-        { "id": 4, "name": "영우", "faceImg": "/faceImg/4.JPG" }
+        { "id": 1, "name": "윤선", "faceImg": "/faceImg/3.JPG" },
+        { "id": 2, "name": "영우", "faceImg": "/faceImg/4.JPG" },
+        { "id": 3, "name": "유진", "faceImg": "/faceImg/5.PNG" },
+        { "id": 4, "name": "진영", "faceImg": "/faceImg/2.jpg" },
+        { "id": 5, "name": "건희", "faceImg": "/faceImg/1.JPG" }
       ],
       "postList": [
         {
@@ -17,8 +18,8 @@
           "location": "이화여자대학교",
           "latitude": 126.94765009467245,
           "longitude": 37.562544705628845,
-          "original": "/original/1.JPG",
-          "friendId": [1, 2],
+          "original": "/original/1.PNG",
+          "friendId": [1, 2, 3, 4],
           "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
           "commentList": [
             { "id": 1, "name": [6], "content": "귀엽넹ㅋ" },
@@ -31,8 +32,8 @@
           "location": "신촌 유플렉스",
           "latitude": 126.93661730245256,
           "longitude": 37.55673777941326,
-          "original": "/original/2.JPG",
-          "friendId": [1, 2],
+          "original": "/original/2.PNG",
+          "friendId": [1, 4],
           "content": "와 시험공부 진짜 하기시름",
           "commentList": [
             {
@@ -54,8 +55,8 @@
           "location": "이대역",
           "latitude": 126.94642954546576,
           "longitude": 37.556814718869,
-          "original": "/original/3.JPG",
-          "friendId": [2],
+          "original": "/original/3.PNG",
+          "friendId": [1, 2],
           "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
           "commentList": [
             { "id": 1, "name": [3], "content": "귀엽넹ㅋ" },
@@ -68,8 +69,36 @@
           "location": "커피빈 연대동문회관점",
           "latitude": 126.94330347722,
           "longitude": 37.5630049094868,
-          "original": "/original/4.JPG",
-          "friendId": [3, 4],
+          "original": "/original/4.PNG",
+          "friendId": [1, 4],
+          "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
+          "commentList": [
+            { "id": 1, "name": [22], "content": "귀엽넹ㅋ" },
+            { "id": 2, "name": [2], "content": "왜 나 빼고 놈?" }
+          ]
+        },
+        {
+          "id": 5,
+          "date": "2022-03-12",
+          "location": "커피빈 연대동문회관점",
+          "latitude": 126.94330347722,
+          "longitude": 37.5630049094868,
+          "original": "/original/5.PNG",
+          "friendId": [1, 2],
+          "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
+          "commentList": [
+            { "id": 1, "name": [22], "content": "귀엽넹ㅋ" },
+            { "id": 2, "name": [2], "content": "왜 나 빼고 놈?" }
+          ]
+        },
+        {
+          "id": 6,
+          "date": "2022-07-30",
+          "location": "커피빈 연대동문회관점",
+          "latitude": 126.94330347722,
+          "longitude": 37.5630049094868,
+          "original": "/original/6.PNG",
+          "friendId": [1, 3, 4],
           "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
           "commentList": [
             { "id": 1, "name": [22], "content": "귀엽넹ㅋ" },

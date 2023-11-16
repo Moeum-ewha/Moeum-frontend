@@ -73,7 +73,7 @@ export const Gallery = styled.div`
 `;
 
 export const Photo = styled.div`
-  width: 160px;
+  width: 45%;
   display: flex;
   flex-direction: row;
   justify-content: center;

@@ -198,9 +198,8 @@ export const WritePost = () => {
         ></TxtBox>
         {coordinates && (
           <div>
-            <p>검색된 장소의 좌표:</p>
-            <p>X: {coordinates.x}</p>
-            <p>Y: {coordinates.y}</p>
+            <p>{coordinates.x}</p>
+            <p>{coordinates.y}</p>
           </div>
         )}
         <SmallerTitle>Whom</SmallerTitle>

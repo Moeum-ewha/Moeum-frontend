@@ -37,7 +37,7 @@ const HomeScreen = () => {
     console.log(location.state.date);
   }
   const postOnClick = (index) => {
-    if (index !== 5) {
+    if (index !== 10) {
       const postData = postList[index];
       navigate(`/viewpost/${postData.id}`, { state: { postData } });
     } else {

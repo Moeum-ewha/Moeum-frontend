@@ -45,7 +45,7 @@ function App() {
         <Route path="/binder" element={<Binder />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/map" element={<Map />} />
-        <Route path="/share" element={<ShareView />} />
+        <Route path="/share/:postId" element={<ShareView />} />
       </Routes>
     </Router>
   );

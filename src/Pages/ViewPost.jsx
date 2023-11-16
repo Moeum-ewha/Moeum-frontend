@@ -49,8 +49,11 @@ export const ViewPost = () => {
   let nowUrl = window.location.href;
 
   const copyUrl = () => {
-    //nowUrl 변수에 담긴 주소를
-    navigator.clipboard.writeText(nowUrl).then((res) => {
+    // "viewpost"를 "share"로 변경
+    const modifiedUrl = nowUrl.replace('/viewpost/', '/share/');
+  
+    // 수정된 URL을 클립보드에 복사
+    navigator.clipboard.writeText(modifiedUrl).then((res) => {
       alert('주소가 복사되었습니다!');
     });
   };

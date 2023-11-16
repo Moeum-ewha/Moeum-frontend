@@ -62,7 +62,7 @@ const SelectFriend = () => {
         savedFriendData: [
           ...location.state.savedFriendData,
           {
-            name: '건희',
+            name: '유진',
             //친구목록 파일의 사진으로 추후 수정
             faceImg: croppedFaceDataURL,
           },

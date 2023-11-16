@@ -165,7 +165,7 @@ export const ViewPost = () => {
           <Title>네컷 일기</Title>
         </TopBar>
         <ContentContainer>
-          {postId === '5' ? (
+          {postId === '10' ? (
             <MiniContainer>
               <ImgContainer>
                 <img src={original} width="100%" />

@@ -260,7 +260,7 @@ const FaceRecogniton = () => {
   };
 
   async function loadLabeledImage() {
-    const labels = ['혜준', '유진', '윤선', 'unknown'];
+    const labels = ['건희', '윤선', 'unknown'];
     return Promise.all(
       labels.map(async (label) => {
         const description = [];

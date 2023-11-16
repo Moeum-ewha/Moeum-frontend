@@ -196,12 +196,7 @@ export const WritePost = () => {
           type="text"
           placeholder="장소를 검색하세요"
         ></TxtBox>
-        {coordinates && (
-          <div>
-            <p>{coordinates.x}</p>
-            <p>{coordinates.y}</p>
-          </div>
-        )}
+        {coordinates && <div>장소 삽입 완료!</div>}
         <SmallerTitle>Whom</SmallerTitle>
         <FContainer>
           {savedFriendData.map((friend, index) => (

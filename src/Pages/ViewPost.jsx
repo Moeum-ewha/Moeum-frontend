@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 //components
 import { NavBar, NavBtn, CenterBtn } from '../Components/NavBar';
@@ -25,6 +25,8 @@ import {
   Alert,
   BtnDiv,
 } from '../Components/PopupModal';
+import {CommentSection, Comments, Comment, CommentInputContainer, CommentInput, CommentButton, ProfilePicture, Nickname, CommentContent, CommentDate, CommentContents } from '../Components/Comment'
+import demo from '../../public/dummy/dummy.json';
 
 //assets
 import BackIcon from '../Assets/icons/goback.png';
@@ -32,7 +34,13 @@ import insta from '../Assets/icons/Insta.png';
 
 export const ViewPost = () => {
   const location = useLocation();
+
   const [loading, setLoading] = useState(true);
+
+  const postIds = demo.userList.map(post => post.id);
+  const commentList = demo.userList.flatMap(user => 
+    user.postList.filter(post => postIds.includes(post.id))
+    .flatMap(post => post.commentList));
 
   const postData = location.state.postData;
 
@@ -69,7 +77,12 @@ export const ViewPost = () => {
             <ImgContainer>
               <img src={`../../dummy/${postData.original}`} width="100%" />
             </ImgContainer>
-            <SecondaryTitle>{postData.location}</SecondaryTitle>
+            <SecondaryTitle>{postData.friendId.map(friendId => {
+                                const friend = demo.userList.flatMap(user => user.friendsList)
+                                    .find(friend => friend.id === friendId);
+                                return friend ? friend.name : '';
+                            }).join(', ')}{'('}이{')'}랑{' '}{postData.location}에서
+            </SecondaryTitle>
             <ShareBtn>
               <img src={insta} alt="로고" onClick={copyUrl} />
             </ShareBtn>
@@ -78,6 +91,22 @@ export const ViewPost = () => {
           </MiniContainer>
           <Delete onClick={openModal}>삭제하기</Delete>
         </ContentContainer>
+        <CommentSection>
+          <Comments>
+          {commentList.map((comment, index) => (
+            <Comment key={comment.id}>
+          <ProfilePicture alt="프로필 사진" >
+           <img src={comment.profilePicture} width ="30px"/>
+          </ProfilePicture>
+          <CommentContents>
+            <Nickname>{comment.name}</Nickname>
+            <CommentContent>{comment.content}</CommentContent>
+            <CommentDate>{comment.date}</CommentDate>
+          </CommentContents>
+        </Comment>
+        ))}
+          </Comments>
+        </CommentSection>
       </Content>
       {modalOpen && (
         <ModalBack

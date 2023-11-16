@@ -59,8 +59,33 @@ export const NavBar = (props) => {
   };
 
   const moveHome = () => {
-    navigate('/home');
+    const date = props.date;
+    const location = props.location;
+    const latitude = props.latitude;
+    const longitude = props.longitude;
+    const original = props.original;
+    const content = props.content;
+    const savedFriendData = props.savedFriendData;
+    const newFriendData = props.newFriendData;
+
+    console.log(props);
+    console.log(original);
+
+    navigate('/home', {
+      state: {
+        id: 5,
+        date: date,
+        location: location,
+        latitude: latitude,
+        longitude: longitude,
+        original: original,
+        content: content,
+        savedFriendData: savedFriendData,
+        newFriendData: newFriendData,
+      },
+    });
   };
+
   const moveBinder = () => {
     navigate('/binder');
   };

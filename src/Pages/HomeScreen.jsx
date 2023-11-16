@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import BackgroundContainer from '../Components/BackgroundContainer';
 import balloon from '../Assets/balloon.png';
 import Logo from '../Assets/logo.png';
@@ -22,15 +22,36 @@ import demo from '../../public/dummy/dummy.json';
 const HomeScreen = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
   const postList = demo.userList.map((user) => user.postList).flat();
 
   const movePost = () => {
     navigate('/viewpost');
   };
 
+  if (location.state) {
+    useEffect(() => {
+      console.log(location.state);
+    }, []);
+
+    console.log(location.state.date);
+  }
   const postOnClick = (index) => {
-    const postData = postList[index];
-    navigate(`/viewpost/${postData.id}`, { state: { postData } });
+    if (index !== 5) {
+      const postData = postList[index];
+      navigate(`/viewpost/${postData.id}`, { state: { postData } });
+    } else {
+      navigate('/viewpost/5', {
+        state: {
+          date: location.state.date,
+          location: location.state.location,
+          original: location.state.original,
+          content: location.state.content,
+          savedFriendData: location.state.savedFriendData,
+          newFriendData: location.state.newFriendData,
+        },
+      });
+    }
   };
 
   return (
@@ -49,13 +70,25 @@ const HomeScreen = () => {
           </Alert>
         </TopBar>
         <Gallery>
+          {location.state && location.state.id !== null ? (
+            <Photo onClick={() => postOnClick(id)}>
+              <img
+                src={location.state.original}
+                width="160px"
+                style={{ borderRadius: '15px' }}
+                //onClick={movePost}
+              />
+            </Photo>
+          ) : (
+            <></>
+          )}
           {postList.map((post, index) => (
             <Photo onClick={() => postOnClick(index)} key={post.id}>
               <img
                 src={`../../dummy/${post.original}`}
                 width="160px"
                 style={{ borderRadius: '15px' }}
-                onClick={movePost}
+                //onClick={movePost}
               />
             </Photo>
           ))}

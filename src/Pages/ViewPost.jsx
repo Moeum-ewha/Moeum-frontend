@@ -66,6 +66,9 @@ export const ViewPost = () => {
     setModalOpen(true);
   };
 
+  const nicknames = ["수줍은 토끼", "감기걸린 토끼", "졸린 토끼", "할로윈 토끼", "왹져 토끼", "수줍은 거북이", "감기걸린 거북이", "졸린 거북이", "할로윈 거북이", "왹져 거북이", "수줍은 강아지", "감기걸린 강아지", "졸린 강아지", "할로윈 강아지", "왹져 강아지", "수줍은 고양이", "감기걸린 고양이", "졸린 고양이", "할로윈 고양이", "왹져 고양이", "수줍은 판다", "감기걸린 판다", "졸린 판다", "할로윈 판다", "왹져 판다" ];
+  const profilePictures = ['../../public/profileImg/0.png', '../../public/profileImg/1.png','../../public/profileImg/2.png','../../public/profileImg/3.png','../../public/profileImg/4.png','../../public/profileImg/5.png','../../public/profileImg/6.png','../../public/profileImg/7.png','../../public/profileImg/8.png','../../public/profileImg/9.png','../../public/profileImg/10.png','../../public/profileImg/11.png','../../public/profileImg/12.png','../../public/profileImg/13.png','../../public/profileImg/14.png','../../public/profileImg/15.png','../../public/profileImg/16.png','../../public/profileImg/17.png','../../public/profileImg/18.png','../../public/profileImg/19.png','../../public/profileImg/20.png','../../public/profileImg/21.png','../../public/profileImg/22.png','../../public/profileImg/23.png','../../public/profileImg/24.png', ];
+
   return (
     <BackgroundContainer>
       <Content>
@@ -99,10 +102,10 @@ export const ViewPost = () => {
           {commentList.map((comment, index) => (
             <Comment key={comment.id}>
           <ProfilePicture alt="프로필 사진" >
-           <img src={comment.profilePicture} width ="30px"/>
+           <img src={profilePictures[comment.name[0]]} width ="30px"/>
           </ProfilePicture>
           <CommentContents>
-            <Nickname>{comment.name}</Nickname>
+            <Nickname>{nicknames[comment.name[0]]}</Nickname>
             <CommentContent>{comment.content}</CommentContent>
             <CommentDate>{comment.date}</CommentDate>
           </CommentContents>

@@ -44,7 +44,7 @@ export const NavBar = (props) => {
     const savedFriendData = props.savedFriendData;
     const newFriendData = props.newFriendData;
 
-    navigate('/viewpost/5', {
+    navigate('/viewpost/10', {
       state: {
         date: date,
         location: location,

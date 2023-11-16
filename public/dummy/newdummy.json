@@ -10,7 +10,7 @@
         { "id": 3, "name": "유진", "faceImg": "/faceImg/5.PNG" },
         { "id": 4, "name": "진영", "faceImg": "/faceImg/2.jpg" },
         { "id": 5, "name": "건희", "faceImg": "/faceImg/1.JPG" },
-        { "id": 6, "name": "혜준", "faceImg": "/faceImg/혜준.JPG" }
+        { "id": 6, "name": "혜준", "faceImg": "/faceImg/6.jpg" }
       ],
       "postList": [
         {
@@ -19,7 +19,7 @@
           "location": "커피빈 연대동문회관점",
           "latitude": 126.94330347722,
           "longitude": 37.5630049094868,
-          "original": "/original/6.PNG",
+          "original": "/original/demo.png",
           "friendId": [1, 3, 6],
           "content": "추가된 게시물",
           "commentList": []

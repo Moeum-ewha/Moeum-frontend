@@ -8,6 +8,10 @@ import friends from '../Assets/icons/friends.png';
 import settings from '../Assets/icons/settings.png';
 import plus from '../Assets/icons/plus.png';
 import check from '../Assets/icons/check.png';
+import homeOn from '../Assets/icons/homeOn.png';
+import mapOn from '../Assets/icons/mapOn.png';
+import friendsOn from '../Assets/icons/friendsOn.png';
+import settingsOn from '../Assets/icons/settingsOn.png';
 
 import { ModalBack, ModalBox, ModalBtn, ExitBtn } from './PhotoModal';
 
@@ -22,18 +26,11 @@ export const NavBar = (props) => {
 
   const isPostingPage = currentPath === '/posting';
 
-  /*"id": 1,
-          "date": "2023-04-21",
-          "location": "이화여자대학교",
-          "latitude": 126.94765009467245,
-          "longitude": 37.562544705628845,
-          "original": "/original/1.JPG",
-          "friendId": [1, 2],
-          "content": "어쩌구저쩌구 즐거운 하루였당~!!!",
-          "commentList": [
-            { "id": 1, "name": [6], "content": "귀엽넹ㅋ" },
-            { "id": 2, "name": [14], "content": "왜 나 빼고 놈?" }
-          ]*/
+  const isHome = currentPath === '/home'; 
+  const isBinder = currentPath === '/binder'; 
+  const isMap = currentPath === '/map'; 
+  const isSettings = currentPath === '/settings'; 
+
   const writePost = () => {
     const date = props.date;
     const location = props.location;
@@ -156,10 +153,18 @@ export const NavBar = (props) => {
       </>
       <NavigationBar>
         <NavBtn>
-          <img src={home} alt="로고" onClick={moveHome} />
+        {isHome ? (
+            <img src={homeOn} onClick={moveHome} alt="홈" />
+        ) : (
+            <img src={home} onClick={moveHome} alt="홈" />
+        )}
         </NavBtn>
         <NavBtn>
-          <img src={friends} alt="로고" onClick={moveBinder} />
+        {isBinder ? (
+            <img src={friendsOn} onClick={moveBinder} alt="친구" />
+        ) : (
+          <img src={friends} onClick={moveBinder} alt="친구" />
+        )}
         </NavBtn>
         {isPostingPage ? (
           <CenterBtn onClick={writePost}>
@@ -172,10 +177,18 @@ export const NavBar = (props) => {
         )}
         <NavBtn />
         <NavBtn>
+        {isMap ? (
+            <img src={mapOn} onClick={moveMap} alt="지도" />
+        ) : (
           <img src={map} alt="로고" onClick={moveMap} />
+        )}
         </NavBtn>
         <NavBtn>
+        {isSettings ? (
+            <img src={settingsOn} onClick={moveMypage} alt="마이페이지" />
+        ) : (
           <img src={settings} alt="로고" onClick={moveMypage} />
+        )}
         </NavBtn>
       </NavigationBar>
     </>

@@ -27,13 +27,16 @@ const FaceRecogniton = () => {
   const [labeledFaceDescriptors, setLabeledFaceDescriptors] = useState([]);
   const [faceMatcher, setFaceMatcher] = useState(null);
   const [selectedFace, setSelectedFace] = useState(null);
+  const faceIndex = [];
 
   const navigate = useNavigate();
 
   let canvasDataURL;
 
-  const handleFaceClick = async (selectedFace, allFaces) => {
+  const handleFaceClick = async (selectedFace, allFaces, selectedIndex) => {
     setSelectedFace(selectedFace);
+    faceIndex.push(selectedIndex);
+
     const { x, y, width, height } = selectedFace.detection.box;
     // 이미지를 로드하는 Promise를 생성
     const loadImage = (src) => {
@@ -81,7 +84,6 @@ const FaceRecogniton = () => {
     // 잘라낸 이미지의 데이터 URL 생성
     const croppedFaceDataURL = croppedFaceCanvas.toDataURL('image/jpeg');
     const imgURL = URL.createObjectURL(selectedImageObjRef.current);
-    console.log('img : ' + selectedImageObjRef.current);
 
     //isanyonemore에서 배열이 존재하는 state를 보낼 수 있으니, 미리 savedFriendData, newFriendData을 생성하여 빈 배열로 전송
     //등록된 인물이어도 값이 잘못될 수 있으니 배열에 추가하지 않고 배열 밖에 넣어서 전송
@@ -97,6 +99,7 @@ const FaceRecogniton = () => {
           wholeImg: imgURL,
           canvasData: canvasDataURL,
           faceData: allFaces,
+          faceIndex: faceIndex,
           savedFriendData: [],
           newFriendData: [],
         },
@@ -107,6 +110,7 @@ const FaceRecogniton = () => {
           img: croppedFaceDataURL,
           wholeImg: imgURL,
           faceData: allFaces,
+          faceIndex: faceIndex,
           canvasData: canvasDataURL,
           savedFriendData: [],
           newFriendData: [],
@@ -244,8 +248,13 @@ const FaceRecogniton = () => {
             d.detection.box.width === rectangle.width &&
             d.detection.box.height === rectangle.height,
         );
+        const selectedIndex = resizedDetectionsRef.current.indexOf(selected);
         if (selected) {
-          handleFaceClick(selected, resizedDetectionsRef.current);
+          handleFaceClick(
+            selected,
+            resizedDetectionsRef.current,
+            selectedIndex,
+          );
         }
         break;
       }

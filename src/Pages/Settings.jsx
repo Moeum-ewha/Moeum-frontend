@@ -1,9 +1,35 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import BackgroundContainer from "../Components/BackgroundContainer";
-import { TopBar, Title, Profile, PhotoDiv, InfoDiv, Nickname, ID, EditBtn, Content, Menus, Menu, Line, ExitBtn, BtnDiv, ComBtn, NickEdit} from "../Components/SettingsComponents";
-import { NavBar } from "../Components/NavBar";
-import { ModalBack, ModalBox,YesButton, NoButton, ModalContent, Alert, BtnContainer } from "../Components/PopupModal";
+import BackgroundContainer from '../Components/BackgroundContainer';
+import {
+  TopBar,
+  Title,
+  Profile,
+  PhotoDiv,
+  InfoDiv,
+  Nickname,
+  ID,
+  EditBtn,
+  Content,
+  Menus,
+  Menu,
+  Line,
+  ExitBtn,
+  BtnDiv,
+  ComBtn,
+  NickEdit,
+} from '../Components/SettingsComponents';
+import { NavBar } from '../Components/NavBar';
+import {
+  ModalBack,
+  ModalBox,
+  YesButton,
+  NoButton,
+  ModalContent,
+  Alert,
+  BtnContainer,
+} from '../Components/PopupModal';
+
 
 import logo from "../Assets/logo.png";
 
@@ -67,37 +93,31 @@ const Settings = () => {
   const handleEdit = () => {
     setIsEditing(true);
   };
-  
+
   const handleSave = () => {
     if (editedNickname.length >= 1 && editedNickname.length <= 8) {
       setNewNickname(editedNickname);
       setIsEditing(false);
     }
   };
-    
-    const [withdrawn, setWithdrawn] = useState(false); // 탈퇴 여부 상태 추가
-  
-    //모달
-    const modalBackground = useRef();
-    const [modalOpen, setModalOpen] = useState(false);
-    const openModal = () => {
-        setModalOpen(true);
-    };
 
-    const closeModal = () => {
-        setModalOpen(false);
-    };
+  const [withdrawn, setWithdrawn] = useState(false); // 탈퇴 여부 상태 추가
 
-    const handleWithdrawal = () => {
-        setWithdrawn(true);
-        setModalOpen(false);// 모달 닫기
-    };
+  //모달
+  const modalBackground = useRef();
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
 
-    const handleCancelWithdrawal = () => {
-        setWithdrawn(false);
-        navigate('/login');
-      };
-      
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleWithdrawal = () => {
+    setWithdrawn(true);
+    setModalOpen(false); // 모달 닫기
+  };
 
     return (
         <BackgroundContainer>
@@ -178,8 +198,8 @@ const Settings = () => {
             <ModalContent>
               <Alert>정말로 탈퇴하시겠어요?</Alert>
               <BtnContainer>
-              <YesButton onClick={handleWithdrawal}>네</YesButton>
-              <NoButton onClick={closeModal}>아니오</NoButton>
+                <YesButton onClick={handleWithdrawal}>네</YesButton>
+                <NoButton onClick={closeModal}>아니오</NoButton>
               </BtnContainer>
             </ModalContent>
           </ModalBox>
@@ -187,26 +207,26 @@ const Settings = () => {
       )}
       {withdrawn && (
         <ModalBack
-            ref={modalBackground}
-            onClick={(e) => {
+          ref={modalBackground}
+          onClick={(e) => {
             if (e.target === modalBackground.current) {
-                handleCancelWithdrawal(); // 초기화
-                }
-            }}
+              handleCancelWithdrawal(); // 초기화
+            }
+          }}
         >
-            <ModalBox>
-                <ModalContent>
-                    <Alert>나중에 또 만나요!</Alert>
-                <BtnContainer>
+          <ModalBox>
+            <ModalContent>
+              <Alert>나중에 또 만나요!</Alert>
+              <BtnContainer>
                 <NoButton onClick={handleCancelWithdrawal}>닫기</NoButton>
-                </BtnContainer>
-                </ModalContent>
-            </ModalBox>
+              </BtnContainer>
+            </ModalContent>
+          </ModalBox>
         </ModalBack>
-    )}
-            <NavBar />
-      </BackgroundContainer>
-    );
+      )}
+      <NavBar />
+    </BackgroundContainer>
+  );
 };
 
 export default Settings;

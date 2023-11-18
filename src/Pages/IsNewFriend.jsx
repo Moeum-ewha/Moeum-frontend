@@ -25,8 +25,8 @@ const IsNewFriend = () => {
       state: {
         img: croppedFaceDataURL,
         wholeImg: imgURL,
-        selectedFace: location.state.selectedFace,
         canvasData: location.state.canvasData,
+        faceData: location.state.faceData,
         savedFriendData: location.state.savedFriendData,
         newFriendData: location.state.newFriendData,
       },
@@ -38,8 +38,8 @@ const IsNewFriend = () => {
       state: {
         img: croppedFaceDataURL,
         wholeImg: imgURL,
-        selectedFace: location.state.selectedFace,
         canvasData: location.state.canvasData,
+        faceData: location.state.faceData,
         savedFriendData: location.state.savedFriendData,
         newFriendData: location.state.newFriendData,
       },

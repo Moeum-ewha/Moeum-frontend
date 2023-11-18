@@ -1,10 +1,30 @@
-import React, {useState, useEffect, useRef} from "react";
-import { useNavigate } from "react-router-dom";
-import axios, { AxiosError } from "axios";
-import Logo from "../Assets/logo.png";
-import BackgroundContainer from "../Components/BackgroundContainer";
-import { Content, Upper, LogoDiv, Center, Container, SemiTitle, Input, SignUpContainer, SignUpLink, Lower, Button, styles, } from "../Components/LoginContainer";import Loading from "./Loading";
-import { ModalBack, ModalBox, ModalButton, ModalContent, Alert } from "../Components/PopupModal";
+import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
+import Logo from '../Assets/logo.png';
+import BackgroundContainer from '../Components/BackgroundContainer';
+import {
+  Content,
+  Upper,
+  LogoDiv,
+  Center,
+  Container,
+  SemiTitle,
+  Input,
+  SignUpContainer,
+  SignUpLink,
+  Lower,
+  Button,
+  styles,
+} from '../Components/LoginContainer';
+import Loading from './Loading';
+import {
+  ModalBack,
+  ModalBox,
+  ModalButton,
+  ModalContent,
+  Alert,
+} from '../Components/PopupModal';
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,14 +36,14 @@ const Login = () => {
     setIsLoading(true);
 
     const body = {
-      email:email,
-      password:password,
-    }
+      email: email,
+      password: password,
+    };
 
     try {
       // Send API request
       const response = await axios({
-        method: "POST",
+        method: 'POST',
         url: 'http://localhost:5000/auth',
         data: body,
       });
@@ -33,15 +53,13 @@ const Login = () => {
       // 2XX status code
       console.log(response.status);
       console.log(response.data);
-
     } catch (error) {
       setModalOpen(true);
       if (error instanceof AxiosError) {
         if (error.response) {
-
           // Non-2XX status code
           console.error(error.response.status);
-          console.log("Response data:", error.response.data);
+          console.log('Response data:', error.response.data);
         } else if (error.request) {
           // Request made, no response
           console.error(error.request);
@@ -74,10 +92,10 @@ const Login = () => {
 
   const navigate = useNavigate();
   const moveSignUp = () => {
-    navigate("/signup");
-  }
+    navigate('/signup');
+  };
   const moveHome = () => {
-    navigate("/home");
+    navigate('/home');
   };
 
   //모달
@@ -88,52 +106,50 @@ const Login = () => {
     setModalOpen(false);
   };
 
-    return (
-     <BackgroundContainer>
-        <Content>
-          <form onSubmit={handleSubmit}>
+  return (
+    <BackgroundContainer>
+      <Content>
+        <form onSubmit={handleSubmit}>
           <Upper>
             <LogoDiv>
-            <img src={Logo} alt="로고" width="70px" />
+              <img src={Logo} alt="로고" width="70px" />
             </LogoDiv>
           </Upper>
           <Center>
             <Container>
-              <SemiTitle>
-                이메일
-              </SemiTitle>
-              <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)}>
-
-              </Input>
+              <SemiTitle>이메일</SemiTitle>
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              ></Input>
             </Container>
             <Container>
-              <SemiTitle>
-                비밀번호
-              </SemiTitle>
-              <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)}>
-            
-              </Input>
+              <SemiTitle>비밀번호</SemiTitle>
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              ></Input>
             </Container>
             <SignUpContainer>
-              <SignUpLink onClick={moveSignUp}>
-                계정이 없으신가요?
-              </SignUpLink>
+              <SignUpLink onClick={moveSignUp}>계정이 없으신가요?</SignUpLink>
             </SignUpContainer>
           </Center>
           <Lower>
-            <Button 
-            type="submit"
-            disabled={isLoading || !btnColor}
-            style={
-              btnColor ? styles.filledBtn : styles.normalBtn
-            } onClick={handleSubmit}>
+            <Button
+              type="submit"
+              disabled={isLoading || !btnColor}
+              style={btnColor ? styles.filledBtn : styles.normalBtn}
+              onClick={handleSubmit}
+            >
               {isLoading && <Loading />}
               로그인
             </Button>
           </Lower>
-          </form>
-        </Content>
-        {modalOpen && (
+        </form>
+      </Content>
+      {modalOpen && (
         <ModalBack
           ref={modalBackground}
           onClick={(e) => {
@@ -151,8 +167,8 @@ const Login = () => {
           </ModalBox>
         </ModalBack>
       )}
-      </BackgroundContainer>
-    );
+    </BackgroundContainer>
+  );
 };
 
 export default Login;

@@ -27,7 +27,7 @@ const IsSavedFriend = () => {
         faceImg: croppedFaceDataURL,
         wholeImg: originalImg,
         canvasData: location.state.canvasData,
-        selectedFace: location.state.selectedFace,
+        faceData: location.state.faceData,
         savedFriendData: location.state.savedFriendData,
         newFriendData: location.state.newFriendData,
       },
@@ -40,7 +40,7 @@ const IsSavedFriend = () => {
         faceImg: croppedFaceDataURL,
         wholeImg: originalImg,
         canvasData: location.state.canvasData,
-        selectedFace: location.state.selectedFace,
+        faceData: location.state.faceData,
         savedFriendData: location.state.savedFriendData,
         newFriendData: location.state.newFriendData,
       },
@@ -53,7 +53,7 @@ const IsSavedFriend = () => {
       state: {
         wholeImg: originalImg,
         canvasData: location.state.canvasData,
-        selectedFace: location.state.selectedFace,
+        faceData: location.state.faceData,
         savedFriendData: [
           ...location.state.savedFriendData,
           {

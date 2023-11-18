@@ -39,7 +39,7 @@ const AddName = () => {
         state: {
           wholeImg: imgURL,
           canvasData: location.state.canvasData,
-          selectedFace: location.state.selectedFace,
+          faceData: location.state.faceData,
           savedFriendData: location.state.savedFriendData,
           newFriendData: [
             ...location.state.newFriendData,

@@ -43,8 +43,8 @@ const SignUp = () => {
     try {
       // Send API request
       const response = await axios({
-        method: 'POST',
-        url: '/account',
+        method: "POST",
+        url: 'http://localhost:5000/account',
         data: body,
       });
 

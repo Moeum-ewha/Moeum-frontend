@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
 import BackgroundContainer from '../Components/BackgroundContainer';
 import {
   TopBar,
@@ -18,6 +19,7 @@ import {
   BtnDiv,
   ComBtn,
   NickEdit,
+  Link,
 } from '../Components/SettingsComponents';
 import { NavBar } from '../Components/NavBar';
 import {
@@ -47,11 +49,8 @@ const Settings = () => {
     
         try {
           // Send API request
-          response = await axios({
-            method: "GET",
-            url: 'https://localhost:5000/account',
-            data: body ? JSON.parse(body) : undefined,
-          });
+          const response = await axios.get('/account');
+          console.log(response);
     
           // 2XX status code
           console.log(response.status);
@@ -163,19 +162,24 @@ const Settings = () => {
                 </Menu>
                 <Line />
                 <Menu>
+                  <Link href="https://github.com/Moeum-ewha" target="_blank" rel="noopener noreferrer">
                     공지사항
+                  </Link>
                 </Menu>
                 <Line />
                 <Menu>
+                  <Link href="mailto:moeum@gmail.com">
                     문의하기
+                  </Link>
                 </Menu>
                 <Line />
                 <Menu>
-                    앱 정보
+                  <Link href="https://github.com/Moeum-ewha" target="_blank" rel="noopener noreferrer">
+                    앱정보
+                  </Link>
                 </Menu>
                 <Line />
-                <Menu style={{ color:'#EF4914'
-                }} >
+                <Menu style={{ color:'#EF4914'}} >
                     로그아웃
                 </Menu>
                 </Menus>

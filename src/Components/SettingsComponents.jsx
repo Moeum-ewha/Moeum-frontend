@@ -186,3 +186,8 @@ export const BtnDiv = styled.div`
     color: #BDBDBD;
 `
 ;
+
+export const Link = styled.a`
+  color: inherit;
+  text-decoration: none;
+`;

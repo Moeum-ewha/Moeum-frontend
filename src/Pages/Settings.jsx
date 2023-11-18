@@ -5,15 +5,64 @@ import { TopBar, Title, Profile, PhotoDiv, InfoDiv, Nickname, ID, EditBtn, Conte
 import { NavBar } from "../Components/NavBar";
 import { ModalBack, ModalBox,YesButton, NoButton, ModalContent, Alert, BtnContainer } from "../Components/PopupModal";
 
-import dummy from '../Assets/dummy2.jpeg';
 import logo from "../Assets/logo.png";
 
 const Settings = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [newNickname, setNewNickname] = useState('우냐냐'); // 초기 닉네임 설정
-  const [editedNickname, setEditedNickname] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [response, setResponse] = useState({ user: { username: '', email: '' } }); // 유저 정보를 초기화합니다.
 
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+
+    const sendApi = async () => {
+        // Send 버튼 더블클릭 방지
+        if (isLoading) return;
+    
+        setIsLoading(true);
+    
+        try {
+          // Send API request
+          response = await axios({
+            method: "GET",
+            url: 'https://localhost:5000/account',
+            data: body ? JSON.parse(body) : undefined,
+          });
+    
+          // 2XX status code
+          console.log(response.status);
+          console.log(response.data);
+
+          setResponse(result.data); // 서버로부터 받은 데이터를 response에 업데이트합니다.
+    
+          setData(JSON.stringify(response.data));
+        } catch (error) {
+          if (error instanceof AxiosError) {
+            if (error.response) {
+              // Non-2XX status code
+              console.error(error.response.status);
+              console.error(error.response.data);
+            } else if (error.request) {
+              // Request made, no response
+              console.error(error.request);
+            }
+          } else {
+            // Other unexpected error
+            console.error(error);
+          }
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      useEffect(() => {
+        sendApi(); // componentDidMount와 동일하게 첫 렌더링 시에 API를 호출합니다.
+      }, []); 
+
+
+      console.log(response);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [newNickname, setNewNickname] = useState(response.user.username);
+  const [editedNickname, setEditedNickname] = useState('');
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -75,11 +124,11 @@ const Settings = () => {
                         />
                     ) : (
                         <Nickname>
-                            {test}
+                            {newNickname}
                         </Nickname>
                     )}
                     <ID>    
-                    test@test.com
+                    {response.user.email}
                     </ID>
                 </InfoDiv>
                 {isEditing ? (

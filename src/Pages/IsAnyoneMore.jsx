@@ -10,108 +10,104 @@ import {
   Num,
   Down,
   PictureContainer,
-  Pic,
-  FaceBox,
   BtnContainer,
-  YesBtn,
-  NoBtn,
 } from '../Components/NumofPeople';
 import { Btn } from '../Components/ClassifiContainer';
 
-function dataURItoBlob(dataURI) {
-  // convert base64/URLEncoded data component to raw binary data held in a string
-  let byteString;
-  if (dataURI.split(',')[0].indexOf('base64') >= 0)
-    byteString = atob(dataURI.split(',')[1]);
-  else byteString = decodeURIComponent(dataURI.split(',')[1]);
-
-  // separate out the mime component
-  let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-
-  // write the bytes of the string to a typed array
-  let ia = new Uint8Array(byteString.length);
-  for (let i = 0; i < byteString.length; i++) {
-    ia[i] = byteString.charCodeAt(i);
-  }
-
-  return new Blob([ia], { type: mimeString });
-}
+const filterByXValue = (faceInfos, x, y) => {
+  return faceInfos.filter(
+    (item) =>
+      x >= item.detection._box._x &&
+      x <= item.detection._box._x + item.detection._box._width &&
+      y >= item.detection._box._y &&
+      y <= item.detection._box._y + item.detection._box._height,
+  );
+};
 
 const IsAnyoneMore = () => {
   const location = useLocation();
   const FaceContainer = useRef(null);
-  const [loaded, setLoaded] = useState(true);
-
   const imgURL = location.state.wholeImg;
-  const selectedFace = location.state.selectedFace;
   const canvasData = location.state.canvasData;
+  const faceData = location.state.faceData;
+  const pictureContainerRef = useRef(null);
 
   const navigate = useNavigate();
-
-  const upperClick = () => {
-    navigate('/isnewfriend', {
-      state: {
-        img: '../../public/dummy/faceImg/6.jpg',
-        wholeImg: imgURL,
-        selectedFace: selectedFace,
-        canvasData: canvasData,
-        savedFriendData: location.state.savedFriendData,
-        newFriendData: location.state.newFriendData,
-      },
-    });
-  };
-
-  const lowerClick = () => {
-    navigate('/issavedfriend', {
-      state: {
-        img: '../../known/건희.jpg',
-        name: '건희',
-        wholeImg: imgURL,
-        selectedFace: selectedFace,
-        canvasData: canvasData,
-        savedFriendData: location.state.savedFriendData,
-        newFriendData: location.state.newFriendData,
-      },
-    });
-  };
+  const faceInfos = faceData.map((item) => ({
+    detection: item.detection,
+    label: item.label,
+  }));
 
   const handleCanvasClick = (event) => {
-    //const canvas = FaceContainer.current; // 캔버스에 대한 참조 사용
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    if (pictureContainerRef.current) {
+      const rect = FaceContainer.current.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
 
-    // 클릭한 좌표와 얼굴 크기를 이용하여 이미지 추출
-    const faceSize = 100; // 예시로 지정한 얼굴 크기
-    const extractedFace = extractFaceFromCanvas(canvas, x, y, faceSize);
+      const filteredFace = filterByXValue(faceInfos, x, y);
 
-    // 추출한 얼굴 이미지와 관련 데이터를 다음 페이지로 전달
-    console.log('extractedFace: ' + extractedFace);
+      const canvas = document.createElement('canvas');
+      const faceContext = canvas.getContext('2d');
 
-    navigate('/isnewfriend', {
-      state: {
-        img: extractedFace,
-        wholeImg: imgURL,
-        selectedFace: selectedFace,
-        canvasData: URL.createObjectURL(canvasData),
-        savedFriendData: location.state.savedFriendData,
-        newFriendData: location.state.newFriendData,
-      },
-    });
+      const img = new Image();
+      img.src = imgURL;
 
-    navigate('/issavedfriend', {
-      state: {
-        img: extractedFace,
-        //name: label, 이름 값을 받아오는 코드 추가적으로 필요
-        wholeImg: imgURL,
-        selectedFace: selectedFace,
-        canvasData: URL.createObjectURL(canvasData),
-        savedFriendData: location.state.savedFriendData,
-        newFriendData: location.state.newFriendData,
-      },
-    });
+      img.onload = function () {
+        // 기준이 되는 displaySize
+        const displaySize = {
+          width: 350,
+          height: 350 / (img.width / img.height),
+        };
+
+        // 이미지의 크기에 비례하여 x, y, width, height 값을 조정
+        const { _x, _y, _width, _height } = filteredFace[0].detection._box;
+        const adjustedX = (_x / displaySize.width) * img.width;
+        const adjustedY = (_y / displaySize.height) * img.height;
+        const adjustedWidth = (_width / displaySize.width) * img.width;
+        const adjustedHeight = (_height / displaySize.height) * img.height;
+        canvas.width = adjustedWidth;
+        canvas.height = adjustedHeight;
+
+        faceContext.drawImage(
+          img,
+          adjustedX,
+          adjustedY,
+          adjustedWidth,
+          adjustedHeight,
+          0,
+          0,
+          adjustedWidth,
+          adjustedHeight,
+        );
+
+        const croppedFace = canvas.toDataURL('image/png');
+
+        if (filteredFace[0].label.split(' ')[0] === 'unknown') {
+          navigate('/isnewfriend', {
+            state: {
+              img: croppedFace,
+              wholeImg: imgURL,
+              canvasData: canvasData,
+              faceData: faceData,
+              savedFriendData: location.state.savedFriendData,
+              newFriendData: location.state.newFriendData,
+            },
+          });
+        } else {
+          navigate('/issavedfriend', {
+            state: {
+              img: croppedFace,
+              name: filteredFace[0].label.split(' ')[0],
+              wholeImg: imgURL,
+              canvasData: canvasData,
+              faceData: faceData,
+              savedFriendData: location.state.savedFriendData,
+              newFriendData: location.state.newFriendData,
+            },
+          });
+        }
+      };
+    }
   };
 
   const moveFunc = () => {
@@ -126,95 +122,6 @@ const IsAnyoneMore = () => {
     });
   };
 
-  useEffect(() => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const image = new Image();
-    image.src = imgURL;
-
-    image.onload = () => {
-      canvas.width = image.width;
-      canvas.height = image.height;
-      ctx.drawImage(image, 0, 0, image.width, image.height);
-
-      // canvasData를 이용하여 얼굴 정보를 그리기
-      const faceImage = new Image();
-      faceImage.src = canvasData;
-
-      faceImage.onload = async () => {
-        // face-api.js 모델 로드
-        await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
-        await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
-        await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
-
-        // face-api.js로 얼굴 인식
-        const detections = await faceapi
-          .detectAllFaces(faceImage)
-          .withFaceLandmarks()
-          .withFaceDescriptors();
-
-        // 이전 페이지에서 전달받은 얼굴 정보 활용
-        const box = selectedFace.detection.box;
-        const drawBox = new faceapi.draw.DrawBox(box, {
-          label: selectedFace.label,
-        });
-        ctx.strokeStyle = 'white';
-        ctx.setLineDash([5, 5]);
-        drawBox.draw(canvas);
-
-        // face-api.js로 인식된 얼굴 정보 그리기
-        detections.forEach((detection) => {
-          const drawBox = new faceapi.draw.DrawBox(detection.detection.box, {
-            label: 'Detected Face',
-          });
-          drawBox.draw(canvas);
-        });
-
-        // 캔버스를 화면에 추가
-        FaceContainer.current.appendChild(canvas);
-      };
-    };
-  }, [location.state]);
-
-  const extractFaceFromCanvas = async (canvas, x, y, faceSize) => {
-    const faceCanvas = document.createElement('canvas');
-    const faceCtx = faceCanvas.getContext('2d');
-
-    // 클릭한 부분의 얼굴 크기만큼 이미지 추출
-    faceCanvas.width = faceSize;
-    faceCanvas.height = faceSize;
-
-    const loadImage = (src) => {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => resolve(img);
-        img.src = src;
-      });
-    };
-
-    // 이미지를 로드하여 기다림
-    const img = await loadImage(URL.createObjectURL(dataURItoBlob(imgURL)));
-
-    console.log('원래사진 : ' + img);
-
-    faceCtx.drawImage(
-      img,
-      x - faceSize / 2, // 클릭한 부분을 중심으로 얼굴 크기만큼 잘라냄
-      y - faceSize / 2,
-      faceSize,
-      faceSize,
-      0,
-      0,
-      faceSize,
-      faceSize,
-    );
-
-    console.log('faceCanvas: ' + faceCanvas.toDataURL('image/jpeg'));
-
-    // 추출한 얼굴 이미지를 데이터 URL로 변환하여 반환
-    return faceCanvas.toDataURL('image/jpeg');
-  };
-
   return (
     <BackgroundContainer>
       <Content>
@@ -224,7 +131,7 @@ const IsAnyoneMore = () => {
           </Upper>
           <Down>추가하고 싶은 친구를 눌러주세요</Down>
         </Question>
-        <PictureContainer style={{ height: 525 }}>
+        <PictureContainer style={{ height: 525 }} ref={pictureContainerRef}>
           <img
             src={imgURL}
             style={{ position: 'absolute', width: 350, objectFit: 'cover' }}
@@ -234,19 +141,9 @@ const IsAnyoneMore = () => {
             src={canvasData}
             style={{ position: 'absolute', width: 350, objectFit: 'cover' }}
             alt="Canvas Image"
-          />
-          <div
-            style={{
-              position: 'absolute',
-              width: 350,
-              height: '100%',
-              objectFit: 'cover',
-            }}
             ref={FaceContainer}
-            //onClick={handleCanvasClick}
+            onClick={handleCanvasClick}
           />
-          <DemoBtn style={{ top: 0 }} onClick={upperClick} />
-          <DemoBtn style={{ bottom: 0 }} onClick={lowerClick} />
         </PictureContainer>
         <BtnContainer>
           <Btn onClick={moveFunc}>모두 등록했어요~</Btn>

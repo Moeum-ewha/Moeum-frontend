@@ -45,7 +45,6 @@ const SelectFriend = () => {
   const croppedFaceDataURL = location.state.faceImg;
   const originalImg = location.state.wholeImg;
   const imgURL = location.state.wholeImg;
-  const savedFriendData = location.state.savedFriendData;
   const orginalImgBlob = dataURItoBlob(imgURL);
 
   /*savedFriendData.forEach((friend, index) => {
@@ -58,7 +57,7 @@ const SelectFriend = () => {
       state: {
         wholeImg: originalImg,
         canvasData: location.state.canvasData,
-        selectedFace: location.state.selectedFace,
+        faceData: location.state.faceData,
         savedFriendData: [
           ...location.state.savedFriendData,
           {

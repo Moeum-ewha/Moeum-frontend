@@ -10,11 +10,6 @@ import {
   Num,
   Down,
   PictureContainer,
-  Pic,
-  FaceBox,
-  BtnContainer,
-  YesBtn,
-  NoBtn,
 } from '../Components/NumofPeople';
 import { NavBar } from '../Components/NavBar';
 import LoadingScreen from './Loading';
@@ -32,13 +27,12 @@ const FaceRecogniton = () => {
   const [labeledFaceDescriptors, setLabeledFaceDescriptors] = useState([]);
   const [faceMatcher, setFaceMatcher] = useState(null);
   const [selectedFace, setSelectedFace] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
 
   let canvasDataURL;
 
-  const handleFaceClick = async (selectedFace) => {
+  const handleFaceClick = async (selectedFace, allFaces) => {
     setSelectedFace(selectedFace);
     const { x, y, width, height } = selectedFace.detection.box;
     // 이미지를 로드하는 Promise를 생성
@@ -101,8 +95,8 @@ const FaceRecogniton = () => {
           img: croppedFaceDataURL,
           name: label,
           wholeImg: imgURL,
-          selectedFace: selectedFace,
           canvasData: canvasDataURL,
+          faceData: allFaces,
           savedFriendData: [],
           newFriendData: [],
         },
@@ -112,8 +106,7 @@ const FaceRecogniton = () => {
         state: {
           img: croppedFaceDataURL,
           wholeImg: imgURL,
-          selectedFace: selectedFace,
-          //checkCanvasRef.current.toDataURL('image/jpeg')
+          faceData: allFaces,
           canvasData: canvasDataURL,
           savedFriendData: [],
           newFriendData: [],
@@ -252,7 +245,7 @@ const FaceRecogniton = () => {
             d.detection.box.height === rectangle.height,
         );
         if (selected) {
-          handleFaceClick(selected);
+          handleFaceClick(selected, resizedDetectionsRef.current);
         }
         break;
       }

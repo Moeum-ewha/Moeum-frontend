@@ -140,10 +140,14 @@ export const styles = {
   };
 
   export const ValidDiv = styled.div`
-  font-size: 14px;
-  width:200px;
+  font-size: 11px;
+  width:180px;
   height: 36px;
+  display: flex;
+  align-content: center;
   color: red;
+  margin-top:4px;
+  padding-top:8px;
   `;
 
   export const SemiDiv = styled.div`

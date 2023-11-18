@@ -40,6 +40,7 @@ const AddName = () => {
           wholeImg: imgURL,
           canvasData: location.state.canvasData,
           faceData: location.state.faceData,
+          faceIndex: location.state.faceIndex,
           savedFriendData: location.state.savedFriendData,
           newFriendData: [
             ...location.state.newFriendData,

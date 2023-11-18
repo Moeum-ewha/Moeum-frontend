@@ -12,6 +12,12 @@ import {
   PictureContainer,
   BtnContainer,
 } from '../Components/NumofPeople';
+import {
+  ModalBack,
+  ModalBox,
+  ModalContent,
+  Alert,
+} from '../Components/PopupModal';
 import { Btn } from '../Components/ClassifiContainer';
 
 const filterByXValue = (faceInfos, x, y) => {
@@ -26,13 +32,18 @@ const filterByXValue = (faceInfos, x, y) => {
 
 const IsAnyoneMore = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const FaceContainer = useRef(null);
+  const pictureContainerRef = useRef(null);
+  const modalBackground = useRef();
+
+  const [isAdded, setIsAdded] = useState(false);
+
   const imgURL = location.state.wholeImg;
   const canvasData = location.state.canvasData;
   const faceData = location.state.faceData;
-  const pictureContainerRef = useRef(null);
+  const faceIndex = location.state.faceIndex;
 
-  const navigate = useNavigate();
   const faceInfos = faceData.map((item) => ({
     detection: item.detection,
     label: item.label,
@@ -43,70 +54,78 @@ const IsAnyoneMore = () => {
       const rect = FaceContainer.current.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
-
       const filteredFace = filterByXValue(faceInfos, x, y);
+      if (faceIndex.includes(faceInfos.indexOf(filteredFace[0]))) {
+        setIsAdded(true);
+        //다시 클릭
+      } else {
+        faceIndex.push(faceInfos.indexOf(filteredFace[0]));
+        console.log(faceIndex);
+        console.log(faceInfos);
+        const canvas = document.createElement('canvas');
+        const faceContext = canvas.getContext('2d');
 
-      const canvas = document.createElement('canvas');
-      const faceContext = canvas.getContext('2d');
+        const img = new Image();
+        img.src = imgURL;
 
-      const img = new Image();
-      img.src = imgURL;
+        img.onload = function () {
+          // 기준이 되는 displaySize
+          const displaySize = {
+            width: 350,
+            height: 350 / (img.width / img.height),
+          };
 
-      img.onload = function () {
-        // 기준이 되는 displaySize
-        const displaySize = {
-          width: 350,
-          height: 350 / (img.width / img.height),
+          // 이미지의 크기에 비례하여 x, y, width, height 값을 조정
+          const { _x, _y, _width, _height } = filteredFace[0].detection._box;
+          const adjustedX = (_x / displaySize.width) * img.width;
+          const adjustedY = (_y / displaySize.height) * img.height;
+          const adjustedWidth = (_width / displaySize.width) * img.width;
+          const adjustedHeight = (_height / displaySize.height) * img.height;
+          canvas.width = adjustedWidth;
+          canvas.height = adjustedHeight;
+
+          faceContext.drawImage(
+            img,
+            adjustedX,
+            adjustedY,
+            adjustedWidth,
+            adjustedHeight,
+            0,
+            0,
+            adjustedWidth,
+            adjustedHeight,
+          );
+
+          const croppedFace = canvas.toDataURL('image/png');
+
+          if (filteredFace[0].label.split(' ')[0] === 'unknown') {
+            navigate('/isnewfriend', {
+              state: {
+                img: croppedFace,
+                wholeImg: imgURL,
+                canvasData: canvasData,
+                faceData: faceData,
+                faceIndex: faceIndex,
+                savedFriendData: location.state.savedFriendData,
+                newFriendData: location.state.newFriendData,
+              },
+            });
+          } else {
+            navigate('/issavedfriend', {
+              state: {
+                img: croppedFace,
+                name: filteredFace[0].label.split(' ')[0],
+                wholeImg: imgURL,
+                canvasData: canvasData,
+                faceData: faceData,
+                faceIndex: faceIndex,
+                savedFriendData: location.state.savedFriendData,
+                newFriendData: location.state.newFriendData,
+              },
+            });
+          }
         };
-
-        // 이미지의 크기에 비례하여 x, y, width, height 값을 조정
-        const { _x, _y, _width, _height } = filteredFace[0].detection._box;
-        const adjustedX = (_x / displaySize.width) * img.width;
-        const adjustedY = (_y / displaySize.height) * img.height;
-        const adjustedWidth = (_width / displaySize.width) * img.width;
-        const adjustedHeight = (_height / displaySize.height) * img.height;
-        canvas.width = adjustedWidth;
-        canvas.height = adjustedHeight;
-
-        faceContext.drawImage(
-          img,
-          adjustedX,
-          adjustedY,
-          adjustedWidth,
-          adjustedHeight,
-          0,
-          0,
-          adjustedWidth,
-          adjustedHeight,
-        );
-
-        const croppedFace = canvas.toDataURL('image/png');
-
-        if (filteredFace[0].label.split(' ')[0] === 'unknown') {
-          navigate('/isnewfriend', {
-            state: {
-              img: croppedFace,
-              wholeImg: imgURL,
-              canvasData: canvasData,
-              faceData: faceData,
-              savedFriendData: location.state.savedFriendData,
-              newFriendData: location.state.newFriendData,
-            },
-          });
-        } else {
-          navigate('/issavedfriend', {
-            state: {
-              img: croppedFace,
-              name: filteredFace[0].label.split(' ')[0],
-              wholeImg: imgURL,
-              canvasData: canvasData,
-              faceData: faceData,
-              savedFriendData: location.state.savedFriendData,
-              newFriendData: location.state.newFriendData,
-            },
-          });
-        }
-      };
+      }
     }
   };
 
@@ -148,6 +167,22 @@ const IsAnyoneMore = () => {
         <BtnContainer>
           <Btn onClick={moveFunc}>모두 등록했어요~</Btn>
         </BtnContainer>
+        {isAdded && (
+          <ModalBack
+            ref={modalBackground}
+            onClick={(e) => {
+              if (e.target === modalBackground.current) {
+                setIsAdded(false);
+              }
+            }}
+          >
+            <ModalBox>
+              <ModalContent>
+                <Alert>이미 선택한 친구입니다</Alert>
+              </ModalContent>
+            </ModalBox>
+          </ModalBack>
+        )}
       </Content>
     </BackgroundContainer>
   );

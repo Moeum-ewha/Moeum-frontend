@@ -14,7 +14,6 @@ import {
 
 const IsSavedFriend = () => {
   const location = useLocation();
-
   // 데이터 URL을 받아옴
   const croppedFaceDataURL = location.state.img;
   const name = location.state.name;
@@ -28,6 +27,7 @@ const IsSavedFriend = () => {
         wholeImg: originalImg,
         canvasData: location.state.canvasData,
         faceData: location.state.faceData,
+        faceIndex: location.state.faceIndex,
         savedFriendData: location.state.savedFriendData,
         newFriendData: location.state.newFriendData,
       },
@@ -41,6 +41,7 @@ const IsSavedFriend = () => {
         wholeImg: originalImg,
         canvasData: location.state.canvasData,
         faceData: location.state.faceData,
+        faceIndex: location.state.faceIndex,
         savedFriendData: location.state.savedFriendData,
         newFriendData: location.state.newFriendData,
       },
@@ -54,6 +55,7 @@ const IsSavedFriend = () => {
         wholeImg: originalImg,
         canvasData: location.state.canvasData,
         faceData: location.state.faceData,
+        faceIndex: location.state.faceIndex,
         savedFriendData: [
           ...location.state.savedFriendData,
           {

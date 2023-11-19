@@ -46,19 +46,25 @@ const Settings = () => {
         if (isLoading) return;
     
         setIsLoading(true);
+
     
         try {
           // Send API request
-          const response = await axios.get('/account');
+          const response = await axios({
+            method: "GET",
+            url:'/account',
+            data: undefined,
+            withCredentials: true,
+          });
+
+
           console.log(response);
     
           // 2XX status code
           console.log(response.status);
           console.log(response.data);
 
-          setResponse(result.data); // 서버로부터 받은 데이터를 response에 업데이트합니다.
-    
-          setData(JSON.stringify(response.data));
+          setResponse(response.data); // 서버로부터 받은 데이터를 response에 업데이트합니다.
         } catch (error) {
           if (error instanceof AxiosError) {
             if (error.response) {
@@ -143,7 +149,7 @@ const Settings = () => {
                         />
                     ) : (
                         <Nickname>
-                            {newNickname}
+                            {response.user.username}
                         </Nickname>
                     )}
                     <ID>    
@@ -222,7 +228,7 @@ const Settings = () => {
             <ModalContent>
               <Alert>나중에 또 만나요!</Alert>
               <BtnContainer>
-                <NoButton onClick={handleCancelWithdrawal}>닫기</NoButton>
+                <NoButton onClick={handleWithdrawal}>닫기</NoButton>
               </BtnContainer>
             </ModalContent>
           </ModalBox>

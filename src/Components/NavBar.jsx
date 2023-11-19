@@ -32,7 +32,6 @@ export const NavBar = (props) => {
   const isMap = currentPath === '/map';
   const isSettings = currentPath === '/settings';
 
-
   /*{
     "content": "야호 신난다!",
     "takenAt": "2023. 11. 15",  // 타입 string
@@ -102,6 +101,15 @@ export const NavBar = (props) => {
           withCredentials: true,
         },
       );
+      /*const response = await axios.request({
+        method: 'post',
+        url: '/posts',
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+        withCredentials: true,
+      });*/
       const data = await response.json(); // JSON 형태의 응답을 받는 경우
       console.log(data);
 

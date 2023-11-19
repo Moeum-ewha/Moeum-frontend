@@ -19,6 +19,8 @@ import {
   FriendPic,
   Name,
 } from '../Components/postingComponents';
+
+import { Map, Marker } from 'react-kakao-maps';
 import { TopBar, Title } from '../Components/TopBar';
 
 //assets
@@ -164,6 +166,37 @@ export const WritePost = () => {
     }
   };
 
+  /*
+  useEffect(() => {
+    const kakaoMapScript = document.createElement('script');
+    kakaoMapScript.async = false;
+    kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=f105135f49e581605fbe90ab15560672`;
+    document.head.appendChild(kakaoMapScript);
+    const onLoadKakaoAPI = () => {
+      window.kakao.maps.load(() => {
+        // 페이지가 로드된 후에 실행될 코드
+        const container = document.getElementById('map');
+        const options = {
+          center: new window.kakao.maps.LatLng(coordinates.x, coordinates.y),
+          level: 3,
+        };
+
+        // 카카오맵 생성
+        const map = new window.kakao.maps.Map(container, options);
+
+        // 마커 생성 및 추가
+        const markerPosition = new window.kakao.maps.LatLng(
+          coordinates.x,
+          coordinates.y,
+        );
+        const marker = new window.kakao.maps.Marker({
+          position: markerPosition,
+        });
+        marker.setMap(map);
+      });
+    };
+  }, [keyword]); */
+
   const [text, setText] = useState('');
 
   return (
@@ -193,7 +226,7 @@ export const WritePost = () => {
         <DatePicker
           shouldCloseOnSelect
           locale={ko}
-          dateFormat="yyyy. MM. dd"
+          dateFormat="yyyy-MM-dd"
           selected={startDate}
           onChange={(date) => {
             setStartDate(date);
@@ -208,7 +241,7 @@ export const WritePost = () => {
           type="text"
           placeholder="장소를 검색하세요"
         ></TxtBox>
-        {coordinates && <div>장소 삽입 완료!</div>}
+        {coordinates ? <div>장소 삽입 완료!</div> : <div></div>}
         <SmallerTitle>Whom</SmallerTitle>
         <FContainer>
           {savedFriendData.map((friend, index) => (

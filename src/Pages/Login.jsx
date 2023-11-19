@@ -44,8 +44,9 @@ const Login = () => {
       // Send API request
       const response = await axios({
         method: 'POST',
-        url: 'http://localhost:5000/auth',
+        url: '/auth',
         data: body,
+        withCredentials: true,
       });
 
       moveHome();

@@ -46,6 +46,7 @@ const SignUp = () => {
         method: "POST",
         url: '/account',
         data: body,
+        withCredentials: true,
       });
 
       // 2XX status code

@@ -25,9 +25,21 @@ const HomeScreen = () => {
   const location = useLocation();
   const postList = demo.userList.map((user) => user.postList).flat();
 
-  const movePost = () => {
-    navigate('/viewpost');
-  };
+  /*try {
+    // Send API request
+    const response = await axios.request({
+      method: 'get',
+      url: '/posts',
+      withCredentials: true,
+    });
+
+    console.log(response);
+    console.log(response.status);
+    console.log(response.data);
+    console.log(response.header);
+  } catch (error) {
+    console.error(error);
+  }*/
 
   if (location.state) {
     useEffect(() => {
@@ -37,21 +49,8 @@ const HomeScreen = () => {
     console.log(location.state.date);
   }
   const postOnClick = (index) => {
-    if (index !== 10) {
-      const postData = postList[index];
-      navigate(`/viewpost/${postData.id}`, { state: { postData } });
-    } else {
-      navigate('/viewpost/5', {
-        state: {
-          date: location.state.date,
-          location: location.state.location,
-          original: location.state.original,
-          content: location.state.content,
-          savedFriendData: location.state.savedFriendData,
-          newFriendData: location.state.newFriendData,
-        },
-      });
-    }
+    const postData = postList[index];
+    navigate(`/viewpost/${postData.id}`, { state: { postData } });
   };
 
   return (

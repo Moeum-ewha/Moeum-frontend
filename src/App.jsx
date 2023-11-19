@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import axios from "axios";
+import axios from 'axios';
 import WritePost from './Pages/WritePost';
 import ViewPost from './Pages/ViewPost';
 import './App.css';
@@ -20,7 +20,9 @@ import SelectFriend from './Pages/SelectFriend';
 import HomeScreen from './Pages/HomeScreen';
 import FriendPostList from './Pages/FriendPostList';
 
-axios.defaults.baseURL = "http://localhost:5000";
+//axios.defaults.baseURL = "http://localhost:5000";
+axios.defaults.baseURL =
+  'http://ec2-15-164-103-67.ap-northeast-2.compute.amazonaws.com:5000';
 
 function App() {
   return (

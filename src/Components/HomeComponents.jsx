@@ -65,7 +65,6 @@ export const Gallery = styled.div`
   height: 650px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   flex-wrap: wrap;
   overflow: auto;
   max-height: 650px;

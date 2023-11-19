@@ -41,7 +41,6 @@ import {
 import demo from '../../public/dummy/dummy.json';
 
 //assets
-import BackIcon from '../Assets/icons/goback.png';
 import insta from '../Assets/icons/Insta.png';
 
 export const ViewPost = () => {

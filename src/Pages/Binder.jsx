@@ -29,8 +29,8 @@ const Binder = () => {
     { spine: '#FFC19E', cover: '#FFEADA' },
     { spine: '#FFDF70', cover: '#FFF3CC' },
     { spine: '#AFE397', cover: '#E7F5D8' },
-    { spine: '#F5AEAE', cover: '#FCE5DF' },
-    { spine: '#FFC19E', cover: '#FFEADA' },
+    { spine: '#B9E6FF', cover: '#EAF5F7' },
+    { spine: '#D3BCF9', cover: '#F2E9F5' },
   ];
 
   const albumOnClick = (id, name) => {
@@ -56,8 +56,12 @@ const Binder = () => {
               key={friend.id}
             >
               <Bind>
-                <Spine style={{ backgroundColor: colorChart[index].spine }} />
-                <Cover style={{ backgroundColor: colorChart[index].cover }} />
+                <Spine
+                  style={{ backgroundColor: colorChart[index % 6].spine }}
+                />
+                <Cover
+                  style={{ backgroundColor: colorChart[index % 6].cover }}
+                />
                 <Pic>
                   <img
                     src={`../../dummy/${friend.faceImg}`}

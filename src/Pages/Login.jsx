@@ -44,7 +44,7 @@ const Login = () => {
       // Send API request
       const response = await axios({
         method: 'POST',
-        url: 'ec2-15-164-103-67.ap-northeast-2.compute.amazonaws.com:5000/auth',
+        url: '/auth',
         data: body,
         withCredentials: true,
       });

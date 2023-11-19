@@ -9,6 +9,10 @@ import friends from '../Assets/icons/friends.png';
 import settings from '../Assets/icons/settings.png';
 import plus from '../Assets/icons/plus.png';
 import check from '../Assets/icons/check.png';
+import homeOn from '../Assets/icons/homeOn.png';
+import mapOn from '../Assets/icons/mapOn.png';
+import friendsOn from '../Assets/icons/friendsOn.png';
+import settingsOn from '../Assets/icons/settingsOn.png';
 
 import { ModalBack, ModalBox, ModalBtn, ExitBtn } from './PhotoModal';
 
@@ -183,10 +187,18 @@ export const NavBar = (props) => {
       </>
       <NavigationBar>
         <NavBtn>
-          <img src={home} alt="로고" onClick={moveHome} />
+          {isHome ? (
+            <img src={homeOn} onClick={moveHome} alt="홈" />
+          ) : (
+            <img src={home} onClick={moveHome} alt="홈" />
+          )}
         </NavBtn>
         <NavBtn>
-          <img src={friends} alt="로고" onClick={moveBinder} />
+          {isBinder ? (
+            <img src={friendsOn} onClick={moveBinder} alt="친구" />
+          ) : (
+            <img src={friends} onClick={moveBinder} alt="친구" />
+          )}
         </NavBtn>
         {isPostingPage ? (
           <CenterBtn onClick={() => writePost(props)}>
@@ -199,10 +211,18 @@ export const NavBar = (props) => {
         )}
         <NavBtn />
         <NavBtn>
-          <img src={map} alt="로고" onClick={moveMap} />
+          {isMap ? (
+            <img src={mapOn} onClick={moveMap} alt="지도" />
+          ) : (
+            <img src={map} alt="로고" onClick={moveMap} />
+          )}
         </NavBtn>
         <NavBtn>
-          <img src={settings} alt="로고" onClick={moveMypage} />
+          {isSettings ? (
+            <img src={settingsOn} onClick={moveMypage} alt="마이페이지" />
+          ) : (
+            <img src={settings} alt="로고" onClick={moveMypage} />
+          )}
         </NavBtn>
       </NavigationBar>
     </>

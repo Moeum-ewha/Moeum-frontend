@@ -44,7 +44,7 @@ const SignUp = () => {
       // Send API request
       const response = await axios({
         method: 'POST',
-        url: 'http://ec2-15-164-103-67.ap-northeast-2.compute.amazonaws.com:5000/account',
+        url: '/account',
         data: body,
         withCredentials: true,
       });
@@ -81,11 +81,15 @@ const SignUp = () => {
     await sendApi();
   };
 
+  //모달
   const modalBackground = useRef();
   const navigate = useNavigate();
 
   const moveHome = () => {
     navigate('/home');
+  };
+  const moveLogin = () => {
+    navigate('/login');
   };
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -148,7 +152,7 @@ const SignUp = () => {
       if (!exp.test(changeValue.password)) {
         setValidText((prevText) => ({
           ...prevText,
-          isPassword: '비밀번호는 8자 이상의 영어와 숫자여야 합니다',
+          isPassword: '8자 이상의 영어와 숫자여야해요',
         }));
         setIsValid({ ...isValid, isPassword: false });
       } else {
@@ -173,7 +177,7 @@ const SignUp = () => {
       } else {
         setValidText((prevText) => ({
           ...prevText,
-          isConfirmPassword: '비밀번호가 같지 않습니다.',
+          isConfirmPassword: '비밀번호가 같지 않아요',
         }));
         setIsValid((prevValid) => ({
           ...prevValid,
@@ -311,7 +315,7 @@ const SignUp = () => {
             <ModalContent>
               <Alert>회원가입이</Alert>
               <Alert>완료되었습니다!</Alert>
-              <ModalButton onClick={moveHome}>로그인</ModalButton>
+              <ModalButton onClick={moveLogin}>로그인</ModalButton>
             </ModalContent>
           </ModalBox>
         </ModalBack>

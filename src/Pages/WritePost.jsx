@@ -20,7 +20,6 @@ import {
   Name,
 } from '../Components/postingComponents';
 
-import { Map, Marker } from 'react-kakao-maps';
 import { TopBar, Title } from '../Components/TopBar';
 
 //assets
@@ -113,7 +112,28 @@ export const WritePost = () => {
   const [startDate, setStartDate] = useState(new Date());
 
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
-    <button className="example-custom-input" onClick={onClick} ref={ref}>
+    <button 
+      className="example-custom-input"
+      onClick={onClick}
+      ref={ref}
+      style={{
+        backgroundColor: 'transparent',
+        border: 'none',
+        borderRadius: '4px',
+        color: '#333333',
+        cursor: 'pointer',
+        padding: '5px 15px',
+        border: 'none',
+        fontSize: '13px',
+        fontWeight: '400',
+        lineHeight: '15px',
+        height: '21px',
+        textAlign: 'center',
+        width: '100%',
+        textDecoration: 'underline',
+        textDecorationColor: '#bdbdbd',
+      }}
+    >
       {value}
     </button>
   ));
@@ -223,16 +243,14 @@ export const WritePost = () => {
           alt="선택한 이미지"
         />
         <SmallerTitle>When</SmallerTitle>
-        <CustomDatePicker
+        <DatePicker
           shouldCloseOnSelect
           locale={ko}
           dateFormat="yyyy-MM-dd"
           selected={startDate}
-          onChange={(date) => {
-            setStartDate(date);
-          }}
-          customInput={<ExampleCustomInput />}
-        />
+          onChange={(date) => setStartDate(date)}
+          customInput={<ExampleCustomInput />}// border 제거
+         />
         <SmallerTitle>Where</SmallerTitle>
         <TxtBox
           value={keyword}
@@ -337,19 +355,3 @@ export const PaddingContainer = styled.div`
   height: 200px;
 `;
 
-export const CustomDatePicker = styled(DatePicker)`
-  background: transparent;
-  border: none;
-  .react-datepicker__input-container {
-    width: 82px;
-    height: 19px;
-    padding: 5px 10px;
-    background: #f5f5f5;
-    border: 1px solid white;
-    border-radius: 5px;
-    font-size: 15px;
-    font-weight: 400;
-    text-align: center;
-    color: #2b2b2b;
-  }
-`;

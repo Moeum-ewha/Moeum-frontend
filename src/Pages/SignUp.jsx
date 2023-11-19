@@ -43,14 +43,20 @@ const SignUp = () => {
     try {
       // Send API request
       const response = await axios({
-        method: "POST",
-        url: 'http://localhost:5000/account',
+        method: 'POST',
+        url: 'http://ec2-15-164-103-67.ap-northeast-2.compute.amazonaws.com:5000/account',
         data: body,
+        withCredentials: true,
       });
 
       // 2XX status code
       console.log(response.status);
       console.log(response.data);
+      // 쿠키 확인
+      const cookies = response.headers['set-cookie'];
+      if (cookies) {
+        console.log('Received Cookies:', cookies);
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response) {

@@ -42,7 +42,11 @@ const Settings = () => {
 
   const navigate = useNavigate();
 
-    const sendApi = async () => {
+  const moveLogin = () => {
+    navigate('/login');
+  }
+
+  const sendApi = async () => {
         // Send 버튼 더블클릭 방지
         if (isLoading) return;
     
@@ -121,9 +125,24 @@ const Settings = () => {
     setModalOpen(false);
   };
 
-  const handleWithdrawal = () => {
-    setWithdrawn(true);
-    setModalOpen(false); // 모달 닫기
+  const handleWithdrawal = async () => {
+    try {
+      const deleteResponse = await axios({
+        method: "DELETE",
+        url: '/account',
+        withCredentials: true,
+        
+      });
+  
+      console.log(deleteResponse);
+  
+      // 삭제 성공 시의 로직
+      setWithdrawn(true); // 탈퇴 여부 상태 변경
+      setModalOpen(false);
+  
+    } catch (error) {
+      console.error(error); //
+    }
   };
 
     return (
@@ -222,7 +241,7 @@ const Settings = () => {
           ref={modalBackground}
           onClick={(e) => {
             if (e.target === modalBackground.current) {
-              handleCancelWithdrawal(); // 초기화
+              handleWithdrawal(); // 초기화
             }
           }}
         >
@@ -230,7 +249,7 @@ const Settings = () => {
             <ModalContent>
               <Alert>나중에 또 만나요!</Alert>
               <BtnContainer>
-                <NoButton onClick={handleWithdrawal}>닫기</NoButton>
+                <NoButton onClick={moveLogin}>닫기</NoButton>
               </BtnContainer>
             </ModalContent>
           </ModalBox>

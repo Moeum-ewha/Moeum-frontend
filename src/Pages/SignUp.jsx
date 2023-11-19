@@ -49,6 +49,9 @@ const SignUp = () => {
         withCredentials: true,
       });
 
+      if (response.status === 200 || response.status === 201) {
+        setModalOpen(true);
+      }
       // 2XX status code
       console.log(response.status);
       console.log(response.data);
@@ -93,13 +96,6 @@ const SignUp = () => {
   };
 
   const [modalOpen, setModalOpen] = useState(false);
-
-  const openModal = () => {
-    if (validateInputs()) {
-      setModalOpen(true);
-    } else {
-    }
-  };
 
   const [isButtonActive, setIsButtonActive] = useState(false);
 
@@ -293,7 +289,6 @@ const SignUp = () => {
             <Button
               type="submit"
               style={{ margin: '25px', ...buttonStyle }}
-              onClick={openModal}
               disabled={!isButtonActive || isLoading}
             >
               {isLoading && <Loading />}

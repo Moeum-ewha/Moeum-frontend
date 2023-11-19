@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-
+import { useNavigate, useLocation } from 'react-router-dom';
 import BackgroundContainer from '../Components/BackgroundContainer';
 import {
   TopBar,
@@ -16,10 +16,13 @@ import {
   Dday,
 } from '../Components/MapComponents';
 import { NavBar } from '../Components/NavBar';
-import demo from '../../public/dummy/newdummy.json';
+import demo from '../../public/dummy/dummy.json';
 
 const Map = () => {
   const postList = demo.userList.map((user) => user.postList).flat();
+  const navigate = useNavigate();
+  const location = useLocation();
+
 
   useEffect(() => {
     const kakaoMapScript = document.createElement('script');
@@ -66,6 +69,11 @@ const Map = () => {
     kakaoMapScript.addEventListener('load', onLoadKakaoAPI);
   }, []);
 
+  const postOnClick = (index) => {
+    const postData = postList[index];
+    navigate(`/viewpost/${postData.id}`, { state: { postData } });
+  };
+
   return (
     <BackgroundContainer>
       <Content>
@@ -80,7 +88,7 @@ const Map = () => {
           }}
         >
           {postList.map((post, index) => (
-            <Moeum key={post.id}>
+            <Moeum key={post.id} onClick={() => postOnClick(index)}>
               <Photo>
                 <img
                   src={`../../dummy/${post.original}`}

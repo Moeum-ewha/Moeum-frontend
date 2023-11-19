@@ -223,7 +223,7 @@ export const WritePost = () => {
           alt="선택한 이미지"
         />
         <SmallerTitle>When</SmallerTitle>
-        <DatePicker
+        <CustomDatePicker
           shouldCloseOnSelect
           locale={ko}
           dateFormat="yyyy-MM-dd"
@@ -241,7 +241,23 @@ export const WritePost = () => {
           type="text"
           placeholder="장소를 검색하세요"
         ></TxtBox>
-        {coordinates ? <div>장소 삽입 완료!</div> : <div></div>}
+        {coordinates ? (
+          <div
+            style={{
+              fontSize: '12px',
+            }}
+          >
+            장소 삽입 완료!
+          </div>
+        ) : (
+          <div
+            style={{
+              fontSize: '10px',
+            }}
+          >
+            키워드를 조금 자세히 적어주세요 ex. 이대x 이화여대o
+          </div>
+        )}
         <SmallerTitle>Whom</SmallerTitle>
         <FContainer>
           {savedFriendData.map((friend, index) => (
@@ -319,4 +335,21 @@ export const MiniContainer = styled(Main)`
 export const PaddingContainer = styled.div`
   width: 100%;
   height: 200px;
+`;
+
+export const CustomDatePicker = styled(DatePicker)`
+  background: transparent;
+  border: none;
+  .react-datepicker__input-container {
+    width: 82px;
+    height: 19px;
+    padding: 5px 10px;
+    background: #f5f5f5;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: 400;
+    text-align: center;
+    color: #2b2b2b;
+  }
 `;

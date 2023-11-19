@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+
+import React, { useEffect, useState } from 'react';
+
+
 import BackgroundContainer from '../Components/BackgroundContainer';
 import {
   TopBar,
@@ -16,13 +18,34 @@ import {
   Dday,
 } from '../Components/MapComponents';
 import { NavBar } from '../Components/NavBar';
-import demo from '../../public/dummy/dummy.json';
+
+import demo from '../../public/dummy/newdummy.json';
+import useCurrentLocation from '../hooks/useGeoLocation';
+import Spinner from '../Assets/Spinner.gif';
+
+const geolocationOptions = {
+  enableHighAccuracy: true,
+  timeout: 1000 * 60 * 1,
+  maximumAge: 1000 * 3600 * 24,
+};
 
 const Map = () => {
   const postList = demo.userList.map((user) => user.postList).flat();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [currentLoc, setCurrentLoc] = useState({ x: 0, y: 0 });
+  const [loading, setLoading] = useState(true);
 
+  const { location, error: currentError } =
+    useCurrentLocation(geolocationOptions);
+
+  useEffect(() => {
+    if (location && location.latitude && location.longitude) {
+      setCurrentLoc({
+        x: location.latitude || 37.552914,
+        y: location.longitude || 126.942011,
+      });
+      setLoading(false);
+    }
+  }, [location]);
 
   useEffect(() => {
     const kakaoMapScript = document.createElement('script');
@@ -33,41 +56,49 @@ const Map = () => {
     const onLoadKakaoAPI = () => {
       window.kakao.maps.load(() => {
         var container = document.getElementById('map'); //지도를 표시할 div
-        var options = {
-          center: new window.kakao.maps.LatLng(37.552914, 126.942011), // 지도의 중심좌표
-          level: 6, //지도의 확대 레벨
-        };
 
-        const map = new window.kakao.maps.Map(container, options); // 지도 생성
+        if (container && currentLoc.x && currentLoc.y) {
+          var options = {
+            center: new window.kakao.maps.LatLng(currentLoc.x, currentLoc.y),
+            level: 6,
+          };
 
-        var positions = postList.map((post) => ({
-          title: post.date,
-          latlng: new kakao.maps.LatLng(
-            parseFloat(`${post.longitude}`),
-            parseFloat(`${post.latitude}`),
-          ),
-        }));
+          const map = new window.kakao.maps.Map(container, options);
 
-        positions.forEach((position) => {
-          var imageSrc =
-            'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
+          var positions = postList.map((post) => ({
+            title: post.date,
+            latlng: new kakao.maps.LatLng(
+              parseFloat(`${post.longitude}`),
+              parseFloat(`${post.latitude}`),
+            ),
+          }));
 
-          var imageSize = new kakao.maps.Size(24, 35);
+          positions.forEach((position) => {
+            var imageSrc =
+              'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
 
-          var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+            var imageSize = new kakao.maps.Size(24, 35);
 
-          var marker = new kakao.maps.Marker({
-            map: map, // 여기서 map은 이미 만들어진 Kakao 지도 객체입니다.
-            position: position.latlng,
-            title: position.title,
-            image: markerImage,
+            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+            var marker = new kakao.maps.Marker({
+              map: map,
+              position: position.latlng,
+              title: position.title,
+              image: markerImage,
+            });
           });
-        });
+        }
       });
     };
 
     kakaoMapScript.addEventListener('load', onLoadKakaoAPI);
-  }, []);
+    document.head.appendChild(kakaoMapScript);
+
+    return () => {
+      document.head.removeChild(kakaoMapScript);
+    };
+  }, [currentLoc, postList]);
 
   const postOnClick = (index) => {
     const postData = postList[index];
@@ -80,7 +111,16 @@ const Map = () => {
         <TopBar>
           <Title>지도</Title>
         </TopBar>
-        <MapDiv id="map" style={{ width: '100vw', height: '70vh' }}></MapDiv>
+        {loading ? (
+          <img
+            src={Spinner}
+            alt="로딩중"
+            width="35%"
+            style={{ marginTop: 60 }}
+          />
+        ) : (
+          <MapDiv id="map" style={{ width: '100vw', height: '70vh' }} />
+        )}
         <MoeumDiv
           style={{
             overflowY: 'auto', // Y축 스크롤이 필요한 경우만 스크롤을 표시합니다.

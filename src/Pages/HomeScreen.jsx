@@ -69,18 +69,6 @@ const HomeScreen = () => {
           </Alert>
         </TopBar>
         <Gallery>
-          {location.state && location.state.id !== null ? (
-            <Photo onClick={() => postOnClick(id)}>
-              <img
-                src={location.state.original}
-                width="160px"
-                style={{ borderRadius: '15px' }}
-                //onClick={movePost}
-              />
-            </Photo>
-          ) : (
-            <></>
-          )}
           {postList.map((post, index) => (
             <Photo onClick={() => postOnClick(index)} key={post.id}>
               <img

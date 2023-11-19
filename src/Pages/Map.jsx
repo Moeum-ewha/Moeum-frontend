@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from 'react';
+
 
 import BackgroundContainer from '../Components/BackgroundContainer';
 import {
@@ -16,6 +18,7 @@ import {
   Dday,
 } from '../Components/MapComponents';
 import { NavBar } from '../Components/NavBar';
+
 import demo from '../../public/dummy/newdummy.json';
 import useCurrentLocation from '../hooks/useGeoLocation';
 import Spinner from '../Assets/Spinner.gif';
@@ -97,6 +100,11 @@ const Map = () => {
     };
   }, [currentLoc, postList]);
 
+  const postOnClick = (index) => {
+    const postData = postList[index];
+    navigate(`/viewpost/${postData.id}`, { state: { postData } });
+  };
+
   return (
     <BackgroundContainer>
       <Content>
@@ -120,7 +128,7 @@ const Map = () => {
           }}
         >
           {postList.map((post, index) => (
-            <Moeum key={post.id}>
+            <Moeum key={post.id} onClick={() => postOnClick(index)}>
               <Photo>
                 <img
                   src={`../../dummy/${post.original}`}

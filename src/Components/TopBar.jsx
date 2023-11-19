@@ -8,7 +8,7 @@ export const Back = () => {
 
 
   return (
-    <StyledBackButton onClick={() => {navigate(-2)}}>
+    <StyledBackButton onClick={() => {navigate(-1)}}>
       <img src={BackIcon} alt="뒤로가기" />
     </StyledBackButton>
   );

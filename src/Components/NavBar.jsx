@@ -27,6 +27,11 @@ export const NavBar = (props) => {
   const [isApiLoading, setIsApiLoading] = useState(false);
 
   const isPostingPage = currentPath === '/posting';
+  const isHome = currentPath === '/home';
+  const isBinder = currentPath === '/binder';
+  const isMap = currentPath === '/map';
+  const isSettings = currentPath === '/settings';
+
 
   /*{
     "content": "야호 신난다!",

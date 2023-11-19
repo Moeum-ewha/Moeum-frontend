@@ -43,7 +43,7 @@ const SignUp = () => {
     try {
       // Send API request
       const response = await axios({
-        method: "POST",
+        method: 'POST',
         url: '/account',
         data: body,
         withCredentials: true,
@@ -52,6 +52,11 @@ const SignUp = () => {
       // 2XX status code
       console.log(response.status);
       console.log(response.data);
+      // 쿠키 확인
+      const cookies = response.headers['set-cookie'];
+      if (cookies) {
+        console.log('Received Cookies:', cookies);
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response) {

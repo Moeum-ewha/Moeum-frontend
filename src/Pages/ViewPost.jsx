@@ -57,29 +57,9 @@ export const ViewPost = () => {
   );
 
   let postData;
-  let date;
-  let picLocation;
-  let original;
-  let content;
-  let savedFriendData;
-  let newFriendData;
 
-  let namesArray;
+  postData = location.state.postData;
 
-  if (location.state.postData != undefined) {
-    postData = location.state.postData;
-  } else {
-    date = location.state.date;
-    picLocation = location.state.location;
-    original = location.state.original;
-    content = location.state.content;
-    savedFriendData = location.state.savedFriendData;
-    newFriendData = location.state.newFriendData;
-
-    namesArray = [...savedFriendData, ...newFriendData].map(
-      (item) => item.name,
-    );
-  }
   //const imgURL = location.state.wholeImg;
 
   let nowUrl = window.location.href;
@@ -165,51 +145,27 @@ export const ViewPost = () => {
           <Title>네컷 일기</Title>
         </TopBar>
         <ContentContainer>
-          {postId === '10' ? (
-            <MiniContainer>
-              <ImgContainer>
-                <img src={original} width="100%" />
-              </ImgContainer>
-              <SecondaryTitle>
-                {namesArray
-                  .map(
-                    (name, index) =>
-                      `'${name}'이랑${
-                        index === namesArray.length - 1 ? ' 집에서' : ''
-                      }`,
-                  )
-                  .join(', ')}
-                {'('}이{')'}랑 {picLocation}에서
-              </SecondaryTitle>
-              <ShareBtn>
-                <img src={insta} alt="로고" onClick={copyUrl} />
-              </ShareBtn>
-              <Text>{content}</Text>
-              <Date>{date}</Date>
-            </MiniContainer>
-          ) : (
-            <MiniContainer>
-              <ImgContainer>
-                <img src={`../../dummy/${postData.original}`} width="100%" />
-              </ImgContainer>
-              <SecondaryTitle>
-                {postData.friendId
-                  .map((friendId) => {
-                    const friend = demo.userList
-                      .flatMap((user) => user.friendsList)
-                      .find((friend) => friend.id === friendId);
-                    return friend ? friend.name : '';
-                  })
-                  .join(', ')}
-                {'('}이{')'}랑 {postData.location}에서
-              </SecondaryTitle>
-              <ShareBtn>
-                <img src={insta} alt="로고" onClick={copyUrl} />
-              </ShareBtn>
-              <Text>{postData.content}</Text>
-              <Date>{postData.date}</Date>
-            </MiniContainer>
-          )}
+          <MiniContainer>
+            <ImgContainer>
+              <img src={`../../dummy/${postData.original}`} width="100%" />
+            </ImgContainer>
+            <SecondaryTitle>
+              {postData.friendId
+                .map((friendId) => {
+                  const friend = demo.userList
+                    .flatMap((user) => user.friendsList)
+                    .find((friend) => friend.id === friendId);
+                  return friend ? friend.name : '';
+                })
+                .join(', ')}
+              {'('}이{')'}랑 {postData.location}에서
+            </SecondaryTitle>
+            <ShareBtn>
+              <img src={insta} alt="로고" onClick={copyUrl} />
+            </ShareBtn>
+            <Text>{postData.content}</Text>
+            <Date>{postData.date}</Date>
+          </MiniContainer>
 
           <Delete onClick={openModal}>삭제하기</Delete>
         </ContentContainer>

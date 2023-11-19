@@ -23,9 +23,7 @@ import { TopBar, Title } from '../Components/TopBar';
 
 //assets
 import BackIcon from '../Assets/icons/goback.png';
-import dummy2 from '../Assets/yujin2.jpeg';
-import dummy3 from '../Assets/hyejoon2.jpeg';
-import dummy4 from '../Assets/unknown.jpeg';
+import { formatWithCursor } from 'prettier';
 
 function dataURItoBlob(dataURI) {
   // convert base64/URLEncoded data component to raw binary data held in a string
@@ -45,6 +43,23 @@ function dataURItoBlob(dataURI) {
 
   return new Blob([ia], { type: mimeString });
 }
+function urlToBlob(url) {
+  return new Promise((resolve, reject) => {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'blob';
+    xhr.onload = function () {
+      var blob = xhr.response;
+      resolve(blob);
+    };
+
+    xhr.onerror = function () {
+      reject(new Error('Network error while fetching the URL'));
+    };
+
+    xhr.send();
+  });
+}
 
 const ArraytoString = (friendData) => {
   return friendData.map((friend) => friend.name).join(',');
@@ -53,47 +68,44 @@ const ArraytoString = (friendData) => {
 export const WritePost = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [originalImgBlob, setOriginalImgBlob] = useState(null);
   const faces = [];
-
-  //wholeImg, newFriendData(name, faceImg), savedFriendData(name)을 인자값으로 받음
-  //newFriendData와 savedFriendData를 화면에 map하면서 돌려서 출력 -> 완료
-  //원본사진, 새로운친구의 faceImg를 blob 파일로 바꾸기
-  //게시글 작성과 동시에 original: file1, faces: [file2, file3], newFriendNames: "yunsun,youngwoo", oldFriendNames: "건희,진영"를 서버로 전송
-  //이름의 경우 배열이 아닌 string으로, ','간에 공백 있으면 안됨
-
-  //newFriendData의 값을 친구 목록 리스트에 저장 -> 각 인물 게시글 db에 원본사진 추가
-  //savedFriendData 값에 존재하는 친구들의 각 인물 게시글 db에 원본사진 추가
-
-  //배열 입력 시 - 하나의 필드값만 추출하여 배열 생성 - 해당 배열의 모든 값을 comma 기준 string으로 생성하여 주는 함수 생성
-  //savedFriendData에서 이름만 추출하여 oldFriendNames string 생성
-  //newFriendData에서 이름만 추출하여 newFriendNames string 생성
-  //newFriendData에서 이미지만 추출하여 faces 배열 생성
 
   const imgURL = location.state.wholeImg;
   const savedFriendData = location.state.savedFriendData;
   const newFriendData = location.state.newFriendData;
 
-  //원본사진을 blob파일로 바꾸기
-  //const orginalImgBlob = dataURItoBlob(imgURL);
-
   //새로운 친구들의 얼굴 사진만을 담은 faces 배열
-  //newFriendData.forEach((friend) => {
-  //  const blob = dataURItoBlob(friend.faceImg);
-  //  faces.push(blob);
-  //});
+  newFriendData.forEach((friend) => {
+    const blob = dataURItoBlob(friend.faceImg);
+    faces.push(blob);
+  });
 
-  /* const oldFriendNames = ArraytoString(savedFriendData);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // urlToBlob 함수를 비동기로 호출하여 Blob 객체를 얻음
+        const Blob = await urlToBlob(imgURL);
+        setOriginalImgBlob(Blob);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  });
+
+  const oldFriendNames = ArraytoString(savedFriendData);
   const newFriendNames = ArraytoString(newFriendData);
 
   const formData = new FormData();
-  formData.append('originalImg', orginalImgBlob);
+  formData.append('originalImg', originalImgBlob);
   formData.append('faces', faces);
   formData.append('newFriendNames', newFriendNames);
-  formData.append('originalImg', oldFriendNames);
+  formData.append('oldFriendNames', oldFriendNames);
 
-  const entries = formData.values();
-  let entry = entries.next();
-  console.log(entry);*/
+  //const entries = formData.values();
+  //let entry = entries.next();
+  //console.log(entry);
 
   //날짜
   const [startDate, setStartDate] = useState(new Date());
@@ -240,14 +252,16 @@ export const WritePost = () => {
       </MiniContainer>
       <PaddingContainer />
       <NavBar
-        date={startDate.toLocaleDateString()}
-        where={keyword}
+        content={text}
+        takenAt={startDate.toLocaleDateString()}
+        location={keyword}
         latitude={coordinates.x}
         longitude={coordinates.y}
-        content={text}
-        original={imgURL}
-        savedFriendData={savedFriendData}
-        newFriendData={newFriendData}
+        formData={formData}
+        original={originalImgBlob}
+        faces={faces}
+        newFriendNames={newFriendNames}
+        oldFriendNames={oldFriendNames}
       />
     </BackgroundContainer>
   );

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import axios, { AxiosError } from 'axios';
 
 import home from '../Assets/icons/home.png';
 import map from '../Assets/icons/map.png';
@@ -23,64 +24,97 @@ export const NavBar = (props) => {
   const currentPath = location.pathname;
 
   const [modalOpen, setModalOpen] = useState(false);
+  const [isApiLoading, setIsApiLoading] = useState(false);
 
   const isPostingPage = currentPath === '/posting';
 
-  const isHome = currentPath === '/home'; 
-  const isBinder = currentPath === '/binder'; 
-  const isMap = currentPath === '/map'; 
-  const isSettings = currentPath === '/settings'; 
+  /*{
+    "content": "야호 신난다!",
+    "takenAt": "2023. 11. 15",  // 타입 string
+    "location": "북카페 파오",
+    "latitude": "37.558",  // 카카오맵에서 주는대로.. 
+    "longitude": "126.946",
+  ================ 아래는 formdata (테스팅할 땐 body로 넣음) ================
+    "original": file1,  // 원본 네컷사진
+    "faces": [file2(윤선얼굴), file3(진영얼굴)],  // 새로 등록하는 친구들의 잘린 얼굴 파일들 0~3개
+    "newFriendNames": "윤선,진영",  // 새로 등록하는 친구들의 이름들 (faces랑 순서 같아야 함, 당연히 갯수도 같음)
+    "oldFriendNames": "건희"  // 이전에 등록했었던 친구들의 이름들
+  }*/
 
-  const writePost = () => {
-    const date = props.date;
-    const location = props.location;
+  const writePost = async (props) => {
+    const formData = new FormData();
+    const content = props.content;
+    const takenAt = props.takenAt;
+    const postingLocation = props.location;
     const latitude = props.latitude;
     const longitude = props.longitude;
+    //const formData = props.formData;
     const original = props.original;
-    const content = props.content;
-    const savedFriendData = props.savedFriendData;
-    const newFriendData = props.newFriendData;
+    const faces = props.faces;
+    const newFriendNames = props.newFriendNames;
+    const oldFriendNames = props.oldFriendNames;
 
-    navigate('/viewpost/10', {
-      state: {
-        date: date,
-        location: location,
-        latitude: latitude,
-        longitude: longitude,
-        original: original,
-        content: content,
-        savedFriendData: savedFriendData,
-        newFriendData: newFriendData,
-      },
-    });
+    formData.append('content', content);
+    formData.append('takenAt', '2023-11-17');
+    formData.append('location', postingLocation);
+    formData.append('latitude', latitude);
+    formData.append('longitude', longitude);
+    formData.append('original', original);
+    formData.append('faces', faces);
+    formData.append('newFriendNames', newFriendNames);
+    formData.append('oldFriendNames', oldFriendNames);
+
+    const entriesArray = [...formData.entries()];
+    console.log(entriesArray);
+    //console.log(props);
+
+    if (isApiLoading) return;
+
+    setIsApiLoading(true);
+
+    const body = {
+      content: content,
+      takenAt: '2023-11-16',
+      location: postingLocation,
+      latitude: latitude,
+      longitude: longitude,
+      formData: formData,
+      original: original,
+      faces: faces,
+      newFriendNames: newFriendNames,
+      oldFriendNames: oldFriendNames,
+    };
+    try {
+      // Send API request
+      const response = await fetch(
+        'http://ec2-15-164-103-67.ap-northeast-2.compute.amazonaws.com:5000/posts',
+        {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+          withCredentials: true,
+        },
+      );
+      const data = await response.json(); // JSON 형태의 응답을 받는 경우
+      console.log(data);
+
+      //viewpost로 가는 함수 작성하기
+
+      console.log(response);
+      console.log(response.status);
+      console.log(response.data);
+      console.log(response.header);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsApiLoading(false);
+    }
   };
 
   const moveHome = () => {
-    const date = props.date;
-    const location = props.location;
-    const latitude = props.latitude;
-    const longitude = props.longitude;
-    const original = props.original;
-    const content = props.content;
-    const savedFriendData = props.savedFriendData;
-    const newFriendData = props.newFriendData;
-
-    console.log(props);
-    console.log(original);
-
-    navigate('/home', {
-      state: {
-        id: 10,
-        date: date,
-        location: location,
-        latitude: latitude,
-        longitude: longitude,
-        original: original,
-        content: content,
-        savedFriendData: savedFriendData,
-        newFriendData: newFriendData,
-      },
-    });
+    navigate('/home');
   };
 
   const moveBinder = () => {
@@ -153,21 +187,21 @@ export const NavBar = (props) => {
       </>
       <NavigationBar>
         <NavBtn>
-        {isHome ? (
+          {isHome ? (
             <img src={homeOn} onClick={moveHome} alt="홈" />
-        ) : (
+          ) : (
             <img src={home} onClick={moveHome} alt="홈" />
-        )}
+          )}
         </NavBtn>
         <NavBtn>
-        {isBinder ? (
+          {isBinder ? (
             <img src={friendsOn} onClick={moveBinder} alt="친구" />
-        ) : (
-          <img src={friends} onClick={moveBinder} alt="친구" />
-        )}
+          ) : (
+            <img src={friends} onClick={moveBinder} alt="친구" />
+          )}
         </NavBtn>
         {isPostingPage ? (
-          <CenterBtn onClick={writePost}>
+          <CenterBtn onClick={() => writePost(props)}>
             <img src={check} alt="작성버튼" />
           </CenterBtn>
         ) : (
@@ -177,18 +211,18 @@ export const NavBar = (props) => {
         )}
         <NavBtn />
         <NavBtn>
-        {isMap ? (
+          {isMap ? (
             <img src={mapOn} onClick={moveMap} alt="지도" />
-        ) : (
-          <img src={map} alt="로고" onClick={moveMap} />
-        )}
+          ) : (
+            <img src={map} alt="로고" onClick={moveMap} />
+          )}
         </NavBtn>
         <NavBtn>
-        {isSettings ? (
+          {isSettings ? (
             <img src={settingsOn} onClick={moveMypage} alt="마이페이지" />
-        ) : (
-          <img src={settings} alt="로고" onClick={moveMypage} />
-        )}
+          ) : (
+            <img src={settings} alt="로고" onClick={moveMypage} />
+          )}
         </NavBtn>
       </NavigationBar>
     </>

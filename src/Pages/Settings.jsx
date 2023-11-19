@@ -32,15 +32,48 @@ import {
   BtnContainer,
 } from '../Components/PopupModal';
 
-
-import logo from "../Assets/logo.png";
+import logo from '../Assets/logo.png';
 
 const Settings = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const [response, setResponse] = useState({ user: { username: '', email: '' } }); // 유저 정보를 초기화합니다.
+  const [isLoading, setIsLoading] = useState(false);
+  const [response, setResponse] = useState({
+    user: { username: '', email: '' },
+  }); // 유저 정보를 초기화합니다.
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
+<<<<<<< HEAD
+  const sendApi = async () => {
+    // Send 버튼 더블클릭 방지
+    if (isLoading) return;
+
+    setIsLoading(true);
+
+    try {
+      // Send API request
+      response = await axios({
+        method: 'GET',
+        url: 'https://localhost:5000/account',
+        data: body ? JSON.parse(body) : undefined,
+      });
+
+      // 2XX status code
+      console.log(response.status);
+      console.log(response.data);
+
+      setResponse(result.data); // 서버로부터 받은 데이터를 response에 업데이트합니다.
+
+      setData(JSON.stringify(response.data));
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          // Non-2XX status code
+          console.error(error.response.status);
+          console.error(error.response.data);
+        } else if (error.request) {
+          // Request made, no response
+          console.error(error.request);
+=======
     const sendApi = async () => {
         // Send 버튼 더블클릭 방지
         if (isLoading) return;
@@ -81,15 +114,22 @@ const Settings = () => {
           }
         } finally {
           setIsLoading(false);
+>>>>>>> 99f64a2c57bd19b2df86274de5f02ce177145504
         }
-      };
+      } else {
+        // Other unexpected error
+        console.error(error);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-      useEffect(() => {
-        sendApi(); // componentDidMount와 동일하게 첫 렌더링 시에 API를 호출합니다.
-      }, []); 
+  useEffect(() => {
+    sendApi(); // componentDidMount와 동일하게 첫 렌더링 시에 API를 호출합니다.
+  }, []);
 
-
-      console.log(response);
+  console.log(response);
 
   const [isEditing, setIsEditing] = useState(false);
   const [newNickname, setNewNickname] = useState(response.user.username);
@@ -124,6 +164,59 @@ const Settings = () => {
     setModalOpen(false); // 모달 닫기
   };
 
+<<<<<<< HEAD
+  return (
+    <BackgroundContainer>
+      <Content>
+        <TopBar>
+          <Title>마이페이지</Title>
+        </TopBar>
+        <Profile>
+          <PhotoDiv>
+            <img
+              src={logo}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
+          </PhotoDiv>
+          <InfoDiv>
+            {isEditing ? (
+              <NickEdit
+                type="text"
+                value={editedNickname}
+                onChange={(e) => setEditedNickname(e.target.value)}
+              />
+            ) : (
+              <Nickname>{newNickname}</Nickname>
+            )}
+            <ID>{response.user.email}</ID>
+          </InfoDiv>
+          {isEditing ? (
+            <ComBtn onClick={handleSave}>완료</ComBtn>
+          ) : (
+            <EditBtn onClick={handleEdit}>편집</EditBtn>
+          )}
+        </Profile>
+        <Menus>
+          <Menu>알림 설정</Menu>
+          <Line />
+          <Menu>공지사항</Menu>
+          <Line />
+          <Menu>문의하기</Menu>
+          <Line />
+          <Menu>앱 정보</Menu>
+          <Line />
+          <Menu style={{ color: '#EF4914' }}>로그아웃</Menu>
+        </Menus>
+        <BtnDiv>
+          <ExitBtn onClick={openModal}>회원탈퇴</ExitBtn>
+        </BtnDiv>
+      </Content>
+      {modalOpen && (
+=======
     return (
         <BackgroundContainer>
             <Content>
@@ -196,6 +289,7 @@ const Settings = () => {
                 </BtnDiv>
             </Content>
             {modalOpen && (
+>>>>>>> 99f64a2c57bd19b2df86274de5f02ce177145504
         <ModalBack
           ref={modalBackground}
           onClick={(e) => {

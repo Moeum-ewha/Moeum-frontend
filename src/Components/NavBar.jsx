@@ -32,19 +32,6 @@ export const NavBar = (props) => {
   const isMap = currentPath === '/map';
   const isSettings = currentPath === '/settings';
 
-  /*{
-    "content": "야호 신난다!",
-    "takenAt": "2023. 11. 15",  // 타입 string
-    "location": "북카페 파오",
-    "latitude": "37.558",  // 카카오맵에서 주는대로.. 
-    "longitude": "126.946",
-  ================ 아래는 formdata (테스팅할 땐 body로 넣음) ================
-    "original": file1,  // 원본 네컷사진
-    "faces": [file2(윤선얼굴), file3(진영얼굴)],  // 새로 등록하는 친구들의 잘린 얼굴 파일들 0~3개
-    "newFriendNames": "윤선,진영",  // 새로 등록하는 친구들의 이름들 (faces랑 순서 같아야 함, 당연히 갯수도 같음)
-    "oldFriendNames": "건희"  // 이전에 등록했었던 친구들의 이름들
-  }*/
-
   const writePost = async (props) => {
     const formData = new FormData();
     const content = props.content;
@@ -67,9 +54,9 @@ export const NavBar = (props) => {
 
     formData.append('content', content);
     formData.append('takenAt', '2023-11-17');
-    formData.append('location', '이대');
-    formData.append('latitude', '34');
-    formData.append('longitude', '125');
+    formData.append('location', postingLocation);
+    formData.append('latitude', parseFloat(latitude).toFixed(6));
+    formData.append('longitude', parseFloat(longitude).toFixed(6));
     formData.append('original', original);
     formData.append('faces', faces);
     formData.append('newFriendNames', newFriendNames);
@@ -77,37 +64,15 @@ export const NavBar = (props) => {
     //console.log(faces);
     const entriesArray = [...formData.entries()];
     console.log(entriesArray);
+    console.log(postingLocation);
+    console.log(longitude);
+    console.log(typeof latitude);
 
     if (isApiLoading) return;
 
     setIsApiLoading(true);
 
-    /* const body = {
-      content: content,
-      takenAt: takenAt,
-      location: postingLocation,
-      latitude: '34',
-      longitude: '125',
-      formData: formData,
-      original: original,
-      faces: faces,
-      newFriendNames: newFriendNames,
-      oldFriendNames: oldFriendNames,
-    };*/
-
     try {
-      // Send API request
-      /* const response = await fetch(
-        'http://ec2-15-164-103-67.ap-northeast-2.compute.amazonaws.com:5000/posts',
-        {
-          method: 'POST',
-          body: formData,
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        },
-      );*/
-
       const response = await axios.request({
         method: 'post',
         url: `/posts?userId=${13}`,
@@ -117,8 +82,6 @@ export const NavBar = (props) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      /*const data = await response.json(); // JSON 형태의 응답을 받는 경우
-      console.log(data);*/
 
       //viewpost로 가는 함수 작성하기
 

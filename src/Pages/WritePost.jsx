@@ -344,8 +344,8 @@ export const WritePost = () => {
         content={text}
         takenAt={startDate.toLocaleDateString()}
         location={keyword}
-        latitude={coordinates.x}
-        longitude={coordinates.y}
+        latitude={coordinates.y}
+        longitude={coordinates.x}
         formData={formData}
         original={originalImgBlob}
         faces={faces}

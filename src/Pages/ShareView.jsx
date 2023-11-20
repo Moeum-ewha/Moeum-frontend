@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-
+import axios from 'axios';
 //components
-import { NavBar } from '../Components/NavBar';
+import { NavBar, NavBtn, CenterBtn } from '../Components/NavBar';
 import BackgroundContainer from '../Components/BackgroundContainer';
+import { Loading } from './Loading';
+import Main from '../Components/Main';
 import { TopBar, Title, Back } from '../Components/TopBar';
 import {
   Content,
@@ -17,15 +19,6 @@ import {
   Delete,
 } from '../Components/viewingComponents';
 import {
-  ModalBack,
-  ModalBox,
-  YesButton,
-  NoButton,
-  ModalContent,
-  Alert,
-  BtnDiv,
-} from '../Components/PopupModal';
-import {
   CommentSection,
   Comments,
   Comment,
@@ -38,21 +31,25 @@ import {
   CommentDate,
   CommentContents,
 } from '../Components/Comment';
-import Loading from './Loading';
+import demo from '../../public/dummy/dummy.json';
 
 //assets
-import insta from '../Assets/icons/Insta.png';
-import axios from 'axios';
+import arrow from '../Assets/icons/arrow.png';
 
-export const ViewPost = () => {
-  const location = useLocation();
+export const ShareView = () => {
+  const { postId } = useParams(); // URL에서 postId 가져오기
   const [loading, setLoading] = useState(true);
-  const modalBackground = useRef();
-  const [modalOpen, setModalOpen] = useState(false);
-  const { postId } = useParams();
-  const [postData, setPostData] = useState('');
+  const location = useLocation();
   const postRef = useRef({ current: '' });
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState(null);
   let pd;
+
+  /*const postIds = demo.userList.map(post => post.id);
+  const commentList = demo.userList.flatMap(user => 
+    user.postList.filter(post => postIds.includes(post.id))
+    .flatMap(post => post.commentList)); */
+
   const nicknames = [
     '수줍은 토끼',
     '감기걸린 토끼',
@@ -107,6 +104,24 @@ export const ViewPost = () => {
     '../../public/profileImg/23.png',
     '../../public/profileImg/24.png',
   ];
+
+  const addComment = () => {
+    if (newComment.trim() !== '') {
+      const randomIndex = Math.floor(Math.random() * nicknames.length);
+      const randomNickname = nicknames[randomIndex];
+      const randomProfilePicture = profilePictures[randomIndex];
+
+      const newCommentObject = {
+        content: newComment,
+        profilePicture: randomProfilePicture, // 여기에 프로필 사진 URL을 넣어주세요
+        nickname: randomNickname, // 여기에 사용자 닉네임을 넣어주세요
+        //date: new Date(), // 현재 날짜 및 시간을 문자열로 사용
+      };
+
+      setComments([...comments, newCommentObject]);
+      setNewComment('');
+    }
+  };
 
   const sendApi = async () => {
     try {
@@ -165,44 +180,10 @@ export const ViewPost = () => {
     fetchData();
   }, []);
 
-  const copyUrl = () => {
-    const nowUrl = window.location.href;
-    // "viewpost"를 "share"로 변경
-    const modifiedUrl = nowUrl.replace('/viewpost/', '/share/');
-
-    // 수정된 URL을 클립보드에 복사
-    navigator.clipboard.writeText(modifiedUrl).then((res) => {
-      alert('주소가 복사되었습니다!');
-    });
-  };
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
-  const deletePost = async () => {
-    try {
-      const response = await axios({
-        method: 'DELETE',
-        url: '/post/${postId}?userId=${13}',
-        withCredentials: true,
-      });
-
-      if (response.data.success) {
-        console.log('포스트 삭제 성공');
-      } else {
-        console.log('포스트 삭제 실패');
-      }
-    } catch (error) {
-      console.error('포스트 삭제 중 오류 발생', error);
-    }
-  };
-
   return (
     <BackgroundContainer>
       <Content>
         <TopBar>
-          <Back />
           <Title>네컷 일기</Title>
         </TopBar>
         {loading ? (
@@ -220,58 +201,41 @@ export const ViewPost = () => {
                     .join(', ')}
                   {'('}이{')'}랑 {postRef.current.location}에서
                 </SecondaryTitle>
-                <ShareBtn>
-                  <img src={insta} alt="로고" onClick={copyUrl} />
-                </ShareBtn>
                 <Text>{postRef.current.content}</Text>
                 <Date>{postRef.current.takenAt}</Date>
               </MiniContainer>
-
-              <Delete onClick={openModal}>삭제하기</Delete>
             </ContentContainer>
             <CommentSection>
               <Comments>
-                {' '}
-                {postRef.current.comments.map((comment) => (
-                  <Comment key={comment.id}>
+                {comments.map((comment, index) => (
+                  <Comment key={index}>
                     <ProfilePicture alt="프로필 사진">
-                      <img src={profilePictures[comment.id]} width="30px" />
+                      <img src={comment.profilePicture} width="30px" />
                     </ProfilePicture>
                     <CommentContents>
-                      <Nickname>{nicknames[comment.id]}</Nickname>
+                      <Nickname>{comment.nickname}</Nickname>
                       <CommentContent>{comment.content}</CommentContent>
-                      <CommentDate>{comment.createdAt}</CommentDate>
+                      <CommentDate>{comment.date}</CommentDate>
                     </CommentContents>
                   </Comment>
                 ))}
               </Comments>
+              <CommentInputContainer>
+                <CommentInput
+                  placeholder="댓글을 입력하세요"
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                />
+                <CommentButton onClick={addComment}>
+                  <img src={arrow} width="65%"></img>
+                </CommentButton>
+              </CommentInputContainer>
             </CommentSection>
-            {modalOpen && (
-              <ModalBack
-                ref={modalBackground}
-                onClick={(e) => {
-                  if (e.target === modalBackground.current) {
-                    setModalOpen(false);
-                  }
-                }}
-              >
-                <ModalBox>
-                  <ModalContent>
-                    <Alert>정말로 삭제하시겠습니까?</Alert>
-                    <BtnDiv>
-                      <YesButton onClick={deletePost}>네</YesButton>
-                      <NoButton>아니오</NoButton>
-                    </BtnDiv>
-                  </ModalContent>
-                </ModalBox>
-              </ModalBack>
-            )}
           </>
         )}
       </Content>
-      <NavBar />
     </BackgroundContainer>
   );
 };
 
-export default ViewPost;
+export default ShareView;

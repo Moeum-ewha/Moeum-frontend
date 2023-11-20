@@ -51,7 +51,12 @@ const Login = () => {
 
       moveHome();
 
-      // 2XX status code
+      const accessToken = response.headers['moeumaccesstoken'];
+      const refreshToken = response.headers['moeumrefreshtoken'];
+
+      document.cookie = `accesstoken=${accessToken}; path=/; SameSite=Strict; max-age=3600;`;
+      document.cookie = `refreshtoken=${refreshToken}; path=/; SameSite=Strict; max-age=3600;`;
+
       console.log(response.status);
       console.log(response.data);
     } catch (error) {

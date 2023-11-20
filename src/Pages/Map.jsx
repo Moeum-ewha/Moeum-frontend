@@ -34,6 +34,13 @@ const Map = () => {
   const [postLoading, setPostLoading] = useState(true);
   const postRef = useRef();
 
+  const array = [
+    '건희랑 진영이랑',
+    '윤선이랑 영우랑',
+    '건희랑 진영이랑 윤선이랑',
+    '윤선이랑 유진이랑',
+    '유진이랑 민주랑 윤선이랑',
+  ];
   const { location, error: currentError } =
     useCurrentLocation(geolocationOptions);
 
@@ -42,7 +49,7 @@ const Map = () => {
       try {
         const response = await axios({
           method: 'GET',
-          url: `/posts?userId=${13}`,
+          url: `/posts?userId=${1}`,
           withCredentials: true,
         });
         console.log('sendApi : ' + response.status);
@@ -215,7 +222,7 @@ const Map = () => {
                 <Info>
                   <Date>2023-11-21</Date>
                   <Place>{post.location}</Place>
-                  <Dday></Dday>
+                  <Dday>{array[`${post.id % 5}`]}</Dday>
                 </Info>
               </Moeum>
             ))

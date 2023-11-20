@@ -75,7 +75,7 @@ export const NavBar = (props) => {
     try {
       const response = await axios.request({
         method: 'post',
-        url: `/posts?userId=${13}`,
+        url: `/posts?userId=${1}`,
         data: formData,
 
         headers: {

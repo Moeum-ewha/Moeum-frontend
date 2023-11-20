@@ -86,7 +86,7 @@ const SelectFriend = () => {
       // Send API request
       const response = await axios({
         method: 'GET',
-        url: `/friends?userId=13`,
+        url: `/friends?userId=1`,
         withCredentials: true,
       });
 

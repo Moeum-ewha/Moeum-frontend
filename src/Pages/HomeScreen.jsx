@@ -131,7 +131,7 @@ const HomeScreen = () => {
             <Balloon>
               <img src={balloon} alt="말풍선" />
             </Balloon>
-            <Text>영우님과 네컷을 찍은 지 26일 째에요!</Text>
+            <Text>영훈님과 네컷을 찍은 지 21일 째에요!</Text>
             <LogoC>
               <img src={Logo} alt="로고" width="50px" height="50px" />
             </LogoC>

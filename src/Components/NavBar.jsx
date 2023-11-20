@@ -58,39 +58,46 @@ export const NavBar = (props) => {
     const newFriendNames = props.newFriendNames;
     const oldFriendNames = props.oldFriendNames;
 
+    const facesArray = [new Blob(), new Blob() /* ... */]; // Blob 객체로 이루어진 배열
+
+    // facesArray 배열의 각 Blob을 FormData에 추가
+    faces.forEach((blob) => {
+      formData.append('faces', blob);
+    });
+
     formData.append('content', content);
     formData.append('takenAt', '2023-11-17');
     formData.append('location', '이대');
-    formData.append('latitude', latitude);
-    formData.append('longitude', longitude);
+    formData.append('latitude', '34');
+    formData.append('longitude', '125');
     formData.append('original', original);
     formData.append('faces', faces);
     formData.append('newFriendNames', newFriendNames);
     formData.append('oldFriendNames', oldFriendNames);
-
+    //console.log(faces);
     const entriesArray = [...formData.entries()];
     console.log(entriesArray);
-    //console.log(props);
 
     if (isApiLoading) return;
 
     setIsApiLoading(true);
 
-    const body = {
+    /* const body = {
       content: content,
-      takenAt: '2023-11-16',
+      takenAt: takenAt,
       location: postingLocation,
-      latitude: latitude,
-      longitude: longitude,
+      latitude: '34',
+      longitude: '125',
       formData: formData,
       original: original,
       faces: faces,
       newFriendNames: newFriendNames,
       oldFriendNames: oldFriendNames,
-    };
+    };*/
+
     try {
       // Send API request
-      const response = await fetch(
+      /* const response = await fetch(
         'http://ec2-15-164-103-67.ap-northeast-2.compute.amazonaws.com:5000/posts',
         {
           method: 'POST',
@@ -98,27 +105,27 @@ export const NavBar = (props) => {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-          credentials: 'include',
         },
-      );
-      /*const response = await axios.request({
+      );*/
+
+      const response = await axios.request({
         method: 'post',
-        url: '/posts',
+        url: `/posts?userId=${13}`,
         data: formData,
+
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        withCredentials: true,
-      });*/
-      const data = await response.json(); // JSON 형태의 응답을 받는 경우
-      console.log(data);
+      });
+      /*const data = await response.json(); // JSON 형태의 응답을 받는 경우
+      console.log(data);*/
 
       //viewpost로 가는 함수 작성하기
 
       console.log(response);
       console.log(response.status);
       console.log(response.data);
-      console.log(response.header);
+      console.log(response.headers);
     } catch (error) {
       console.error(error);
     } finally {

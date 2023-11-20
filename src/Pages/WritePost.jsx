@@ -26,7 +26,7 @@ import { TopBar, Title } from '../Components/TopBar';
 import BackIcon from '../Assets/icons/goback.png';
 import { formatWithCursor } from 'prettier';
 
-function dataURItoBlob(dataURI) {
+/*function dataURItoBlob(dataURI) {
   // convert base64/URLEncoded data component to raw binary data held in a string
   let byteString;
   if (dataURI.split(',')[0].indexOf('base64') >= 0)
@@ -43,7 +43,8 @@ function dataURItoBlob(dataURI) {
   }
 
   return new Blob([ia], { type: mimeString });
-}
+}*/
+
 function urlToBlob(url) {
   return new Promise((resolve, reject) => {
     var xhr = new XMLHttpRequest();
@@ -60,6 +61,23 @@ function urlToBlob(url) {
 
     xhr.send();
   });
+}
+function dataURLtoBlob(dataURL) {
+  // "data:image/jpeg;base64," 부분을 제거하고 base64 데이터만 가져오기
+  const base64Data = dataURL.split(',')[1];
+
+  // base64 데이터를 ArrayBuffer로 디코딩
+  const binaryString = window.atob(base64Data);
+  const len = binaryString.length;
+  const bytes = new Uint8Array(len);
+
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+
+  // ArrayBuffer를 사용하여 Blob 생성
+  const blob = new Blob([bytes], { type: 'image/jpeg' });
+  return blob;
 }
 
 const ArraytoString = (friendData) => {
@@ -78,7 +96,7 @@ export const WritePost = () => {
 
   //새로운 친구들의 얼굴 사진만을 담은 faces 배열
   newFriendData.forEach((friend) => {
-    const blob = dataURItoBlob(friend.faceImg);
+    const blob = dataURLtoBlob(friend.faceImg);
     faces.push(blob);
   });
 
@@ -88,6 +106,10 @@ export const WritePost = () => {
         // urlToBlob 함수를 비동기로 호출하여 Blob 객체를 얻음
         const Blob = await urlToBlob(imgURL);
         setOriginalImgBlob(Blob);
+        newFriendData.forEach((friend) => {
+          const blob = urlToBlob(friend.faceImg);
+          faces.push(blob);
+        });
       } catch (error) {
         console.error(error);
       }
@@ -112,7 +134,7 @@ export const WritePost = () => {
   const [startDate, setStartDate] = useState(new Date());
 
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
-    <button 
+    <button
       className="example-custom-input"
       onClick={onClick}
       ref={ref}
@@ -249,8 +271,8 @@ export const WritePost = () => {
           dateFormat="yyyy-MM-dd"
           selected={startDate}
           onChange={(date) => setStartDate(date)}
-          customInput={<ExampleCustomInput />}// border 제거
-         />
+          customInput={<ExampleCustomInput />} // border 제거
+        />
         <SmallerTitle>Where</SmallerTitle>
         <TxtBox
           value={keyword}
@@ -354,4 +376,3 @@ export const PaddingContainer = styled.div`
   width: 100%;
   height: 200px;
 `;
-

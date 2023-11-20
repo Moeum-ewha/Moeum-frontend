@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios, { AxiosError } from 'axios';
 
 import BackgroundContainer from '../Components/BackgroundContainer';
 import {
@@ -20,6 +21,9 @@ import demo from '../../public/dummy/dummy.json';
 const SelectFriend = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [loading, setLoading] = useState(false);
+  const [friendlist, setFriendlist] = useState();
+  const [fd, setfd] = useState([]);
 
   const friendsList = demo.userList.map((user) => user.friendsList).flat();
 
@@ -52,7 +56,7 @@ const SelectFriend = () => {
   });*/
 
   //임시로 넣어둔 데이터 - 이후 선택된 인물의 값을 적용할 수 있도록 코드 변경해두어야함
-  const moveFunc = () => {
+  const moveFunc = (friendName) => {
     navigate('/isanyonemore', {
       state: {
         wholeImg: originalImg,
@@ -62,7 +66,7 @@ const SelectFriend = () => {
         savedFriendData: [
           ...location.state.savedFriendData,
           {
-            name: '유진',
+            name: friendName,
             //친구목록 파일의 사진으로 추후 수정
             faceImg: croppedFaceDataURL,
           },
@@ -72,6 +76,90 @@ const SelectFriend = () => {
     });
   };
 
+  const sendApi = async () => {
+    // Send 버튼 더블클릭 방지
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+      // Send API request
+      const response = await axios({
+        method: 'GET',
+        url: `/friends?userId=13`,
+        withCredentials: true,
+      });
+
+      setFriendlist(response.data.friends);
+
+      // 2XX status code
+      console.log(response.status);
+      console.log(response.data);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          // Non-2XX status code
+          console.error(error.response.status);
+          console.error(error.response.data);
+        } else if (error.request) {
+          // Request made, no response
+          console.error(error.request);
+        }
+      } else {
+        // Other unexpected error
+        console.error(error);
+      }
+    } finally {
+    }
+  };
+
+  const imgApi = async () => {
+    console.log('api 들어옴');
+    try {
+      // Assuming postlist is an array
+      console.log('try문 들어옴');
+      const newFriendlist = await Promise.all(
+        friendlist.map(async (friend) => {
+          const response = await axios({
+            method: 'GET',
+            url: `/images/${friend.imgPath}`,
+            withCredentials: true,
+            responseType: 'blob',
+          });
+
+          // 2XX status code
+          console.log(response.status);
+
+          // 이미지를 Blob에서 URL로 변환
+          const blobUrl = URL.createObjectURL(new Blob([response.data]));
+
+          // 새로운 객체를 생성하여 기존 post의 정보를 복사하고 imgPath를 업데이트
+          return { ...friend, imgPath: blobUrl };
+        }),
+      );
+
+      setfd(newFriendlist);
+      console.log('일단 map은 끝남');
+    } catch (error) {
+      // 오류 처리
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchFriend = async () => {
+      await sendApi();
+      await imgApi();
+    };
+    fetchFriend();
+  }, []);
+
+  useEffect(() => {
+    imgApi();
+  }, [friendlist]);
+
   return (
     <BackgroundContainer>
       <Content>
@@ -79,11 +167,11 @@ const SelectFriend = () => {
           <Num>사진 속 친구</Num>를 선택해주세요.
         </Upper>
         <Container>
-          {friendsList.map((friend, index) => (
-            <Friend onClick={moveFunc} key={index}>
+          {fd.map((friend, index) => (
+            <Friend onClick={() => moveFunc(friend.friendName)} key={friend.id}>
               <FriendPic>
                 <img
-                  src={`../../dummy/${friend.faceImg}`}
+                  src={friend.imgPath}
                   style={{
                     width: '50px',
                     height: '50px',
@@ -91,7 +179,7 @@ const SelectFriend = () => {
                   }}
                 />
               </FriendPic>
-              <Name>{friend.name}</Name>
+              <Name>{friend.friendName}</Name>
             </Friend>
           ))}
         </Container>

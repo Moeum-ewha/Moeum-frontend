@@ -22,15 +22,15 @@ export const Title = styled.div`
 `;
 
 export const FriendTitle = styled.div`
-font-family: 'Arial';
-font-style: normal;
-font-weight: 120;
-font-size: 20px;
-margin-top: 50px;
-display: flex;
-flex-direction: column;
-align-items:center;
-`
+  font-family: 'Arial';
+  font-style: normal;
+  font-weight: 120;
+  font-size: 20px;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 export const Alert = styled.div`
   display: flex;
@@ -69,6 +69,8 @@ export const Gallery = styled.div`
   overflow: auto;
   max-height: 650px;
   margin-bottom: 100px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: auto;
 `;
 
 export const Photo = styled.div`

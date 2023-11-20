@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 //components
-import { NavBar, NavBtn, CenterBtn } from '../Components/NavBar';
+import { NavBar } from '../Components/NavBar';
 import BackgroundContainer from '../Components/BackgroundContainer';
 import { TopBar, Title, Back } from '../Components/TopBar';
 import {
@@ -166,6 +166,7 @@ export const ViewPost = () => {
   }, []);
 
   const copyUrl = () => {
+    const nowUrl = window.location.href;
     // "viewpost"를 "share"로 변경
     const modifiedUrl = nowUrl.replace('/viewpost/', '/share/');
 
@@ -181,11 +182,10 @@ export const ViewPost = () => {
 
   const deletePost = async () => {
     try {
-      const response = await axios.delete(`/post/${postId}?userId=${13}`, {
-        headers: {
-          'Content-Type': 'application/json',
-          success: true,
-        },
+      const response = await axios({
+        method: 'DELETE',
+        url: '/post/${postId}?userId=${13}',
+        withCredentials: true,
       });
 
       if (response.data.success) {
@@ -269,6 +269,7 @@ export const ViewPost = () => {
           </>
         )}
       </Content>
+      <NavBar />
     </BackgroundContainer>
   );
 };

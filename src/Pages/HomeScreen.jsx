@@ -18,28 +18,57 @@ import {
 } from '../Components/HomeComponents';
 import { NavBar } from '../Components/NavBar';
 import demo from '../../public/dummy/dummy.json';
+import axios, { AxiosError } from 'axios';
 
 const HomeScreen = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const postList = demo.userList.map((user) => user.postList).flat();
 
-  /*try {
-    // Send API request
-    const response = await axios.request({
-      method: 'get',
-      url: '/posts',
-      withCredentials: true,
-    });
+  const sendApi = async () => {
+    // Send 버튼 더블클릭 방지
+    if (loading) return;
 
-    console.log(response);
-    console.log(response.status);
-    console.log(response.data);
-    console.log(response.header);
-  } catch (error) {
-    console.error(error);
-  }*/
+    setLoading(true);
+
+    try {
+      // Send API request
+      const response = await axios({
+        method: 'GET',
+        url: `/posts?userId=${13}}`,
+        withCredentials: true,
+      });
+
+      console.log(response);
+
+      // 2XX status code
+      console.log(response.status);
+      console.log(response.data);
+
+      // setResponse(response.data); // 서버로부터 받은 데이터를 response에 업데이트합니다.
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          // Non-2XX status code
+          console.error(error.response.status);
+          console.error(error.response.data);
+        } else if (error.request) {
+          // Request made, no response
+          console.error(error.request);
+        }
+      } else {
+        // Other unexpected error
+        console.error(error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    sendApi(); // componentDidMount와 동일하게 첫 렌더링 시에 API를 호출합니다.
+  }, []);
 
   if (location.state) {
     useEffect(() => {

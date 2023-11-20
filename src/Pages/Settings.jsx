@@ -33,6 +33,7 @@ import {
 } from '../Components/PopupModal';
 
 import logo from '../Assets/logo.png';
+import Loading from './Loading';
 
 const Settings = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,54 +43,54 @@ const Settings = () => {
 
   const navigate = useNavigate();
 
-  const moveLogin = () => {
-    navigate('/login');
-  }
+  const moveLogin = async () => {
+    setIsLoading(true);
+
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+    setTimeout(() => {
+      navigate('/login');
+    }, 100);
+  };
 
   const sendApi = async () => {
-        // Send 버튼 더블클릭 방지
-        if (isLoading) return;
-    
-        setIsLoading(true);
+    // Send 버튼 더블클릭 방지
+    if (isLoading) return;
 
-    
-        try {
-          // Send API request
-          const response = await axios({
-            method: "GET",
-            url:'/account',
-            data: undefined,
-            withCredentials: true,
-          });
+    setIsLoading(true);
 
+    try {
+      // Send API request
+      const response = await axios({
+        method: 'GET',
+        url: `/account?userId=${13}}`,
+        withCredentials: true,
+      });
 
-          console.log(response);
-    
-          // 2XX status code
-          console.log(response.status);
-          console.log(response.data);
+      console.log(response);
 
-          setResponse(response.data); // 서버로부터 받은 데이터를 response에 업데이트합니다.
-        } catch (error) {
-          if (error instanceof AxiosError) {
-            if (error.response) {
-              // Non-2XX status code
-              console.error(error.response.status);
-              console.error(error.response.data);
-            } else if (error.request) {
-              // Request made, no response
-              console.error(error.request);
-            }
-          } else {
-            // Other unexpected error
-            console.error(error);
-          }
-        } finally {
-          setIsLoading(false);
+      // 2XX status code
+      console.log(response.status);
+      console.log(response.data);
+
+      setResponse(response.data); // 서버로부터 받은 데이터를 response에 업데이트합니다.
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          // Non-2XX status code
+          console.error(error.response.status);
+          console.error(error.response.data);
+        } else if (error.request) {
+          // Request made, no response
+          console.error(error.request);
         }
+      } else {
+        // Other unexpected error
+        console.error(error);
+      }
+    } finally {
+      setIsLoading(false);
     }
-  
-  
+  };
 
   useEffect(() => {
     sendApi(); // componentDidMount와 동일하게 첫 렌더링 시에 API를 호출합니다.
@@ -128,95 +129,95 @@ const Settings = () => {
   const handleWithdrawal = async () => {
     try {
       const deleteResponse = await axios({
-        method: "DELETE",
+        method: 'DELETE',
         url: '/account',
         withCredentials: true,
-        
       });
-  
+
       console.log(deleteResponse);
-  
+
       // 삭제 성공 시의 로직
       setWithdrawn(true); // 탈퇴 여부 상태 변경
       setModalOpen(false);
-  
     } catch (error) {
       console.error(error); //
     }
   };
 
-    return (
-        <BackgroundContainer>
-            <Content>
-            <TopBar>
-                <Title>
-                    마이페이지
-                </Title>
-            </TopBar>
-            <Profile>
-                <PhotoDiv>
-                    <img src={logo} style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                    }} />
-                </PhotoDiv>
-                <InfoDiv>
-                    {isEditing ? (
-                        <NickEdit
-                            type="text"
-                            value={editedNickname}
-                            onChange={(e) => setEditedNickname(e.target.value)}
-                        />
-                    ) : (
-                        <Nickname>
-                            {response.user.username}
-                        </Nickname>
-                    )}
-                    <ID>    
-                    {response.user.email}
-                    </ID>
-                </InfoDiv>
-                {isEditing ? (
-                    <ComBtn onClick={handleSave}>완료</ComBtn>
-                ) : (
-                    <EditBtn onClick={handleEdit}>편집</EditBtn>
-                )}
-            </Profile>
-            <Menus>
-                <Menu>
-                    알림 설정
-                </Menu>
-                <Line />
-                <Menu>
-                  <Link href="https://github.com/Moeum-ewha" target="_blank" rel="noopener noreferrer">
-                    공지사항
-                  </Link>
-                </Menu>
-                <Line />
-                <Menu>
-                  <Link href="mailto:moeum@gmail.com">
-                    문의하기
-                  </Link>
-                </Menu>
-                <Line />
-                <Menu>
-                  <Link href="https://github.com/Moeum-ewha" target="_blank" rel="noopener noreferrer">
-                    앱정보
-                  </Link>
-                </Menu>
-                <Line />
-                <Menu style={{ color:'#EF4914'}} >
-                    로그아웃
-                </Menu>
-                </Menus>
-                <BtnDiv>
-                <ExitBtn onClick={openModal}>
-                    회원탈퇴
-                </ExitBtn>
-                </BtnDiv>
-            </Content>
-            {modalOpen && (
+  return (
+    <BackgroundContainer>
+      <Content>
+        <TopBar>
+          <Title>마이페이지</Title>
+        </TopBar>
+        <Profile>
+          <PhotoDiv>
+            <img
+              src={logo}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
+          </PhotoDiv>
+          <InfoDiv>
+            {isEditing ? (
+              <NickEdit
+                type="text"
+                value={editedNickname}
+                onChange={(e) => setEditedNickname(e.target.value)}
+              />
+            ) : (
+              <Nickname>{response.user.username}</Nickname>
+            )}
+            <ID>{response.user.email}</ID>
+          </InfoDiv>
+          {isEditing ? (
+            <ComBtn onClick={handleSave}>완료</ComBtn>
+          ) : (
+            <EditBtn onClick={handleEdit}>편집</EditBtn>
+          )}
+        </Profile>
+        <Menus>
+          <Menu>알림 설정</Menu>
+          <Line />
+          <Menu>
+            <Link
+              href="https://github.com/Moeum-ewha"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              공지사항
+            </Link>
+          </Menu>
+          <Line />
+          <Menu>
+            <Link href="mailto:moeum@gmail.com">문의하기</Link>
+          </Menu>
+          <Line />
+          <Menu>
+            <Link
+              href="https://github.com/Moeum-ewha"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              앱정보
+            </Link>
+          </Menu>
+          <Line />
+          <>
+            {isLoading && <Loading />}
+            <Menu style={{ color: '#EF4914' }} onClick={moveLogin}>
+              로그아웃
+            </Menu>
+          </>
+        </Menus>
+        <BtnDiv>
+          <ExitBtn onClick={openModal}>회원탈퇴</ExitBtn>
+        </BtnDiv>
+      </Content>
+      {modalOpen && (
         <ModalBack
           ref={modalBackground}
           onClick={(e) => {
@@ -258,6 +259,6 @@ const Settings = () => {
       <NavBar />
     </BackgroundContainer>
   );
-}
+};
 
 export default Settings;

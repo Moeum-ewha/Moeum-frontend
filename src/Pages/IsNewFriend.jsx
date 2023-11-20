@@ -23,7 +23,7 @@ const IsNewFriend = () => {
   const moveAdd = async () => {
     navigate('/addname', {
       state: {
-        img: croppedFaceDataURL,
+        faceImg: croppedFaceDataURL,
         wholeImg: imgURL,
         canvasData: location.state.canvasData,
         faceData: location.state.faceData,
@@ -37,7 +37,7 @@ const IsNewFriend = () => {
   const moveToSelect = () => {
     navigate('/selectfriend', {
       state: {
-        img: croppedFaceDataURL,
+        faceImg: croppedFaceDataURL,
         wholeImg: imgURL,
         canvasData: location.state.canvasData,
         faceData: location.state.faceData,

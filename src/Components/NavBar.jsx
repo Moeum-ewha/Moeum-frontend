@@ -60,7 +60,7 @@ export const NavBar = (props) => {
 
     formData.append('content', content);
     formData.append('takenAt', '2023-11-17');
-    formData.append('location', postingLocation);
+    formData.append('location', '이대');
     formData.append('latitude', latitude);
     formData.append('longitude', longitude);
     formData.append('original', original);
@@ -98,7 +98,7 @@ export const NavBar = (props) => {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-          withCredentials: true,
+          credentials: 'include',
         },
       );
       /*const response = await axios.request({

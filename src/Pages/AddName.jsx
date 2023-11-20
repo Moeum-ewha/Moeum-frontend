@@ -17,7 +17,7 @@ const AddName = () => {
   const location = useLocation();
 
   // 데이터 URL을 받아옴
-  const croppedFaceDataURL = location.state.img;
+  const croppedFaceDataURL = location.state.faceImg;
   const imgURL = location.state.wholeImg;
 
   const [text, setText] = useState('');

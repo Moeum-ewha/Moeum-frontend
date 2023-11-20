@@ -262,6 +262,9 @@ const FaceRecogniton = () => {
   };
 
   async function loadLabeledImage() {
+    //get api해서 친구 목록 받아오고
+    //이름만 추출해서 라벨 설정
+    //fetchImage할 때 친구목록[친구목록.indexOf(${label})].faceImg 해서 사용
     const labels = ['건희', '윤선', 'unknown'];
     return Promise.all(
       labels.map(async (label) => {

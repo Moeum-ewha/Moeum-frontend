@@ -30,12 +30,15 @@ const Map = () => {
   const [loading, setLoading] = useState(true);
   const [postLoading, setPostLoading] = useState(true);
   const postRef = useRef();
-
+  const pLoad = useRef();
+  pLoad.current = true;
   const { location, error: currentError } =
     useCurrentLocation(geolocationOptions);
 
   const sendApi = async () => {
-    if (postLoading === '시작') return;
+    if (postLoading) return;
+
+    setPostLoading(true);
     try {
       const response = await axios({
         method: 'GET',
@@ -44,7 +47,6 @@ const Map = () => {
       });
       console.log(response.status);
       postRef.current = response.data.posts;
-      await fetchPost();
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response) {
@@ -56,10 +58,12 @@ const Map = () => {
       } else {
         console.error(error);
       }
+    } finally {
+      setPostLoading(false);
     }
   };
 
-  const fetchPost = async () => {
+  /*const fetchPost = async () => {
     console.log('fetch');
     //게시글 id 값만 추출한 배열
     if (postLoading === '시작') return;
@@ -76,19 +80,6 @@ const Map = () => {
       }),
         console.log(postRef.current);
 
-      postRef.current.map(async (post, index) => {
-        const response = await axios({
-          method: 'GET',
-          url: `/images/${post.imgPath}`,
-          withCredentials: true,
-          responseType: 'blob',
-        });
-        console.log(response.status);
-        const blobUrl = URL.createObjectURL(new Blob([response.data]));
-        console.log('이전: ' + postRef.current[index].imgPath);
-        console.log('이후 : ' + blobUrl);
-        postRef.current[index].imgPath = blobUrl;
-      });
       setPostLoading('시작');
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -104,11 +95,9 @@ const Map = () => {
         console.error(error);
       }
     }
-  };
+  };*/
 
-  /*const imgApi = async () => {
-    if (postLoading === '시작') return;
-    if (!postRef.current[0].imgPath.includes('.')) return;
+  const imgApi = async () => {
     try {
       postRef.current.map(async (post, index) => {
         const response = await axios({
@@ -119,18 +108,21 @@ const Map = () => {
         });
         console.log(response.status);
         const blobUrl = URL.createObjectURL(new Blob([response.data]));
+        postRef.current[index].imgPath = blobUrl;
         console.log('이전: ' + postRef.current[index].imgPath);
         console.log('이후 : ' + blobUrl);
-        postRef.current[index].imgPath = blobUrl;
       }),
         console.log(postRef.current);
+      pLoad.current = false;
+      console.log(pLoad.current);
     } catch (error) {
       console.error(error);
     } finally {
-      setPostLoading('시작');
+      setPostLoading(false);
+      pLoad.current = false;
       console.log('끝');
     }
-  };*/
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -142,6 +134,7 @@ const Map = () => {
         setLoading(false);
       }
       await sendApi();
+      await imgApi();
     };
 
     fetchData();
@@ -227,14 +220,7 @@ const Map = () => {
             maxHeight: '50vh', // MoeumDiv의 최대 높이를 조절합니다.
           }}
         >
-          {postLoading !== '시작' ? (
-            <img
-              src={Spinner}
-              alt="로딩중"
-              width="35%"
-              style={{ marginTop: 60 }}
-            />
-          ) : (
+          {!postLoading && postRef.current != undefined ? (
             postRef.current.map((post) => (
               <Moeum key={post.id} onClick={() => postOnClick()}>
                 <Photo>
@@ -256,6 +242,13 @@ const Map = () => {
                 </Info>
               </Moeum>
             ))
+          ) : (
+            <img
+              src={Spinner}
+              alt="로딩중"
+              width="35%"
+              style={{ marginTop: 60 }}
+            />
           )}
 
           <Moeum>

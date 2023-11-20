@@ -63,7 +63,7 @@ const HomeScreen = () => {
       setLoading(false);
     }
   };
-  //postlist의 post의 imgPath를 response 값의 img로 바꿔주는 코드를 작성해줘
+
   const imgApi = async () => {
     console.log('api 들어옴ㅁ');
     try {

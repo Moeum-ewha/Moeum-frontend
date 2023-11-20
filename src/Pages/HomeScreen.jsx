@@ -25,7 +25,7 @@ const HomeScreen = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const [postlist, setPostlist] = useState('');
+  const [postlist, setPostlist] = useState();
   const [pd, setpd] = useState('');
 
   const sendApi = async () => {
@@ -65,9 +65,8 @@ const HomeScreen = () => {
   };
   //postlist의 post의 imgPath를 response 값의 img로 바꿔주는 코드를 작성해줘
   const imgApi = async () => {
-    console.log('api 들더옴ㅁ');
+    console.log('api 들어옴ㅁ');
     try {
-      // Assuming postlist is an array
       console.log('try문 들어옴');
       const newPostlist = await Promise.all(
         postlist.map(async (post) => {
@@ -107,6 +106,10 @@ const HomeScreen = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    imgApi();
+  }, [postlist]);
 
   if (location.state) {
     useEffect(() => {

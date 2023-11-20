@@ -49,6 +49,13 @@ const SignUp = () => {
         withCredentials: true,
       });
 
+      console.log(response.headers);
+
+      const accessToken = response.headers.get('Moeum-Access-Token');
+      const refreshToken = response.headers.get('Moeum-Refresh-Token');
+      console.log('access-token' + accessToken);
+      console.log('refresh-token' + refreshToken);
+
       if (response.status === 200 || response.status === 201) {
         setModalOpen(true);
       }

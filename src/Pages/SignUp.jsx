@@ -49,12 +49,11 @@ const SignUp = () => {
         withCredentials: true,
       });
 
-      console.log(response.headers);
+      const accessToken = response.headers['moeumaccesstoken'];
+      const refreshToken = response.headers['moeumrefreshtoken'];
 
-      const accessToken = response.headers.get('Moeum-Access-Token');
-      const refreshToken = response.headers.get('Moeum-Refresh-Token');
-      console.log('access-token' + accessToken);
-      console.log('refresh-token' + refreshToken);
+      document.cookie = `accesstoken=${accessToken}; path=/; SameSite=Strict; max-age=3600;`;
+      document.cookie = `refreshtoken=${refreshToken}; path=/; SameSite=Strict; max-age=3600;`;
 
       if (response.status === 200 || response.status === 201) {
         setModalOpen(true);

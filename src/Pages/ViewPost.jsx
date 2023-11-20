@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import {
+  useNavigate,
+  useLocation,
+  useParams,
+  Navigate,
+} from 'react-router-dom';
 
 //components
 import { NavBar } from '../Components/NavBar';
@@ -46,6 +51,7 @@ import axios from 'axios';
 
 export const ViewPost = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const modalBackground = useRef();
   const [modalOpen, setModalOpen] = useState(false);
@@ -184,12 +190,13 @@ export const ViewPost = () => {
     try {
       const response = await axios({
         method: 'DELETE',
-        url: '/post/${postId}?userId=${13}',
+        url: `/post/${postId}?userId=1`,
         withCredentials: true,
       });
 
       if (response.data.success) {
         console.log('포스트 삭제 성공');
+        navigate('/home');
       } else {
         console.log('포스트 삭제 실패');
       }
@@ -240,7 +247,6 @@ export const ViewPost = () => {
                     <CommentContents>
                       <Nickname>{nicknames[comment.id]}</Nickname>
                       <CommentContent>{comment.content}</CommentContent>
-                      <CommentDate>{comment.createdAt}</CommentDate>
                     </CommentContents>
                   </Comment>
                 ))}

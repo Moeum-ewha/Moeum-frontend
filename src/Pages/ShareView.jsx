@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 //components
 import { NavBar, NavBtn, CenterBtn } from '../Components/NavBar';
 import BackgroundContainer from '../Components/BackgroundContainer';
@@ -43,7 +43,7 @@ export const ShareView = () => {
   const postRef = useRef({ current: '' });
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState(null);
-  let pd;
+  const commentRef = useRef();
 
   /*const postIds = demo.userList.map(post => post.id);
   const commentList = demo.userList.flatMap(user => 
@@ -105,7 +105,7 @@ export const ShareView = () => {
     '../../public/profileImg/24.png',
   ];
 
-  const addComment = () => {
+  const addComment = async () => {
     if (newComment.trim() !== '') {
       const randomIndex = Math.floor(Math.random() * nicknames.length);
       const randomNickname = nicknames[randomIndex];
@@ -117,9 +117,37 @@ export const ShareView = () => {
         nickname: randomNickname, // 여기에 사용자 닉네임을 넣어주세요
         //date: new Date(), // 현재 날짜 및 시간을 문자열로 사용
       };
-
+      const body = {
+        profile: randomIndex,
+        content: newComment,
+      };
+      console.log(body);
       setComments([...comments, newCommentObject]);
       setNewComment('');
+
+      try {
+        const response = await axios({
+          method: 'POST',
+          data: body,
+          url: `/post/${postId}/comment?userId=1`,
+          withCredentials: true,
+        });
+        console.log('sendApi = ' + response.status);
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          if (error.response) {
+            // Non-2XX status code
+            console.error(error.response.status);
+            console.error(error.response.data);
+          } else if (error.request) {
+            // Request made, no response
+            console.error(error.request);
+          }
+        } else {
+          // Other unexpected error
+          console.error(error);
+        }
+      }
     }
   };
 
@@ -207,6 +235,17 @@ export const ShareView = () => {
             </ContentContainer>
             <CommentSection>
               <Comments>
+                {postRef.current.comments.map((comment) => (
+                  <Comment key={comment.id}>
+                    <ProfilePicture alt="프로필 사진">
+                      <img src={profilePictures[comment.id]} width="30px" />
+                    </ProfilePicture>
+                    <CommentContents>
+                      <Nickname>{nicknames[comment.id]}</Nickname>
+                      <CommentContent>{comment.content}</CommentContent>
+                    </CommentContents>
+                  </Comment>
+                ))}
                 {comments.map((comment, index) => (
                   <Comment key={index}>
                     <ProfilePicture alt="프로필 사진">

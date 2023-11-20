@@ -129,27 +129,30 @@ const Binder = () => {
           <Title>바인더</Title>
         </TopBar>
         <Gallery>
-          {fd.map((friend, index) => (
-            <Album onClick={() => albumOnClick(friend.id)} key={friend.id}>
-              <Bind>
-                <Spine
-                  style={{ backgroundColor: colorChart[index % 6].spine }}
-                />
-                <Cover
-                  style={{ backgroundColor: colorChart[index % 6].cover }}
-                />
-                <Pic>
-                  <img
-                    src={friend.imgPath}
-                    width="75px"
-                    height="85px"
-                    style={{ borderRadius: '10px' }}
+          {fd
+            .slice()
+            .reverse()
+            .map((friend, index) => (
+              <Album onClick={() => albumOnClick(friend.id)} key={friend.id}>
+                <Bind>
+                  <Spine
+                    style={{ backgroundColor: colorChart[index % 6].spine }}
                   />
-                </Pic>
-              </Bind>
-              <Name>{friend.friendName}</Name>
-            </Album>
-          ))}
+                  <Cover
+                    style={{ backgroundColor: colorChart[index % 6].cover }}
+                  />
+                  <Pic>
+                    <img
+                      src={friend.imgPath}
+                      width="75px"
+                      height="85px"
+                      style={{ borderRadius: '10px' }}
+                    />
+                  </Pic>
+                </Bind>
+                <Name>{friend.friendName}</Name>
+              </Album>
+            ))}
         </Gallery>
       </Content>
       <NavBar />

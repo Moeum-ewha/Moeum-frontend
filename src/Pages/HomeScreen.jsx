@@ -19,12 +19,16 @@ import {
 import { NavBar } from '../Components/NavBar';
 import demo from '../../public/dummy/dummy.json';
 import axios, { AxiosError } from 'axios';
+import Loading from './Loading';
 
 const HomeScreen = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const postList = demo.userList.map((user) => user.postList).flat();
+  const [postlist, setPostlist] = useState('');
+  const [pd, setpd] = useState('');
+  let imgList = [];
 
   const sendApi = async () => {
     // Send 버튼 더블클릭 방지
@@ -36,17 +40,13 @@ const HomeScreen = () => {
       // Send API request
       const response = await axios({
         method: 'GET',
-        url: `/posts?userId=${13}}`,
+        url: `/posts?userId=${13}`,
         withCredentials: true,
       });
-
-      console.log(response);
-
+      setPostlist(response.data.posts);
       // 2XX status code
       console.log(response.status);
       console.log(response.data);
-
-      // setResponse(response.data); // 서버로부터 받은 데이터를 response에 업데이트합니다.
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response) {
@@ -65,9 +65,49 @@ const HomeScreen = () => {
       setLoading(false);
     }
   };
+  //postlist의 post의 imgPath를 response 값의 img로 바꿔주는 코드를 작성해줘
+  const imgApi = async () => {
+    console.log('api 들더옴ㅁ');
+    try {
+      // Assuming postlist is an array
+      console.log('try문 들어옴');
+      const newPostlist = await Promise.all(
+        postlist.map(async (post) => {
+          const response = await axios({
+            method: 'GET',
+            url: `/images/${post.imgPath}`,
+            withCredentials: true,
+            responseType: 'blob',
+          });
+
+          // 2XX status code
+          console.log(response.status);
+
+          // 이미지를 Blob에서 URL로 변환
+          const blobUrl = URL.createObjectURL(new Blob([response.data]));
+
+          // 새로운 객체를 생성하여 기존 post의 정보를 복사하고 imgPath를 업데이트
+          return { ...post, imgPath: blobUrl };
+        }),
+      );
+
+      setpd(newPostlist);
+      console.log('일단 map은 끝남');
+    } catch (error) {
+      // 오류 처리
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    sendApi(); // componentDidMount와 동일하게 첫 렌더링 시에 API를 호출합니다.
+    const fetchData = async () => {
+      await sendApi();
+      await imgApi();
+    };
+
+    fetchData();
   }, []);
 
   if (location.state) {
@@ -98,16 +138,20 @@ const HomeScreen = () => {
           </Alert>
         </TopBar>
         <Gallery>
-          {postList.map((post, index) => (
-            <Photo onClick={() => postOnClick(index)} key={post.id}>
-              <img
-                src={`../../dummy/${post.original}`}
-                width="160px"
-                style={{ borderRadius: '15px' }}
-                //onClick={movePost}
-              />
-            </Photo>
-          ))}
+          {!loading && pd !== '' ? (
+            pd.map((post) => (
+              <Photo onClick={() => postOnClick(post.id)} key={post.id}>
+                <img
+                  src={post.imgPath}
+                  width="160px"
+                  style={{ borderRadius: '15px' }}
+                  // onClick={movePost}
+                />
+              </Photo>
+            ))
+          ) : (
+            <Loading />
+          )}
         </Gallery>
       </Content>
       <NavBar />

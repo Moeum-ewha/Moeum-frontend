@@ -25,10 +25,8 @@ const HomeScreen = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const postList = demo.userList.map((user) => user.postList).flat();
   const [postlist, setPostlist] = useState('');
   const [pd, setpd] = useState('');
-  let imgList = [];
 
   const sendApi = async () => {
     // Send 버튼 더블클릭 방지
@@ -118,8 +116,7 @@ const HomeScreen = () => {
     console.log(location.state.date);
   }
   const postOnClick = (index) => {
-    const postData = postList[index];
-    navigate(`/viewpost/${postData.id}`, { state: { postData } });
+    navigate(`/viewpost/${index}`);
   };
 
   return (

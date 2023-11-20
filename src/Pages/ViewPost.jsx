@@ -38,49 +38,21 @@ import {
   CommentDate,
   CommentContents,
 } from '../Components/Comment';
-import demo from '../../public/dummy/dummy.json';
+import Loading from './Loading';
 
 //assets
 import insta from '../Assets/icons/Insta.png';
+import axios from 'axios';
 
 export const ViewPost = () => {
   const location = useLocation();
-
-  const { postId } = useParams();
-
-  const postIds = demo.userList.map((post) => post.id);
-  const commentList = demo.userList.flatMap((user) =>
-    user.postList
-      .filter((post) => postIds.includes(post.id))
-      .flatMap((post) => post.commentList),
-  );
-
-  let postData;
-
-  postData = location.state.postData;
-
-  //const imgURL = location.state.wholeImg;
-
-  let nowUrl = window.location.href;
-
-  const copyUrl = () => {
-    // "viewpost"를 "share"로 변경
-    const modifiedUrl = nowUrl.replace('/viewpost/', '/share/');
-
-    // 수정된 URL을 클립보드에 복사
-    navigator.clipboard.writeText(modifiedUrl).then((res) => {
-      alert('주소가 복사되었습니다!');
-    });
-  };
-
+  const [loading, setLoading] = useState(true);
   const modalBackground = useRef();
-
   const [modalOpen, setModalOpen] = useState(false);
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-
+  const { postId } = useParams();
+  const [postData, setPostData] = useState('');
+  const postRef = useRef({ current: '' });
+  let pd;
   const nicknames = [
     '수줍은 토끼',
     '감기걸린 토끼',
@@ -136,6 +108,96 @@ export const ViewPost = () => {
     '../../public/profileImg/24.png',
   ];
 
+  const sendApi = async () => {
+    try {
+      // Send API request
+      const response = await axios({
+        method: 'GET',
+        url: `/post/${postId}?userId=${13}`,
+        withCredentials: true,
+      });
+      postRef.current = response.data.post;
+      console.log('sendApi = ' + response.status);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          // Non-2XX status code
+          console.error(error.response.status);
+          console.error(error.response.data);
+        } else if (error.request) {
+          // Request made, no response
+          console.error(error.request);
+        }
+      } else {
+        // Other unexpected error
+        console.error(error);
+      }
+    }
+  };
+
+  const imgApi = async () => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `/images/${postRef.current.imgPath}`,
+        withCredentials: true,
+        responseType: 'blob',
+      });
+
+      console.log('imgApi = ' + response.status);
+      const blobUrl = URL.createObjectURL(new Blob([response.data]));
+
+      postRef.current = { ...postRef.current, imgPath: blobUrl };
+    } catch (error) {
+      // 오류 처리
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await sendApi();
+      await imgApi();
+    };
+
+    fetchData();
+  }, []);
+
+  const copyUrl = () => {
+    // "viewpost"를 "share"로 변경
+    const modifiedUrl = nowUrl.replace('/viewpost/', '/share/');
+
+    // 수정된 URL을 클립보드에 복사
+    navigator.clipboard.writeText(modifiedUrl).then((res) => {
+      alert('주소가 복사되었습니다!');
+    });
+  };
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const deletePost = async () => {
+    try {
+      const response = await axios.delete(`/post/${postId}?userId=${13}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          success: true,
+        },
+      });
+
+      if (response.data.success) {
+        console.log('포스트 삭제 성공');
+      } else {
+        console.log('포스트 삭제 실패');
+      }
+    } catch (error) {
+      console.error('포스트 삭제 중 오류 발생', error);
+    }
+  };
+
   return (
     <BackgroundContainer>
       <Content>
@@ -143,80 +205,70 @@ export const ViewPost = () => {
           <Back />
           <Title>네컷 일기</Title>
         </TopBar>
-        <ContentContainer>
-          <MiniContainer>
-            <ImgContainer>
-              <img src={`../../dummy/${postData.original}`} width="100%" />
-            </ImgContainer>
-            <SecondaryTitle>
-              {postData.friendId
-                .map((friendId) => {
-                  const friend = demo.userList
-                    .flatMap((user) => user.friendsList)
-                    .find((friend) => friend.id === friendId);
-                  return friend ? friend.name : '';
-                })
-                .join(', ')}
-              {'('}이{')'}랑 {postData.location}에서
-            </SecondaryTitle>
-            <ShareBtn>
-              <img src={insta} alt="로고" onClick={copyUrl} />
-            </ShareBtn>
-            <Text>{postData.content}</Text>
-            <Date>{postData.date}</Date>
-          </MiniContainer>
+        {loading ? (
+          <Loading />
+        ) : (
+          <>
+            <ContentContainer>
+              <MiniContainer>
+                <ImgContainer>
+                  <img src={postRef.current.imgPath} width="100%" />
+                </ImgContainer>
+                <SecondaryTitle>
+                  {postRef.current.friends
+                    .map((friend) => (friend ? `${friend.friendName}` : ''))
+                    .join(', ')}
+                  {'('}이{')'}랑 {postRef.current.location}에서
+                </SecondaryTitle>
+                <ShareBtn>
+                  <img src={insta} alt="로고" onClick={copyUrl} />
+                </ShareBtn>
+                <Text>{postRef.current.content}</Text>
+                <Date>{postRef.current.takenAt}</Date>
+              </MiniContainer>
 
-          <Delete onClick={openModal}>삭제하기</Delete>
-        </ContentContainer>
-        <CommentSection>
-          <Comments>
-            {commentList.map((comment, index) => (
-              <Comment key={comment.id}>
-                <ProfilePicture alt="프로필 사진">
-                  <img src={profilePictures[comment.name[0]]} width="30px" />
-                </ProfilePicture>
-                <CommentContents>
-                  <Nickname>{nicknames[comment.name[0]]}</Nickname>
-                  <CommentContent>{comment.content}</CommentContent>
-                  <CommentDate>{comment.date}</CommentDate>
-                </CommentContents>
-              </Comment>
-            ))}
-          </Comments>
-        </CommentSection>
+              <Delete onClick={openModal}>삭제하기</Delete>
+            </ContentContainer>
+            <CommentSection>
+              <Comments>
+                {' '}
+                {postRef.current.comments.map((comment) => (
+                  <Comment key={comment.id}>
+                    <ProfilePicture alt="프로필 사진">
+                      <img src={profilePictures[comment.id]} width="30px" />
+                    </ProfilePicture>
+                    <CommentContents>
+                      <Nickname>{nicknames[comment.id]}</Nickname>
+                      <CommentContent>{comment.content}</CommentContent>
+                      <CommentDate>{comment.createdAt}</CommentDate>
+                    </CommentContents>
+                  </Comment>
+                ))}
+              </Comments>
+            </CommentSection>
+            {modalOpen && (
+              <ModalBack
+                ref={modalBackground}
+                onClick={(e) => {
+                  if (e.target === modalBackground.current) {
+                    setModalOpen(false);
+                  }
+                }}
+              >
+                <ModalBox>
+                  <ModalContent>
+                    <Alert>정말로 삭제하시겠습니까?</Alert>
+                    <BtnDiv>
+                      <YesButton onClick={deletePost}>네</YesButton>
+                      <NoButton>아니오</NoButton>
+                    </BtnDiv>
+                  </ModalContent>
+                </ModalBox>
+              </ModalBack>
+            )}
+          </>
+        )}
       </Content>
-      {modalOpen && (
-        <ModalBack
-          ref={modalBackground}
-          onClick={(e) => {
-            if (e.target === modalBackground.current) {
-              setModalOpen(false);
-            }
-          }}
-        >
-          <ModalBox>
-            <ModalContent>
-              <Alert>정말로 삭제하시겠습니까?</Alert>
-              <BtnDiv>
-                <YesButton>네</YesButton>
-                <NoButton>아니오</NoButton>
-              </BtnDiv>
-            </ModalContent>
-          </ModalBox>
-        </ModalBack>
-      )}
-      {postId === '10' ? (
-        <NavBar
-          date={date}
-          where={picLocation}
-          content={content}
-          original={original}
-          savedFriendData={savedFriendData}
-          newFriendData={newFriendData}
-        />
-      ) : (
-        <NavBar />
-      )}
     </BackgroundContainer>
   );
 };

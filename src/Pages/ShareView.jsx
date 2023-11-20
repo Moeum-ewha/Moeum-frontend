@@ -128,7 +128,7 @@ export const ShareView = () => {
       // Send API request
       const response = await axios({
         method: 'GET',
-        url: `/post/${postId}?userId=${13}`,
+        url: `/post/${postId}?userId=${1}`,
         withCredentials: true,
       });
       postRef.current = response.data.post;

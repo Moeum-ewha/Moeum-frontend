@@ -265,7 +265,7 @@ const FaceRecogniton = () => {
     //get api해서 친구 목록 받아오고
     //이름만 추출해서 라벨 설정
     //fetchImage할 때 친구목록[친구목록.indexOf(${label})].faceImg 해서 사용
-    const labels = ['거니거니', '빵후니', '오쨩'];
+    const labels = ['거니거니', '빵후니', '오쨩', '윤선'];
     return Promise.all(
       labels.map(async (label) => {
         const description = [];

@@ -138,7 +138,7 @@ const FaceRecogniton = () => {
       setLabeledFaceDescriptors(labeledFaceDescriptors);
 
       // FaceMatcher 초기화
-      const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.4);
+      const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.3);
       setFaceMatcher(faceMatcher);
 
       setLoaded(true);
@@ -265,11 +265,11 @@ const FaceRecogniton = () => {
     //get api해서 친구 목록 받아오고
     //이름만 추출해서 라벨 설정
     //fetchImage할 때 친구목록[친구목록.indexOf(${label})].faceImg 해서 사용
-    const labels = ['거니거니', '오쨩', '빵후니'];
+    const labels = ['거니거니', '빵후니', '오쨩'];
     return Promise.all(
       labels.map(async (label) => {
         const description = [];
-        const img = await faceapi.fetchImage(`known/${label}.JPG`);
+        const img = await faceapi.fetchImage(`known/${label}.jpg`);
         const detections = await faceapi
           .detectSingleFace(img)
           .withFaceLandmarks()

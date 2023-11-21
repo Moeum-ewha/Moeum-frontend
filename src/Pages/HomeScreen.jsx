@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import BackgroundContainer from '../Components/BackgroundContainer';
 import balloon from '../Assets/balloon.png';
@@ -27,6 +27,7 @@ const HomeScreen = () => {
   const location = useLocation();
   const [postlist, setPostlist] = useState();
   const [pd, setpd] = useState('');
+  const [name, setName] = useState('');
 
   const sendApi = async () => {
     // Send 버튼 더블클릭 방지
@@ -98,10 +99,28 @@ const HomeScreen = () => {
     }
   };
 
+  const latestPostApi = async () => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `/latest?userId=${1}`,
+        withCredentials: true,
+      });
+
+      console.log(response.status);
+      setName(response.data.post.friends[0].friendName);
+      console.log(response.data.post.friends[0].friendName);
+    } catch (error) {
+      // 오류 처리
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       await sendApi();
       await imgApi();
+      await latestPostApi();
     };
 
     fetchData();
@@ -131,7 +150,7 @@ const HomeScreen = () => {
             <Balloon>
               <img src={balloon} alt="말풍선" />
             </Balloon>
-            <Text>영훈님과 네컷을 찍은 지 21일 째에요!</Text>
+            <Text>{name}님과 네컷을 찍은 지 21일 째에요!</Text>
             <LogoC>
               <img src={Logo} alt="로고" width="50px" height="50px" />
             </LogoC>

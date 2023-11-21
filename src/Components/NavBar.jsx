@@ -94,6 +94,8 @@ export const NavBar = (props) => {
     } finally {
       setIsApiLoading(false);
     }
+
+    navigate('/home');
   };
 
   const moveHome = () => {

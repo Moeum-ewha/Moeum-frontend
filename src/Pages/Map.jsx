@@ -118,9 +118,10 @@ const Map = () => {
     document.head.appendChild(kakaoMapScript);
 
     const onLoadKakaoAPI = () => {
+      console.log('여기');
       window.kakao.maps.load(() => {
         var container = document.getElementById('map');
-
+        console.log('저기');
         if (container && currentLoc.x && currentLoc.y) {
           var options = {
             center: new window.kakao.maps.LatLng(currentLoc.x, currentLoc.y),

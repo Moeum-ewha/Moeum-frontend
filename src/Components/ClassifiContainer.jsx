@@ -38,6 +38,8 @@ export const PictureContainer = styled.div`
 export const Face = styled.div`
   position: absolute;
   border-radius: 8px;
+  width: 100px;
+  height: 150px;
   z-index: 1;
   display: flex;
   flex-direction: row;

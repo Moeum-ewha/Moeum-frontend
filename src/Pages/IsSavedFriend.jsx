@@ -76,7 +76,11 @@ const IsSavedFriend = () => {
           <Face>
             <img
               src={croppedFaceDataURL}
-              style={{ width: '90%', transform: 'scale(2)' }}
+              style={{
+                width: '90%',
+                transform: 'scale(2)',
+                objectFit: 'cover',
+              }}
             />
           </Face>
         </PictureContainer>

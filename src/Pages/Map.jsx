@@ -102,8 +102,8 @@ const Map = () => {
 
     if (location && location.latitude && location.longitude) {
       setCurrentLoc({
-        x: location.latitude || 37.552914,
-        y: location.longitude || 126.942011,
+        x: 37.552914,
+        y: 126.942011,
       });
       setLoading(false);
       fetchData();

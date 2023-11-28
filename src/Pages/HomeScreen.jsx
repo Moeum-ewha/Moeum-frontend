@@ -158,7 +158,7 @@ const HomeScreen = () => {
         </TopBar>
         <Gallery>
           {!loading && pd !== '' ? (
-            pd.map((post) => (
+            pd.reverse().map((post) => (
               <Photo onClick={() => postOnClick(post.id)} key={post.id}>
                 <img
                   src={post.imgPath}

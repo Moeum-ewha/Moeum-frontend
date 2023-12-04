@@ -21,8 +21,7 @@ import HomeScreen from './Pages/HomeScreen';
 import FriendPostList from './Pages/FriendPostList';
 
 //axios.defaults.baseURL = "http://localhost:5000";
-axios.defaults.baseURL =
-  'http://ec2-15-164-103-67.ap-northeast-2.compute.amazonaws.com:5000';
+axios.defaults.baseURL = 'https://api.moeum.site';
 
 function App() {
   return (

@@ -28,48 +28,40 @@ const FriendPostList = () => {
   const { id, friendName } = useParams();
 
   const sendApi = async () => {
-    // Send 버튼 더블클릭 방지
     if (loading) return;
 
     setLoading(true);
 
     try {
-      // Send API request
       const response = await axios({
         method: 'GET',
-        url: `/friend/${id}?userId=1`,
+        url: `/friend/${id}`,
         withCredentials: true,
       });
       console.log(response.data);
 
       setFriend(response.data.friend);
       setPostlist(response.data.friend.posts);
-      // 2XX status code
       console.log(response.status);
       console.log(response.data);
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response) {
-          // Non-2XX status code
           console.error(error.response.status);
           console.error(error.response.data);
         } else if (error.request) {
-          // Request made, no response
           console.error(error.request);
         }
       } else {
-        // Other unexpected error
         console.error(error);
       }
     } finally {
       setLoading(false);
     }
   };
-  //postlist의 post의 imgPath를 response 값의 img로 바꿔주는 코드를 작성해줘
+
   const imgApi = async () => {
-    console.log('api 들어옴ㅁ');
     try {
-      console.log('try문 들어옴');
       const newPostlist = await Promise.all(
         postlist.map(async (post) => {
           const response = await axios({
@@ -78,22 +70,14 @@ const FriendPostList = () => {
             withCredentials: true,
             responseType: 'blob',
           });
-
-          // 2XX status code
           console.log(response.status);
-
-          // 이미지를 Blob에서 URL로 변환
           const blobUrl = URL.createObjectURL(new Blob([response.data]));
-
-          // 새로운 객체를 생성하여 기존 post의 정보를 복사하고 imgPath를 업데이트
           return { ...post, imgPath: blobUrl };
         }),
       );
 
       setpd(newPostlist);
-      console.log('일단 map은 끝남');
     } catch (error) {
-      // 오류 처리
       console.error(error);
     } finally {
       setLoading(false);

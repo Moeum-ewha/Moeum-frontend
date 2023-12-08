@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  useNavigate,
-  useLocation,
-  useParams,
-  Navigate,
-} from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 
 //components
 import { NavBar } from '../Components/NavBar';
@@ -34,13 +29,9 @@ import {
   CommentSection,
   Comments,
   Comment,
-  CommentInputContainer,
-  CommentInput,
-  CommentButton,
   ProfilePicture,
   Nickname,
   CommentContent,
-  CommentDate,
   CommentContents,
 } from '../Components/Comment';
 import Loading from './Loading';
@@ -58,7 +49,6 @@ export const ViewPost = () => {
   const { postId } = useParams();
   const [postData, setPostData] = useState('');
   const postRef = useRef({ current: '' });
-  let pd;
   const nicknames = [
     '수줍은 토끼',
     '감기걸린 토끼',
@@ -116,7 +106,6 @@ export const ViewPost = () => {
 
   const sendApi = async () => {
     try {
-      // Send API request
       const response = await axios({
         method: 'GET',
         url: `/post/${postId}`,
@@ -127,15 +116,12 @@ export const ViewPost = () => {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response) {
-          // Non-2XX status code
           console.error(error.response.status);
           console.error(error.response.data);
         } else if (error.request) {
-          // Request made, no response
           console.error(error.request);
         }
       } else {
-        // Other unexpected error
         console.error(error);
       }
     }
@@ -155,7 +141,6 @@ export const ViewPost = () => {
 
       postRef.current = { ...postRef.current, imgPath: blobUrl };
     } catch (error) {
-      // 오류 처리
       console.error(error);
     } finally {
       setLoading(false);
@@ -173,10 +158,8 @@ export const ViewPost = () => {
 
   const copyUrl = () => {
     const nowUrl = window.location.href;
-    // "viewpost"를 "share"로 변경
     const modifiedUrl = nowUrl.replace('/viewpost/', '/share/');
 
-    // 수정된 URL을 클립보드에 복사
     navigator.clipboard.writeText(modifiedUrl).then((res) => {
       alert('주소가 복사되었습니다!');
     });
@@ -190,7 +173,7 @@ export const ViewPost = () => {
     try {
       const response = await axios({
         method: 'DELETE',
-        url: `/post/${postId}?userId=1`,
+        url: `/post/${postId}`,
         withCredentials: true,
       });
 

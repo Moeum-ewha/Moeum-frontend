@@ -30,7 +30,6 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const sendApi = async () => {
-    // Send 버튼 더블클릭 방지
     if (isLoading) return;
 
     setIsLoading(true);
@@ -41,7 +40,6 @@ const Login = () => {
     };
 
     try {
-      // Send API request
       const response = await axios({
         method: 'POST',
         url: '/auth',
@@ -63,15 +61,12 @@ const Login = () => {
       setModalOpen(true);
       if (error instanceof AxiosError) {
         if (error.response) {
-          // Non-2XX status code
           console.error(error.response.status);
           console.log('Response data:', error.response.data);
         } else if (error.request) {
-          // Request made, no response
           console.error(error.request);
         }
       } else {
-        // Other unexpected error
         console.error(error);
       }
     } finally {

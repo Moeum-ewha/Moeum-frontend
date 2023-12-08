@@ -7,7 +7,6 @@ import {
   Question,
   PictureContainer,
   Face,
-  FaceBox,
   BottomContainer,
   Btn,
 } from '../Components/ClassifiContainer';
@@ -60,7 +59,7 @@ const IsSavedFriend = () => {
           ...location.state.savedFriendData,
           {
             name: name,
-            faceImg: croppedFaceDataURL, //친구목록 파일의 사진으로 추후 수정
+            faceImg: croppedFaceDataURL,
           },
         ],
         newFriendData: location.state.newFriendData,

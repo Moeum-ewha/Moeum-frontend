@@ -9,7 +9,7 @@
 >[https://www.moeum.site](https://www.moeum.site)
 >
 >
-><img src="https://github.com/Moeum-ewha/Moeum-frontend/blob/main/public/readmeImg/111.jpg" width="800"/> 
+><img src="https://github.com/Moeum-ewha/Moeum-frontend/blob/main/public/readmeImg/111.png" width="800"/> 
 ><img src="https://github.com/Moeum-ewha/Moeum-frontend/blob/main/public/readmeImg/002.jpg" width="800"/> 
 <br/>   
 <br/>

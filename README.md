@@ -26,7 +26,7 @@
 | :-------------------------------: | :-------------------------------: |
 | <img src="https://github.com/Moeum-ewha/Moeum-frontend/blob/main/public/readmeImg/Judy.png" height="200"/> | <img src="https://github.com/Moeum-ewha/Moeum-frontend/blob/main/public/readmeImg/Apple.png" height="200"/> |
 | [GEONHEE AHN](https://github.com/GeonHeeAhn) | [ohjinyxung](https://github.com/ohjinyxung) |
-| Face Recognification and Classification 기술 구현, 얼굴 인식 정확도 향상, 전반적인 프론트 개발, Vercel 프론트 배포  |프론트 개발, 서비스 기획, 아이디어 구체화, UX/UI 디자인|||
+| Face Recognification and Classification 기술 구현, 얼굴 인식 정확도 향상, 전반적인 프론트 개발, Vercel 프론트 배포  |프론트 개발, 서비스 기획, 아이디어 구체화, UX/UI 디자인, 포스터 및 제품설명서 제작|||
 
 <br/>
 <br/>
@@ -58,6 +58,26 @@ npm run dev
 
 
 ## 🍀 Page Introduction
+```
+📄AddName.jsx : 새로 등록할 친구 이름 입력
+📄Binder.jsx : 친구별 네컷 앨범 바인더
+📄Entrance.jsx : 진입 화면
+📄FaceRecognition.jsx : 네컷 업로드 후 얼굴 인식 처리
+📄FriendPostList.jsx : 친구별 네컷 앨범 바인더 내부 화면 (해당 친구와 찍은 네컷 일기 모음)
+📄HomeScreen.jsx : 홈 화면
+📄IsAnyoneMore.jsx : 추가로 등록하고자 하는 친구 선택
+📄IsNewFriend.jsx : 새로 등록하는 친구인지 확인
+📄IsSavedFriend.jsx : 이미 등록된 친구인지 확인
+📄Loading.jsx : 로딩 화면
+📄Login.jsx : 로그인 화면
+📄Map.jsx : 지도에 네컷 찍은 장소 모아보기
+📄SelectFriend.jsx : 이미 등록된 친구를 잘 못 인식한 경우, 사용자가 직접 선택
+📄Settings.jsx : 마이페이지(설정) 화면
+📄ShareView.jsx : 외부 공유용 네컷 일기
+📄SignUp.jsx : 회원가입 화면
+📄ViewPost.jsx : 네컷 일기 보기
+📄WritePost.jsx : 네컷 일기 작성
+```
 <br/>   
 <br/>
 
@@ -91,45 +111,42 @@ ex) [feat] crop face image and get label
 ------📁Assets
 --------📁icons
 ------📁Components
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
+---------📄BackgroundContainer.js
+---------📄BinderComponent.js
+---------📄ClassifiContainer.js
+---------📄Comment.js
+---------📄HomeComponents.js
+---------📄LoginContainer.js
+---------📄Main.js
+---------📄MapComponents.js
+---------📄NavBar.js
+---------📄NumofPeople.js
+---------📄PhotoModal.js
+---------📄PopupModal.js
+---------📄postingComponents.js
+---------📄SettingsComponents.js
+---------📄SignUpComponents.js
+---------📄TopBar.js
+---------📄viewingComponents.js
 ------📁Pages
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
----------📄useGeoLocation.js
+---------📄AddName.js
+---------📄Binder.js
+---------📄Entrance.js
+---------📄FaceRecognition.js
+---------📄FriendPostList.js
+---------📄HomeScreen.js
+---------📄IsAnyoneMore.js
+---------📄IsNewFriend.js
+---------📄IsSavedFriend.js
+---------📄Loading.js
+---------📄Login.js
+---------📄Map.js
+---------📄SelectFriend.js
+---------📄Settings.js
+---------📄ShareView.js
+---------📄SignUp.js
+---------📄ViewPost.js
+---------📄WritePost.js
 ------📁Hooks
 ---------📄useGeoLocation.js
 -------📄App.css

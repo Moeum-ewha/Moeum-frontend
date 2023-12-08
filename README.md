@@ -16,7 +16,7 @@
 
 
 ## 🍀 Used Architecture
-<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/> <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=JavaScript&logoColor=white"/> <img src="https://img.shields.io/badge/styled-components-DB7093?style=flat-square&logo=JavaScript&logoColor=white"/> <img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=JavaScript&logoColor=white"/> <img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=JavaScript&logoColor=white"/> <img src="https://img.shields.io/badge/Prittier-F7B93E?style=flat-square&logo=JavaScript&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=JavaScript&logoColor=white"/>
+<img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=JavaScript&logoColor=white"/> <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/styled-components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/> <img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=Vercel&logoColor=white"/> <img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=Vite&logoColor=white"/> <img src="https://img.shields.io/badge/Prittier-F7B93E?style=flat-square&logo=Prittier&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=Axios&logoColor=white"/>
 <br/>
 <br/>
 
@@ -37,6 +37,7 @@
 <br/>
 
 ## 🍀 How to Install
+```git clone https://github.com/Moeum-ewha/Moeum-frontend```
 ```npm install```
 <br/>   
 <br/>

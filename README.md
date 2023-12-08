@@ -169,18 +169,18 @@ Description of used Open Source
     "preview": "vite preview"
   },
   "dependencies": {
-    "axios": "^1.6.2",
-    "face-api.js": "^0.22.2",
-    "prettier": "^3.0.3",
-    "react": "^18.2.0",
-    "react-datepicker": "^4.21.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^4.11.0",
-    "react-kakao-maps": "^0.0.13",
-    "react-kakao-maps-sdk": "^1.1.23",
-    "react-router-dom": "^6.16.0",
-    "styled-components": "^6.0.8"
-  },
+    "axios": "^1.6.2",   // API에 HTTP 요청 보내는 프로미스 기반 HTTP 클라이언트
+    "face-api.js": "^0.22.2",   // 브라우저에서 얼굴 감지 및 인식을 위한 JavaScript API
+    "prettier": "^3.0.3",   // 코드 형식을 일관되게 유지하는 데 도움이 되는 코드 포매터
+    "react": "^18.2.0",   // 사용자 인터페이스를 구축 위한 JavaScript 라이브러리
+    "react-datepicker": "^4.21.0",   // 날짜 선택기를 렌더링하기 위한 React 컴포넌트   
+    "react-dom": "^18.2.0",   // React에 대한 DOM 특화 method
+    "react-icons": "^4.11.0",  
+    "react-kakao-maps": "^0.0.13",   // Kakao Maps API를 React 애플리케이션에 통합하기 위한 래퍼
+    "react-kakao-maps-sdk": "^1.1.23",   // Kakao Maps API의 SDK, 래퍼와 비교해 더 고급 통합이나 기능을 위해 사용
+    "react-router-dom": "^6.16.0",   // React Router의 DOM 바인딩
+    "styled-components": "^6.0.8"   // 템플릿 리터럴을 사용하여 React 컴포넌트를 스타일링하기 위한 라이브러리
+},
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",

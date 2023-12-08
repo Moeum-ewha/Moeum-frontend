@@ -1,180 +1,236 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
-import Logo from '../Assets/logo.png';
+import { useNavigate, useLocation } from 'react-router-dom';
 import BackgroundContainer from '../Components/BackgroundContainer';
 import {
+  TopBar,
+  Title,
   Content,
-  Upper,
-  LogoDiv,
-  Center,
-  Container,
-  SemiTitle,
-  Input,
-  SignUpContainer,
-  SignUpLink,
-  Lower,
-  Button,
-  styles,
-} from '../Components/LoginContainer';
-import Loading from './Loading';
-import {
-  ModalBack,
-  ModalBox,
-  ModalButton,
-  ModalContent,
-  Alert,
-} from '../Components/PopupModal';
+  MapDiv,
+  MoeumDiv,
+  Moeum,
+  Photo,
+  Info,
+  Date,
+  Place,
+  Friends,
+  Dday,
+} from '../Components/MapComponents';
+import { NavBar } from '../Components/NavBar';
+import useCurrentLocation from '../hooks/useGeoLocation';
+import Spinner from '../Assets/Spinner.gif';
 
-const Login = () => {
-  const [isLoading, setIsLoading] = useState(false);
+const geolocationOptions = {
+  enableHighAccuracy: true,
+  timeout: 1000 * 60 * 1,
+  maximumAge: 1000 * 3600 * 24,
+};
 
-  const sendApi = async () => {
-    // Send 버튼 더블클릭 방지
-    if (isLoading) return;
+const Map = () => {
+  const [currentLoc, setCurrentLoc] = useState({ x: 0, y: 0 });
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const [postLoading, setPostLoading] = useState(true);
+  const postRef = useRef();
 
-    setIsLoading(true);
-
-    const body = {
-      email: email,
-      password: password,
-    };
-
-    try {
-      // Send API request
-      const response = await axios({
-        method: 'POST',
-        url: '/auth',
-        data: body,
-        withCredentials: true,
-      });
-
-      moveHome();
-
-      const accessToken = response.headers['moeumaccesstoken'];
-      const refreshToken = response.headers['moeumrefreshtoken'];
-
-      document.cookie = `accesstoken=${accessToken}; path=/; SameSite=Strict; max-age=3600;`;
-      document.cookie = `refreshtoken=${refreshToken}; path=/; SameSite=Strict; max-age=3600;`;
-
-      console.log(response.status);
-      console.log(response.data);
-    } catch (error) {
-      setModalOpen(true);
-      if (error instanceof AxiosError) {
-        if (error.response) {
-          // Non-2XX status code
-          console.error(error.response.status);
-          console.log('Response data:', error.response.data);
-        } else if (error.request) {
-          // Request made, no response
-          console.error(error.request);
-        }
-      } else {
-        // Other unexpected error
-        console.error(error);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await sendApi();
-  };
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [btnColor, setBtnColor] = useState(false);
+  const array = [
+    '진영이랑 영훈이랑',
+    '건희랑 진영이랑',
+    '건희랑 진영이랑',
+    '윤선이랑 유진이랑',
+  ];
+  const { location, error: currentError } =
+    useCurrentLocation(geolocationOptions);
 
   useEffect(() => {
-    if (email !== '' && password !== '') {
-      setBtnColor(true);
-    } else {
-      setBtnColor(false);
+    const fetchData = async () => {
+      try {
+        const response = await axios({
+          method: 'GET',
+          url: `/posts`,
+          withCredentials: true,
+        });
+        console.log('sendApi : ' + response.status);
+        postRef.current = response.data.posts;
+        console.log(postRef.current);
+
+        await Promise.all(
+          postRef.current.map(async (post) => {
+            if (
+              post.imgPath.includes('.jpg') ||
+              post.imgPath.includes('.png') ||
+              post.imgPath.includes('.jpeg') ||
+              post.imgPath.includes('.JPG') ||
+              post.imgPath.includes('.PNG') ||
+              post.imgPath.includes('.JPEG')
+            ) {
+              const response = await axios({
+                method: 'GET',
+                url: `/images/${post.imgPath}`,
+                withCredentials: true,
+                responseType: 'blob',
+              });
+              console.log('imgApi : ' + response.status);
+              const blobUrl = URL.createObjectURL(new Blob([response.data]));
+              post.imgPath = blobUrl;
+            }
+          }),
+        );
+
+        setPostLoading(false);
+        console.log(postRef.current);
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          if (error.response) {
+            console.error(error.response.status);
+            console.error(error.response.data);
+          } else if (error.request) {
+            console.error(error.request);
+          }
+        } else {
+          console.error(error);
+        }
+      } finally {
+        console.log('끝');
+      }
+    };
+
+    if (location && location.latitude && location.longitude) {
+      setCurrentLoc({
+        x: 37.552914,
+        y: 126.942011,
+      });
+      setLoading(false);
+      fetchData();
     }
-  }, [email, password]);
+  }, [location]);
 
-  const navigate = useNavigate();
-  const moveSignUp = () => {
-    navigate('/signup');
-  };
-  const moveHome = () => {
-    navigate('/home');
-  };
+  useEffect(() => {
+    console.log('카카오맵 ' + postRef.current);
+    const kakaoMapScript = document.createElement('script');
+    kakaoMapScript.async = false;
+    kakaoMapScript.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=f105135f49e581605fbe90ab15560672&autoload=false`;
+    document.head.appendChild(kakaoMapScript);
 
-  //모달
-  const modalBackground = useRef();
-  const [modalOpen, setModalOpen] = useState(false);
+    const onLoadKakaoAPI = () => {
+      console.log('여기');
+      window.kakao.maps.load(() => {
+        var container = document.getElementById('map');
+        console.log('저기');
+        if (container && currentLoc.x && currentLoc.y) {
+          var options = {
+            center: new window.kakao.maps.LatLng(currentLoc.x, currentLoc.y),
+            level: 6,
+          };
 
-  const closeModal = () => {
-    setModalOpen(false);
+          const map = new window.kakao.maps.Map(container, options);
+
+          var positions = postRef.current.map((post) => ({
+            title: post.takenAt,
+            latlng: new kakao.maps.LatLng(
+              parseFloat(`${post.latitude}`),
+              parseFloat(`${post.longitude}`),
+            ),
+          }));
+
+          console.log(positions);
+
+          positions.forEach((position) => {
+            var imageSrc =
+              'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
+
+            var imageSize = new kakao.maps.Size(24, 35);
+
+            var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+            var marker = new kakao.maps.Marker({
+              map: map,
+              position: position.latlng,
+              title: position.title,
+              image: markerImage,
+            });
+          });
+          setLoading(false);
+        }
+      });
+    };
+
+    kakaoMapScript.addEventListener('load', onLoadKakaoAPI);
+    document.head.appendChild(kakaoMapScript);
+
+    return () => {
+      document.head.removeChild(kakaoMapScript);
+    };
+  }, [currentLoc]);
+
+  const postOnClick = (id) => {
+    navigate(`/viewpost/${id}`);
   };
 
   return (
     <BackgroundContainer>
       <Content>
-        <form onSubmit={handleSubmit}>
-          <Upper>
-            <LogoDiv>
-              <img src={Logo} alt="로고" width="70px" />
-            </LogoDiv>
-          </Upper>
-          <Center>
-            <Container>
-              <SemiTitle>이메일</SemiTitle>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              ></Input>
-            </Container>
-            <Container>
-              <SemiTitle>비밀번호</SemiTitle>
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              ></Input>
-            </Container>
-            <SignUpContainer>
-              <SignUpLink onClick={moveSignUp}>계정이 없으신가요?</SignUpLink>
-            </SignUpContainer>
-          </Center>
-          <Lower>
-            <Button
-              type="submit"
-              disabled={isLoading || !btnColor}
-              style={btnColor ? styles.filledBtn : styles.normalBtn}
-              onClick={handleSubmit}
-            >
-              {isLoading && <Loading />}
-              로그인
-            </Button>
-          </Lower>
-        </form>
-      </Content>
-      {modalOpen && (
-        <ModalBack
-          ref={modalBackground}
-          onClick={(e) => {
-            if (e.target === modalBackground.current) {
-              setModalOpen(false);
-            }
+        <TopBar>
+          <Title>지도</Title>
+        </TopBar>
+        {loading ? (
+          <img
+            src={Spinner}
+            alt="로딩중"
+            width="35%"
+            style={{ marginTop: 60 }}
+          />
+        ) : (
+          <MapDiv
+            id="map"
+            style={{ width: '100vw', height: '50vh', marginBottom: '30vh' }}
+          />
+        )}
+
+        <MoeumDiv
+          style={{
+            overflowY: 'auto',
+            maxHeight: '50vh',
+            webkitOverflowScrolling: 'auto',
           }}
         >
-          <ModalBox>
-            <ModalContent>
-              <Alert>이메일 혹은 비밀번호가</Alert>
-              <Alert>맞지 않습니다</Alert>
-              <ModalButton onClick={() => closeModal()}>닫기</ModalButton>
-            </ModalContent>
-          </ModalBox>
-        </ModalBack>
-      )}
+          {postLoading ? (
+            <img
+              src={Spinner}
+              alt="로딩중"
+              width="35%"
+              style={{ marginTop: 60 }}
+            />
+          ) : (
+            postRef.current.map((post) => (
+              <Moeum key={post.id} onClick={() => postOnClick(post.id)}>
+                <Photo>
+                  <img
+                    src={post.imgPath}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '10px',
+                    }}
+                  />
+                </Photo>
+                <Info>
+                  <Date>2023-11-28</Date>
+                  <Place>{post.location}</Place>
+                  <Dday>{array[`${post.id % 4}`]}</Dday>
+                </Info>
+              </Moeum>
+            ))
+          )}
+          <Moeum>
+            <div style={{ width: '100vw', height: '6vh' }} />
+          </Moeum>
+        </MoeumDiv>
+      </Content>
+      <NavBar />
     </BackgroundContainer>
   );
 };
 
-export default Login;
+export default Map;

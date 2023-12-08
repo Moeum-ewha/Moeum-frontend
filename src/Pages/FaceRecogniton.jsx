@@ -1,7 +1,7 @@
+import * as faceapi from 'face-api.js';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-import * as faceapi from '../../face-api';
+import axios, { AxiosError } from 'axios';
 
 import BackgroundContainer from '../Components/BackgroundContainer';
 import {
@@ -29,8 +29,66 @@ const FaceRecogniton = () => {
   const [faceMatcher, setFaceMatcher] = useState(null);
   const [selectedFace, setSelectedFace] = useState(null);
   const faceIndex = [];
+  const friendlist = useRef([]);
+  const fd = useRef([]);
 
   const navigate = useNavigate();
+
+  const sendApi = async () => {
+    if (loaded) return;
+
+    setLoaded(true);
+
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `/friends`,
+        withCredentials: true,
+      });
+
+      friendlist.current = response.data.friends;
+
+      console.log(response.status);
+      console.log(response.data);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response) {
+          console.error(error.response.status);
+          console.error(error.response.data);
+        } else if (error.request) {
+          console.error(error.request);
+        }
+      } else {
+        console.error(error);
+      }
+    } finally {
+    }
+  };
+
+  const imgApi = async () => {
+    try {
+      const newFriendlist = await Promise.all(
+        friendlist.current.map(async (friend) => {
+          const response = await axios({
+            method: 'GET',
+            url: `/images/${friend.imgPath}`,
+            withCredentials: true,
+            responseType: 'blob',
+          });
+          console.log(response.status);
+
+          const blobUrl = URL.createObjectURL(new Blob([response.data]));
+          return { ...friend, imgPath: blobUrl };
+        }),
+      );
+
+      fd.current = newFriendlist;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoaded(false);
+    }
+  };
 
   let canvasDataURL;
 
@@ -39,7 +97,7 @@ const FaceRecogniton = () => {
     faceIndex.push(selectedIndex);
 
     const { x, y, width, height } = selectedFace.detection.box;
-    // 이미지를 로드하는 Promise를 생성
+    // 이미지를 로드하는 Promise 생성
     const loadImage = (src) => {
       return new Promise((resolve) => {
         const img = new Image();
@@ -120,6 +178,42 @@ const FaceRecogniton = () => {
     }
   };
 
+  async function loadImageAndDetect(imgPath) {
+    console.log(imgPath);
+
+    // 이미지를 가져오기
+    const response = await fetch(imgPath);
+    const blob = await response.blob();
+
+    // Image 객체 생성
+    const img = new Image();
+    img.src = URL.createObjectURL(blob);
+
+    // Image가 로드될 때까지 대기
+    await new Promise((resolve) => {
+      img.onload = resolve;
+    });
+
+    // Image를 Canvas에 그림
+    const canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(img, 0, 0, img.width, img.height);
+
+    // detectSingleFace에 전달할 수 있는 형태로 변환
+    const input = faceapi.tf.tensor(img);
+    const detections = await faceapi
+      .detectSingleFace(input)
+      .withFaceLandmarks()
+      .withFaceDescriptor();
+
+    // 다시 Promise 형태로 반환
+    return new faceapi.LabeledFaceDescriptors('unknown', [
+      detections.descriptor,
+    ]);
+  }
+
   const handleImageSelect = (image) => {
     setSelectedImage(image);
   };
@@ -127,9 +221,15 @@ const FaceRecogniton = () => {
   useEffect(() => {
     async function loadModels() {
       await Promise.all([
-        faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
-        faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
-        faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
+        faceapi.nets.faceRecognitionNet.loadFromUri(
+          'https://raw.githubusercontent.com/GeonHeeAhn/my-Moeum-front/main/public/models',
+        ),
+        faceapi.nets.ssdMobilenetv1.loadFromUri(
+          'https://raw.githubusercontent.com/GeonHeeAhn/my-Moeum-front/main/public/models',
+        ),
+        faceapi.nets.faceLandmark68Net.loadFromUri(
+          'https://raw.githubusercontent.com/GeonHeeAhn/my-Moeum-front/main/public/models',
+        ),
       ]);
     }
 
@@ -146,6 +246,8 @@ const FaceRecogniton = () => {
     }
 
     async function loadModelsAndStart() {
+      await sendApi();
+      await imgApi();
       await loadModels(); // 모델 로딩
       await start(); // 모델 로딩 후 실행
 
@@ -154,6 +256,10 @@ const FaceRecogniton = () => {
 
     loadModelsAndStart();
   }, []);
+
+  useEffect(() => {
+    imgApi();
+  }, [friendlist]);
 
   useEffect(() => {
     if (loaded) {
@@ -263,22 +369,42 @@ const FaceRecogniton = () => {
   };
 
   async function loadLabeledImage() {
-    //get api해서 친구 목록 받아오고
-    //이름만 추출해서 라벨 설정
-    //fetchImage할 때 친구목록[친구목록.indexOf(${label})].faceImg 해서 사용
-    const labels = ['거니거니', '빵후니', '오쨩', '윤선', '혜준'];
-    return Promise.all(
-      labels.map(async (label) => {
+    console.log('label load 시작');
+    if (fd.current.length === 0) {
+      const labels = ['gh', 'jy', 'yh'];
+      return Promise.all(
+        labels.map(async (label) => {
+          const description = [];
+          const img = await faceapi.fetchImage(`/known/${label}.jpg`);
+          const detections = await faceapi
+            .detectSingleFace(img)
+            .withFaceLandmarks()
+            .withFaceDescriptor();
+          description.push(detections.descriptor);
+          return new faceapi.LabeledFaceDescriptors(label, description);
+        }),
+      );
+    } else {
+      const promises = fd.current.map(async (friend) => {
         const description = [];
-        const img = await faceapi.fetchImage(`known/${label}.jpg`);
+        const imgElement = document.createElement('img');
+        imgElement.src = friend.imgPath;
+        console.log(imgElement);
+
         const detections = await faceapi
-          .detectSingleFace(img)
+          .detectSingleFace(imgElement)
           .withFaceLandmarks()
           .withFaceDescriptor();
+
         description.push(detections.descriptor);
-        return new faceapi.LabeledFaceDescriptors(label, description);
-      }),
-    );
+        return new faceapi.LabeledFaceDescriptors(
+          friend.friendName,
+          description,
+        );
+      });
+
+      return Promise.all(promises);
+    }
   }
 
   return (

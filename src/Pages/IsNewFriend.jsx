@@ -7,7 +7,6 @@ import {
   Question,
   PictureContainer,
   Face,
-  FaceBox,
   BottomContainer,
   Btn,
 } from '../Components/ClassifiContainer';

@@ -57,7 +57,6 @@ const IsAnyoneMore = () => {
       const filteredFace = filterByXValue(faceInfos, x, y);
       if (faceIndex.includes(faceInfos.indexOf(filteredFace[0]))) {
         setIsAdded(true);
-        //다시 클릭
       } else {
         faceIndex.push(faceInfos.indexOf(filteredFace[0]));
         console.log(faceIndex);
@@ -130,8 +129,6 @@ const IsAnyoneMore = () => {
   };
 
   const moveFunc = () => {
-    //게시글 작성화면에는 인생네컷 사진, 새로운친구목록과 각각의 사진, 저장된친구목록의 이름만을 필요로 함
-    //하지만 게시글 속 친구목록 출력 위하여 저장된 친구목록의 사진 역시 필요
     navigate('/posting', {
       state: {
         wholeImg: imgURL,
@@ -189,11 +186,3 @@ const IsAnyoneMore = () => {
 };
 
 export default IsAnyoneMore;
-
-const DemoBtn = styled.button`
-  width: 350px;
-  position: absolute;
-  height: 250px;
-  border: none;
-  background: transparent;
-`;

@@ -39,7 +39,7 @@ const Settings = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [response, setResponse] = useState({
     user: { username: '', email: '' },
-  }); // 유저 정보를 초기화합니다.
+  }); // 유저 정보를 초기화
 
   const navigate = useNavigate();
 
@@ -53,38 +53,30 @@ const Settings = () => {
   };
 
   const sendApi = async () => {
-    // Send 버튼 더블클릭 방지
     if (isLoading) return;
 
     setIsLoading(true);
 
     try {
-      // Send API request
-      const response = await axios({
+      const apiResponse = await axios({
         method: 'GET',
-        url: `/account?userId=${1}`,
+        url: `/account`,
         withCredentials: true,
       });
 
-      console.log(response);
+      console.log(apiResponse.status);
+      console.log(apiResponse.data);
 
-      // 2XX status code
-      console.log(response.status);
-      console.log(response.data);
-
-      setResponse(response.data); // 서버로부터 받은 데이터를 response에 업데이트합니다.
+      setResponse(apiResponse.data);
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response) {
-          // Non-2XX status code
-          console.error(error.response.status);
-          console.error(error.response.data);
+          console.error(error.apiResponse.status);
+          console.error(error.apiResponse.data);
         } else if (error.request) {
-          // Request made, no response
           console.error(error.request);
         }
       } else {
-        // Other unexpected error
         console.error(error);
       }
     } finally {
@@ -93,7 +85,7 @@ const Settings = () => {
   };
 
   useEffect(() => {
-    sendApi(); // componentDidMount와 동일하게 첫 렌더링 시에 API를 호출합니다.
+    sendApi();
   }, []);
 
   console.log(response);

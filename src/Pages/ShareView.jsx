@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
-//components
-import { NavBar, NavBtn, CenterBtn } from '../Components/NavBar';
 import BackgroundContainer from '../Components/BackgroundContainer';
 import { Loading } from './Loading';
-import Main from '../Components/Main';
 import { TopBar, Title, Back } from '../Components/TopBar';
 import {
   Content,
@@ -13,10 +10,8 @@ import {
   MiniContainer,
   ImgContainer,
   SecondaryTitle,
-  ShareBtn,
   Text,
   Date,
-  Delete,
 } from '../Components/viewingComponents';
 import {
   CommentSection,
@@ -31,7 +26,6 @@ import {
   CommentDate,
   CommentContents,
 } from '../Components/Comment';
-import demo from '../../public/dummy/dummy.json';
 
 //assets
 import arrow from '../Assets/icons/arrow.png';
@@ -39,16 +33,10 @@ import arrow from '../Assets/icons/arrow.png';
 export const ShareView = () => {
   const { postId } = useParams(); // URL에서 postId 가져오기
   const [loading, setLoading] = useState(true);
-  const location = useLocation();
   const postRef = useRef({ current: '' });
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState(null);
   const commentRef = useRef();
-
-  /*const postIds = demo.userList.map(post => post.id);
-  const commentList = demo.userList.flatMap(user => 
-    user.postList.filter(post => postIds.includes(post.id))
-    .flatMap(post => post.commentList)); */
 
   const nicknames = [
     '수줍은 토끼',
@@ -113,9 +101,8 @@ export const ShareView = () => {
 
       const newCommentObject = {
         content: newComment,
-        profilePicture: randomProfilePicture, // 여기에 프로필 사진 URL을 넣어주세요
-        nickname: randomNickname, // 여기에 사용자 닉네임을 넣어주세요
-        //date: new Date(), // 현재 날짜 및 시간을 문자열로 사용
+        profilePicture: randomProfilePicture,
+        nickname: randomNickname,
       };
       const body = {
         profile: randomIndex,
@@ -129,22 +116,19 @@ export const ShareView = () => {
         const response = await axios({
           method: 'POST',
           data: body,
-          url: `/post/${postId}/comment?userId=1`,
+          url: `/post/${postId}/comment`,
           withCredentials: true,
         });
         console.log('sendApi = ' + response.status);
       } catch (error) {
         if (error instanceof AxiosError) {
           if (error.response) {
-            // Non-2XX status code
             console.error(error.response.status);
             console.error(error.response.data);
           } else if (error.request) {
-            // Request made, no response
             console.error(error.request);
           }
         } else {
-          // Other unexpected error
           console.error(error);
         }
       }
@@ -153,10 +137,9 @@ export const ShareView = () => {
 
   const sendApi = async () => {
     try {
-      // Send API request
       const response = await axios({
         method: 'GET',
-        url: `/post/${postId}?userId=${1}`,
+        url: `/post/${postId}`,
         withCredentials: true,
       });
       postRef.current = response.data.post;
@@ -164,15 +147,12 @@ export const ShareView = () => {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response) {
-          // Non-2XX status code
           console.error(error.response.status);
           console.error(error.response.data);
         } else if (error.request) {
-          // Request made, no response
           console.error(error.request);
         }
       } else {
-        // Other unexpected error
         console.error(error);
       }
     }
@@ -192,7 +172,6 @@ export const ShareView = () => {
 
       postRef.current = { ...postRef.current, imgPath: blobUrl };
     } catch (error) {
-      // 오류 처리
       console.error(error);
     } finally {
       setLoading(false);

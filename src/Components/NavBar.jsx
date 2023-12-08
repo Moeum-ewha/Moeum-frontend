@@ -39,15 +39,11 @@ export const NavBar = (props) => {
     const postingLocation = props.location;
     const latitude = props.latitude;
     const longitude = props.longitude;
-    //const formData = props.formData;
     const original = props.original;
     const faces = props.faces;
     const newFriendNames = props.newFriendNames;
     const oldFriendNames = props.oldFriendNames;
 
-    const facesArray = [new Blob(), new Blob() /* ... */]; // Blob 객체로 이루어진 배열
-
-    // facesArray 배열의 각 Blob을 FormData에 추가
     faces.forEach((blob) => {
       formData.append('faces', blob);
     });
@@ -77,15 +73,12 @@ export const NavBar = (props) => {
         method: 'post',
         url: `/posts`,
         data: formData,
+        withCredentials: true,
 
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-
-      //viewpost로 가는 함수 작성하기
-
-      console.log(response);
       console.log(response.status);
       console.log(response.data);
       console.log(response.headers);
@@ -113,24 +106,11 @@ export const NavBar = (props) => {
     navigate('/map');
   };
 
-  /*const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        console.log(event.target.result);
-        setSelectedImage(event.target.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };*/
-
   const handleImageChange = (event) => {
     const selectedFile = event.target.files[0];
 
     if (selectedFile) {
       navigate('/facerecognition', { state: { img: selectedFile } });
-      /*onImageSelect(selectedFile);*/
     }
   };
 
@@ -250,20 +230,6 @@ export const CenterBtn = styled.button`
   z-index: 2;
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.07);
 `;
-
-// export const PlusBtn = styled.button`
-//   width: 30px;
-//   height: 30px;
-//   background: transparent;
-//   display: flex;
-//   align-items: center;
-//   align-content: center;
-//   border: none;
-//   margin: 0px 0px 0px 0px;
-//   padding: 0px;
-//   position: relative;
-//   z-index: 1000;
-// `;
 
 export const ModalBtnTop = styled(ModalBtn)`
   //왜인지 모르겠으나 적용이 안댐..

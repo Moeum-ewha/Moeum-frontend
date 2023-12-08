@@ -29,7 +29,6 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const sendApi = async () => {
-    // Send 버튼 더블클릭 방지
     if (isLoading) return;
 
     setIsLoading(true);
@@ -41,7 +40,6 @@ const SignUp = () => {
     };
 
     try {
-      // Send API request
       const response = await axios({
         method: 'POST',
         url: '/account',
@@ -58,10 +56,8 @@ const SignUp = () => {
       if (response.status === 200 || response.status === 201) {
         setModalOpen(true);
       }
-      // 2XX status code
       console.log(response.status);
       console.log(response.data);
-      // 쿠키 확인
       const cookies = response.headers['set-cookie'];
       if (cookies) {
         console.log('Received Cookies:', cookies);
@@ -69,15 +65,12 @@ const SignUp = () => {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response) {
-          // Non-2XX status code
           console.error(error.response.status);
           console.error(error.response.data);
         } else if (error.request) {
-          // Request made, no response
           console.error(error.request);
         }
       } else {
-        // Other unexpected error
         console.error(error);
       }
     } finally {
@@ -90,13 +83,9 @@ const SignUp = () => {
     await sendApi();
   };
 
-  //모달
   const modalBackground = useRef();
   const navigate = useNavigate();
 
-  const moveHome = () => {
-    navigate('/home');
-  };
   const moveLogin = () => {
     navigate('/login');
   };
@@ -194,7 +183,6 @@ const SignUp = () => {
   const { validText, isValid } = useValid(info);
 
   useEffect(() => {
-    // 회원가입 조건을 검사하여 버튼 활성화 여부를 설정합니다.
     const isInfoValid = validateInputs();
     setIsButtonActive(isInfoValid);
   }, [info, isValid]);
@@ -206,9 +194,9 @@ const SignUp = () => {
       isValid.isPassword &&
       isValid.isConfirmPassword
     ) {
-      return true; // 조건을 모두 만족하면 true를 반환
+      return true;
     }
-    return false; // 조건을 만족하지 않으면 false를 반환
+    return false;
   };
 
   const buttonStyle = isButtonActive

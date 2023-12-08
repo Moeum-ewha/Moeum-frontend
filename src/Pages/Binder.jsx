@@ -17,7 +17,6 @@ import {
 } from '../Components/BinderComponent';
 import { NavBar } from '../Components/NavBar';
 import axios, { AxiosError } from 'axios';
-import Loading from './Loading';
 
 const Binder = () => {
   const [loading, setLoading] = useState(false);
@@ -48,7 +47,7 @@ const Binder = () => {
       // Send API request
       const response = await axios({
         method: 'GET',
-        url: `/friends?userId=1`,
+        url: `/friends`,
         withCredentials: true,
       });
 
@@ -76,10 +75,8 @@ const Binder = () => {
   };
 
   const imgApi = async () => {
-    console.log('api 들어옴');
     try {
       // Assuming postlist is an array
-      console.log('try문 들어옴');
       const newFriendlist = await Promise.all(
         friendlist.map(async (friend) => {
           const response = await axios({
@@ -101,9 +98,7 @@ const Binder = () => {
       );
 
       setfd(newFriendlist);
-      console.log('일단 map은 끝남');
     } catch (error) {
-      // 오류 처리
       console.error(error);
     } finally {
       setLoading(false);

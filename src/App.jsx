@@ -20,7 +20,6 @@ import SelectFriend from './Pages/SelectFriend';
 import HomeScreen from './Pages/HomeScreen';
 import FriendPostList from './Pages/FriendPostList';
 
-//axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.baseURL = 'https://api.moeum.site';
 
 function App() {
@@ -32,18 +31,12 @@ function App() {
         <Route path="/viewpost/:postId" element={<ViewPost />} />
         <Route path="/home" element={<HomeScreen />} />
         <Route path="/friendpostlist/:id" element={<FriendPostList />} />
-        <Route path="/addname" element={<AddName />} /> /* 친구의 이름이
-        무엇인가요 */
-        <Route path="/isnewfriend" element={<IsNewFriend />} /> /* (새로운
-        친구)님이 맞나요? */
-        <Route path="/issavedfriend" element={<IsSavedFriend />} /> //@@님이
-        맞나요?
-        <Route path="/isanyonemore" element={<IsAnyoneMore />} /> /* !추가로
-        등록하실 친구가 있나요? */
-        <Route path="/selectfriend" element={<SelectFriend />} /> //친구목록에서
-        친구 선택
-        <Route path="/facerecognition" element={<FaceRecogniton />} /> //얼굴
-        인식 화면
+        <Route path="/addname" element={<AddName />} />
+        <Route path="/isnewfriend" element={<IsNewFriend />} />
+        <Route path="/issavedfriend" element={<IsSavedFriend />} />
+        <Route path="/isanyonemore" element={<IsAnyoneMore />} />
+        <Route path="/selectfriend" element={<SelectFriend />} />
+        <Route path="/facerecognition" element={<FaceRecogniton />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/binder" element={<Binder />} />
